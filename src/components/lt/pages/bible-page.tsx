@@ -2,10 +2,12 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useLitabibleStore } from '@/lib/store'
+import { useT } from '@/lib/i18n'
 import {
   oldTestamentBooks,
   newTestamentBooks,
   psalmsBooks,
+  getBookName,
 } from '@/data/bible-books'
 import type { BibleBook } from '@/data/types'
 import type {
@@ -38,17 +40,11 @@ import { AlertCircle, ChevronLeft, ChevronRight } from 'lucide-react'
 
 const DEFAULT_VERSION_ID = 'LSG'
 
-const TABS: { id: 'at' | 'nt' | 'psaumes'; label: string }[] = [
-  { id: 'at', label: 'Ancien Testament' },
-  { id: 'nt', label: 'Nouveau Testament' },
-  { id: 'psaumes', label: 'Psaumes' },
+const TABS: { id: 'at' | 'nt' | 'psaumes'; labelKey: string }[] = [
+  { id: 'at', labelKey: 'bible.at' },
+  { id: 'nt', labelKey: 'bible.nt' },
+  { id: 'psaumes', labelKey: 'bible.psaumes' },
 ]
-
-const LANG_LABELS: Record<BibleVersion['language'], string> = {
-  fr: 'Français',
-  en: 'English',
-  es: 'Español',
-}
 
 function booksForTab(tab: 'at' | 'nt' | 'psaumes'): BibleBook[] {
   if (tab === 'at') return oldTestamentBooks
@@ -89,6 +85,8 @@ interface ChapterErrorBody {
 export function BiblePage() {
   const bibleTab = useLitabibleStore((s) => s.bibleTab)
   const setBibleTab = useLitabibleStore((s) => s.setBibleTab)
+  const locale = useLitabibleStore((s) => s.locale)
+  const { t } = useT()
 
   // Version selector state
   const [versions, setVersions] = useState<BibleVersion[]>([])
@@ -164,14 +162,16 @@ export function BiblePage() {
         .catch((err: unknown) => {
           if (ctrl.signal.aborted) return
           setSearchError(
-            err instanceof Error ? err.message : 'Erreur inconnue lors de la recherche.',
+            err instanceof Error
+              ? err.message
+              : t('bible.search_failed'),
           )
         })
         .finally(() => {
           if (!ctrl.signal.aborted) setSearchLoading(false)
         })
     },
-    [version],
+    [version, t],
   )
 
   const loadChapter = useCallback(
@@ -196,8 +196,7 @@ export function BiblePage() {
           if (!r.ok) {
             const body = (await r.json().catch(() => null)) as ChapterErrorBody | null
             throw new Error(
-              body?.error ??
-                `Échec du chargement du chapitre (HTTP ${r.status}).`,
+              body?.error ?? t('bible.error_fetch'),
             )
           }
           return (await r.json()) as ChapterResult
@@ -209,14 +208,14 @@ export function BiblePage() {
         .catch((err: unknown) => {
           if (ctrl.signal.aborted) return
           setChapterError(
-            err instanceof Error ? err.message : 'Échec du chargement du chapitre.',
+            err instanceof Error ? err.message : t('bible.error_fetch'),
           )
         })
         .finally(() => {
           if (!ctrl.signal.aborted) setChapterLoading(false)
         })
     },
-    [version],
+    [version, t],
   )
 
   const handleBookClick = useCallback(
@@ -279,10 +278,10 @@ export function BiblePage() {
     currentChapter < currentBook.chapters
 
   return (
-    <section aria-label="La Bible" className="w-full">
+    <section aria-label={t('bible.title')} className="w-full">
       <div className="bg-white border border-[#e2e0dc] p-4 sm:p-6 mb-4">
         <h1 className="text-[21px] font-semibold uppercase text-[#333] mb-3 tracking-tight">
-          La Bible
+          {t('bible.title')}
         </h1>
         <BibleSearchBar onSearch={runSearch} />
       </div>
@@ -294,18 +293,18 @@ export function BiblePage() {
             {/* Tabs + version selector */}
             <div className="flex flex-col sm:flex-row sm:items-stretch sm:justify-between gap-2 border-b border-[#e2e0dc]">
               <nav
-                aria-label="Testaments"
+                aria-label={t('bible.title')}
                 className="flex overflow-x-auto lt-scroll"
               >
-                {TABS.map((t) => (
+                {TABS.map((tab) => (
                   <ChevronTab
-                    key={t.id}
+                    key={tab.id}
                     orientation="horizontal"
-                    active={t.id === bibleTab}
-                    onClick={() => setBibleTab(t.id)}
+                    active={tab.id === bibleTab}
+                    onClick={() => setBibleTab(tab.id)}
                     className="flex-1"
                   >
-                    {t.label}
+                    {t(tab.labelKey)}
                   </ChevronTab>
                 ))}
               </nav>
@@ -314,7 +313,7 @@ export function BiblePage() {
                   htmlFor="bible-version-select"
                   className="text-[11px] uppercase tracking-wide text-[#6b6b6b] font-semibold"
                 >
-                  Version
+                  {t('bible.version')}
                 </label>
                 <Select value={version} onValueChange={setVersion}>
                   <SelectTrigger
@@ -322,12 +321,12 @@ export function BiblePage() {
                     size="sm"
                     className="h-8 rounded-none border-[#ccc] text-[12px] min-w-[160px]"
                   >
-                    <SelectValue placeholder="Version" />
+                    <SelectValue placeholder={t('bible.version')} />
                   </SelectTrigger>
                   <SelectContent className="rounded-none">
                     {groupedVersions.map((g) => (
                       <SelectGroup key={g.lang}>
-                        <SelectLabel>{LANG_LABELS[g.lang]}</SelectLabel>
+                        <SelectLabel>{t(`bible.lang.${g.lang}`)}</SelectLabel>
                         {g.items.map((v) => (
                           <SelectItem key={v.id} value={v.id}>
                             {v.name}
@@ -363,8 +362,8 @@ export function BiblePage() {
         {/* Right promo column */}
         <aside className="lg:w-[320px] flex-shrink-0">
           <PromoCard
-            title="La Bible liturgique"
-            description="Texte officiel de l’Église pour la proclamation. Traduction, notes et introductions pour la lecture priée. Disponible en librairie."
+            title={t('bible.promo_title')}
+            description={t('bible.promo_desc')}
           />
         </aside>
       </div>
@@ -381,12 +380,12 @@ export function BiblePage() {
             <>
               <DialogHeader className="px-5 pt-5 pb-3 border-b border-[#e2e0dc]">
                 <DialogTitle className="text-[16px] font-bold uppercase text-[#333]">
-                  {currentBook.name}
+                  {getBookName(currentBook, locale)}
                 </DialogTitle>
                 <DialogDescription className="text-[12px] text-[#6b6b6b]">
                   {currentChapter
-                    ? `Chapitre ${currentChapter} · ${currentBook.chapters} au total`
-                    : `Choisissez un chapitre (1 à ${currentBook.chapters})`}
+                    ? `${t('bible.chapter')} ${currentChapter} · ${t('bible.chapters_total', { n: currentBook.chapters })}`
+                    : t('bible.choose_chapter', { n: currentBook.chapters })}
                 </DialogDescription>
               </DialogHeader>
 
@@ -427,7 +426,7 @@ export function BiblePage() {
                     <div className="text-center max-w-md">
                       <AlertCircle className="w-10 h-10 text-[#1a4fa0] mx-auto mb-3" />
                       <p className="text-[14px] font-semibold text-[#333] mb-1">
-                        Échec du chargement
+                        {t('bible.load_failed')}
                       </p>
                       <p className="text-[12px] text-[#6b6b6b] mb-4">
                         {chapterError}
@@ -438,7 +437,7 @@ export function BiblePage() {
                           loadChapter(currentBook, currentChapter)
                         }
                       >
-                        Réessayer
+                        {t('bible.retry')}
                       </BlackButton>
                     </div>
                   </div>
@@ -451,7 +450,7 @@ export function BiblePage() {
                         onClick={backToChapterPicker}
                         className="text-[12px] text-[#1a4fa0] hover:underline uppercase font-semibold"
                       >
-                        ‹ Chapitres
+                        {t('bible.back_chapters')}
                       </button>
                       <div className="flex items-center gap-2">
                         <button
@@ -462,7 +461,7 @@ export function BiblePage() {
                             loadChapter(currentBook, currentChapter - 1)
                           }
                           className="inline-flex items-center justify-center w-8 h-8 bg-black text-white disabled:opacity-30 disabled:cursor-not-allowed hover:bg-[#222] transition-colors"
-                          aria-label="Chapitre précédent"
+                          aria-label={t('bible.prev_chapter')}
                         >
                           <ChevronLeft className="w-4 h-4" />
                         </button>
@@ -477,7 +476,7 @@ export function BiblePage() {
                             loadChapter(currentBook, currentChapter + 1)
                           }
                           className="inline-flex items-center justify-center w-8 h-8 bg-black text-white disabled:opacity-30 disabled:cursor-not-allowed hover:bg-[#222] transition-colors"
-                          aria-label="Chapitre suivant"
+                          aria-label={t('bible.next_chapter')}
                         >
                           <ChevronRight className="w-4 h-4" />
                         </button>
@@ -488,7 +487,7 @@ export function BiblePage() {
                     </h2>
                     {chapterData.source && (
                       <p className="text-[11px] text-[#9a9a9a] mb-4">
-                        Source : {chapterData.source} · {chapterData.translation}
+                        {t('bible.source_label')} {chapterData.source} · {chapterData.translation}
                       </p>
                     )}
                     <article className="lt-reading-text">
@@ -522,9 +521,11 @@ function BookListView({
   books: BibleBook[]
   onBookClick: (book: BibleBook) => void
 }) {
+  const locale = useLitabibleStore((s) => s.locale)
+  const { t } = useT()
   return (
     <div>
-      <h2 className="sr-only">Liste des livres</h2>
+      <h2 className="sr-only">{t('bible.book_list')}</h2>
       <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-0">
         {books.map((book) => (
           <li key={book.id}>
@@ -533,9 +534,9 @@ function BookListView({
               onClick={() => onBookClick(book)}
               className="w-full text-left py-1.5 text-[14px] text-[#333] hover:text-[#1a4fa0] transition-colors"
             >
-              {book.name}
+              {getBookName(book, locale)}
               <span className="ml-2 text-[11px] text-[#9a9a9a]">
-                ({book.chapters} ch.)
+                ({book.chapters} {t('bible.chapters_label')})
               </span>
             </button>
           </li>
@@ -561,20 +562,21 @@ function SearchResultsView({
   error: string | null
   onBack: () => void
 }) {
+  const { t } = useT()
   return (
     <div>
       <div className="flex items-center justify-between gap-2 mb-4">
         <h2 className="text-[14px] font-semibold text-[#333]">
           {loading
-            ? 'Recherche en cours…'
-            : `${results.length} résultat(s) pour « ${query} »`}
+            ? t('bible.searching')
+            : t('bible.search_results_for', { n: results.length, query })}
         </h2>
         <button
           type="button"
           onClick={onBack}
           className="text-[12px] text-[#1a4fa0] hover:underline uppercase font-semibold"
         >
-          ← Retour à la liste
+          {t('bible.back_list')}
         </button>
       </div>
 
@@ -592,16 +594,14 @@ function SearchResultsView({
         <div className="text-center py-8">
           <AlertCircle className="w-10 h-10 text-[#1a4fa0] mx-auto mb-3" />
           <p className="text-[14px] font-semibold text-[#333] mb-1">
-            La recherche a échoué
+            {t('bible.search_failed')}
           </p>
           <p className="text-[12px] text-[#6b6b6b]">{error}</p>
         </div>
       ) : results.length === 0 ? (
         <div className="text-center py-8">
-          <p className="text-[14px] text-[#333] mb-1">Aucun résultat.</p>
-          <p className="text-[12px] text-[#6b6b6b]">
-            Essayez un autre terme ou une référence (par ex. « Jean 3 »).
-          </p>
+          <p className="text-[14px] text-[#333] mb-1">{t('bible.no_results')}</p>
+          <p className="text-[12px] text-[#6b6b6b]">{t('bible.no_results_desc')}</p>
         </div>
       ) : (
         <ul className="space-y-4">

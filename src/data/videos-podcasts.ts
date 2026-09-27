@@ -1,102 +1,231 @@
 import type { VideoItem, PodcastItem } from './types'
+import type { Locale } from '@/lib/store'
 
 // =============================================================================
 // Videos and podcasts — SAMPLE institutional content for the LitaBible app.
 // YouTube IDs are plausible placeholders, not real copyrighted content.
+//
+// Each item carries localized title/description in en / fr / es. Use
+// `getVideo(item, locale)` / `getPodcast(item, locale)` to obtain the right
+// strings, or `localizedVideos(locale)` / `localizedPodcasts(locale)` to
+// obtain a fully-localized array (preserving `id`, `number`, `youtubeId`,
+// `audioUrl`, `duration` from the underlying item).
 // =============================================================================
 
-export const videos: VideoItem[] = [
+interface LocalizedVideoItem {
+  id: string
+  number: string
+  youtubeId: string
+  duration?: string
+  title: { en: string; fr: string; es: string }
+  description: { en: string; fr: string; es: string }
+}
+
+interface LocalizedPodcastItem {
+  id: string
+  number: string
+  duration?: string
+  audioUrl?: string
+  title: { en: string; fr: string; es: string }
+  description: { en: string; fr: string; es: string }
+}
+
+export const videos: LocalizedVideoItem[] = [
   {
     id: 'video-1',
     number: '1/6',
-    title: "Présentation de LitaBible",
-    description:
-      "Qu’est-ce que LitaBible ? À qui s’adresse ce service, et quels sont ses grands chantiers de lecture, de méditation et de diffusion biblique et liturgique ?",
+    title: {
+      en: 'Presentation of LitaBible',
+      fr: 'Présentation de LitaBible',
+      es: 'Presentación de LitaBible',
+    },
+    description: {
+      en: 'What is LitaBible? Who is this service for, and what are its main areas of work in biblical reading, meditation and the diffusion of Bible and liturgy?',
+      fr: "Qu’est-ce que LitaBible ? À qui s’adresse ce service, et quels sont ses grands chantiers de lecture, de méditation et de diffusion biblique et liturgique ?",
+      es: '¿Qué es LitaBible? ¿A quién se dirige este servicio y cuáles son sus grandes líneas de lectura, meditación y difusión bíblica y litúrgica?',
+    },
     youtubeId: 'dQw4w9WgXcQ',
     duration: '5 min 12',
   },
   {
     id: 'video-2',
     number: '2/6',
-    title: 'La Bible liturgique',
-    description:
-      "Découvrez le travail des biblistes et liturgistes qui ont traduit la Bible liturgique pour la proclamation à l’assemblée. Suivez le chemin d’un verset depuis l’hébreu, l’araméen ou le grec, jusqu’à la version francophone officielle.",
+    title: {
+      en: 'The liturgical Bible',
+      fr: 'La Bible liturgique',
+      es: 'La Biblia litúrgica',
+    },
+    description: {
+      en: 'Discover the work of the biblical scholars and liturgists who translated the liturgical Bible for proclamation to the assembly. Follow the path of a verse from Hebrew, Aramaic or Greek, to the official French version.',
+      fr: "Découvrez le travail des biblistes et liturgistes qui ont traduit la Bible liturgique pour la proclamation à l’assemblée. Suivez le chemin d’un verset depuis l’hébreu, l’araméen ou le grec, jusqu’à la version francophone officielle.",
+      es: 'Descubra el trabajo de los biblistas y liturgistas que tradujeron la Biblia litúrgica para la proclamación en la asamblea. Siga el camino de un versículo desde el hebreo, el arameo o el griego, hasta la versión oficial en español.',
+    },
     youtubeId: 'qAz1C0m5Hnk',
     duration: '7 min 45',
   },
   {
     id: 'video-3',
     number: '3/6',
-    title: 'Le missel',
-    description:
-      "Comment est composé le missel utilisé chaque dimanche ? Présentation de l’ordinaire de la messe, du propre du temps et des saints, des préfaces et des prières eucharistiques.",
+    title: {
+      en: 'The Missal',
+      fr: 'Le missel',
+      es: 'El Misal',
+    },
+    description: {
+      en: 'How is the Missal used every Sunday composed? Presentation of the ordinary of the Mass, the proper of the season and of the saints, the prefaces and the eucharistic prayers.',
+      fr: "Comment est composé le missel utilisé chaque dimanche ? Présentation de l’ordinaire de la messe, du propre du temps et des saints, des préfaces et des prières eucharistiques.",
+      es: '¿Cómo está compuesto el Misal que se usa cada domingo? Presentación del ordinario de la misa, del propio del tiempo y de los santos, de los prefacios y de las plegarias eucarísticas.',
+    },
     youtubeId: 'kJQP7kiw5Fk',
     duration: '6 min 30',
   },
   {
     id: 'video-4',
     number: '4/6',
-    title: 'Le livre des heures',
-    description:
-      "La Liturgie des Heures, prière officielle de l’Église : présentation de l’Office des lectures, des Laudes, des Vêpres et des Complies. Comment s’y retrouver dans le psautier sur quatre semaines ?",
+    title: {
+      en: 'The Book of Hours',
+      fr: 'Le livre des heures',
+      es: 'El Libro de las Horas',
+    },
+    description: {
+      en: 'The Liturgy of the Hours, official prayer of the Church: presentation of the Office of Readings, of Lauds, of Vespers and of Compline. How to find one’s way around the four-week psalter?',
+      fr: "La Liturgie des Heures, prière officielle de l’Église : présentation de l’Office des lectures, des Laudes, des Vêpres et des Complies. Comment s’y retrouver dans le psautier sur quatre semaines ?",
+      es: 'La Liturgia de las Horas, oración oficial de la Iglesia: presentación del Oficio de Lecturas, de Laudes, de Vísperas y de Completas. ¿Cómo orientarse en el salterio de cuatro semanas?',
+    },
     youtubeId: '9bZkp7q19f0',
     duration: '8 min 02',
   },
   {
     id: 'video-5',
     number: '5/6',
-    title: 'Les temps liturgiques',
-    description:
-      "Avent, Noël, Temps ordinaire, Carême, Triduum pascal, Temps pascal : un voyage à travers l’année liturgique pour comprendre la couleur, la prière et la spiritualité de chaque temps.",
+    title: {
+      en: 'The liturgical seasons',
+      fr: 'Les temps liturgiques',
+      es: 'Los tiempos litúrgicos',
+    },
+    description: {
+      en: 'Advent, Christmas, Ordinary Time, Lent, Paschal Triduum, Easter season: a journey through the liturgical year to understand the colour, the prayer and the spirituality of each season.',
+      fr: "Avent, Noël, Temps ordinaire, Carême, Triduum pascal, Temps pascal : un voyage à travers l’année liturgique pour comprendre la couleur, la prière et la spiritualité de chaque temps.",
+      es: 'Adviento, Navidad, Tiempo ordinario, Cuaresma, Triduo pascual, Tiempo pascual: un viaje a través del año litúrgico para comprender el color, la oración y la espiritualidad de cada tiempo.',
+    },
     youtubeId: '3JZD3z6t1Hs',
     duration: '6 min 18',
   },
   {
     id: 'video-6',
     number: '6/6',
-    title: "L’année liturgique",
-    description:
-      "Comment l’année liturgique se déploie-t-elle autour de la fête de Pâques ? Comprendre le cycle A/B/C des lectures dominicales, la mobilité des fêtes et les semaines du psautier.",
+    title: {
+      en: 'The liturgical year',
+      fr: "L’année liturgique",
+      es: 'El año litúrgico',
+    },
+    description: {
+      en: 'How does the liturgical year unfold around the feast of Easter? Understanding the A/B/C cycle of Sunday readings, the mobility of the feasts and the weeks of the psalter.',
+      fr: "Comment l’année liturgique se déploie-t-elle autour de la fête de Pâques ? Comprendre le cycle A/B/C des lectures dominicales, la mobilité des fêtes et les semaines du psautier.",
+      es: '¿Cómo se desarrolla el año litúrgico en torno a la fiesta de Pascua? Comprender el ciclo A/B/C de las lecturas dominicales, la movilidad de las fiestas y las semanas del salterio.',
+    },
     youtubeId: '5qap5aQ4IaA',
     duration: '5 min 50',
   },
 ]
 
-export const podcasts: PodcastItem[] = [
+export const podcasts: LocalizedPodcastItem[] = [
   {
     id: 'podcast-1',
     number: '1/4',
-    title: 'La messe de chaque jour',
-    description:
-      "Chaque matin, une méditation brève sur les lectures de la messe du jour. Une invitation à entrer dans la Parole avant de traverser la journée.",
+    title: {
+      en: 'The daily Mass',
+      fr: 'La messe de chaque jour',
+      es: 'La misa de cada día',
+    },
+    description: {
+      en: 'Each morning, a brief meditation on the readings of the day’s Mass. An invitation to enter into the Word before going through the day.',
+      fr: "Chaque matin, une méditation brève sur les lectures de la messe du jour. Une invitation à entrer dans la Parole avant de traverser la journée.",
+      es: 'Cada mañana, una breve meditación sobre las lecturas de la misa del día. Una invitación a entrar en la Palabra antes de recorrer la jornada.',
+    },
     duration: '10 min',
     audioUrl: 'https://exemple.org/podcast/messe-jour-1.mp3',
   },
   {
     id: 'podcast-2',
     number: '2/4',
-    title: "Sur le seuil de l’Office",
-    description:
-      "Présentation d’un psaume, d’un cantique ou d’une hymne de l’Office des heures, pour ceux qui veulent mieux connaître la prière quotidienne de l’Église.",
+    title: {
+      en: 'On the threshold of the Office',
+      fr: "Sur le seuil de l’Office",
+      es: 'En el umbral del Oficio',
+    },
+    description: {
+      en: 'Presentation of a psalm, a canticle or a hymn of the Liturgy of the Hours, for those who wish better to know the daily prayer of the Church.',
+      fr: "Présentation d’un psaume, d’un cantique ou d’une hymne de l’Office des heures, pour ceux qui veulent mieux connaître la prière quotidienne de l’Église.",
+      es: 'Presentación de un salmo, un cántico o un himno de la Liturgia de las Horas, para quienes quieren conocer mejor la oración cotidiana de la Iglesia.',
+    },
     duration: '15 min',
     audioUrl: 'https://exemple.org/podcast/office-seuil-1.mp3',
   },
   {
     id: 'podcast-3',
     number: '3/4',
-    title: 'Parcours bibliques',
-    description:
-      "Entretiens avec des biblistes : la Genèse, les Psaumes, les Évangiles, les Actes, l’Apocalypse. Une initiation progressive à la lecture intelligenti de la Bible.",
+    title: {
+      en: 'Biblical paths',
+      fr: 'Parcours bibliques',
+      es: 'Recorridos bíblicos',
+    },
+    description: {
+      en: 'Interviews with biblical scholars: Genesis, the Psalms, the Gospels, the Acts, the Revelation. A progressive initiation to the intelligent reading of the Bible.',
+      fr: "Entretiens avec des biblistes : la Genèse, les Psaumes, les Évangiles, les Actes, l’Apocalypse. Une initiation progressive à la lecture intelligenti de la Bible.",
+      es: 'Entrevistas con biblistas: el Génesis, los Salmos, los Evangelios, los Hechos, el Apocalipsis. Una iniciación progresiva a la lectura inteligente de la Biblia.',
+    },
     duration: '30 min',
     audioUrl: 'https://exemple.org/podcast/parcours-bibliques-1.mp3',
   },
   {
     id: 'podcast-4',
     number: '4/4',
-    title: 'Au seuil des fêtes',
-    description:
-      "À l’approche des grandes fêtes (Noël, Épiphanie, Pâques, Ascension, Pentecôte, Toussaint), un éclairage liturgique, biblique et pastoral pour mieux les célébrer.",
+    title: {
+      en: 'On the threshold of the feasts',
+      fr: 'Au seuil des fêtes',
+      es: 'En el umbral de las fiestas',
+    },
+    description: {
+      en: 'As the great feasts approach (Christmas, Epiphany, Easter, Ascension, Pentecost, All Saints), a liturgical, biblical and pastoral light to celebrate them better.',
+      fr: "À l’approche des grandes fêtes (Noël, Épiphanie, Pâques, Ascension, Pentecôte, Toussaint), un éclairage liturgique, biblique et pastoral pour mieux les célébrer.",
+      es: 'Al acercarse las grandes fiestas (Navidad, Epifanía, Pascua, Ascensión, Pentecostés, Todos los Santos), una luz litúrgica, bíblica y pastoral para celebrarlas mejor.',
+    },
     duration: '12 min',
     audioUrl: 'https://exemple.org/podcast/au-seuil-fetes-1.mp3',
   },
 ]
+
+/**
+ * Returns the localized version of a video item, with the right title and
+ * description for the requested locale.
+ */
+export function getVideo(item: LocalizedVideoItem, locale: Locale): VideoItem {
+  return {
+    id: item.id,
+    number: item.number,
+    youtubeId: item.youtubeId,
+    duration: item.duration,
+    title: item.title[locale],
+    description: item.description[locale],
+  }
+}
+
+export function getPodcast(item: LocalizedPodcastItem, locale: Locale): PodcastItem {
+  return {
+    id: item.id,
+    number: item.number,
+    duration: item.duration,
+    audioUrl: item.audioUrl,
+    title: item.title[locale],
+    description: item.description[locale],
+  }
+}
+
+export function localizedVideos(locale: Locale): VideoItem[] {
+  return videos.map((v) => getVideo(v, locale))
+}
+
+export function localizedPodcasts(locale: Locale): PodcastItem[] {
+  return podcasts.map((p) => getPodcast(p, locale))
+}

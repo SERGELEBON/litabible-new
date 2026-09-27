@@ -2,32 +2,35 @@
 
 import { cn } from '@/lib/utils'
 import { useLitabibleStore, type LitabiblePage } from '@/lib/store'
+import { useT } from '@/lib/i18n'
 import { ChevronTab } from './chevron-tab'
 import { RedRibbon } from './red-ribbon'
 
 interface NavItem {
   id: LitabiblePage
-  label: string
+  /** i18n key for the nav label */
+  key: string
 }
 
 const NAV_ITEMS: NavItem[] = [
-  { id: 'messe', label: 'La messe' },
-  { id: 'heures', label: 'Les heures' },
-  { id: 'bible', label: 'La Bible' },
-  { id: 'apropos', label: 'À PROPOS' },
-  { id: 'videos', label: 'Vidéos & Podcasts' },
-  { id: 'calendrier', label: 'Calendrier' },
-  { id: 'contact', label: 'Contact' },
+  { id: 'messe', key: 'nav.messe' },
+  { id: 'heures', key: 'nav.heures' },
+  { id: 'bible', key: 'nav.bible' },
+  { id: 'apropos', key: 'nav.apropos' },
+  { id: 'videos', key: 'nav.videos' },
+  { id: 'calendrier', key: 'nav.calendrier' },
+  { id: 'contact', key: 'nav.contact' },
 ]
 
 /** Vertical 7-tab navigation with the chevron active motif and the decorative red ribbon. */
 export function MainNav() {
   const page = useLitabibleStore((s) => s.page)
   const setPage = useLitabibleStore((s) => s.setPage)
+  const { t } = useT()
 
   return (
     <nav
-      aria-label="Navigation principale"
+      aria-label={t('nav.aria_label')}
       className="flex flex-stretch flex-shrink-0"
     >
       <RedRibbon />
@@ -40,7 +43,7 @@ export function MainNav() {
             onClick={() => setPage(item.id)}
             className={cn('text-left')}
           >
-            {item.label}
+            {t(item.key)}
           </ChevronTab>
         ))}
       </div>

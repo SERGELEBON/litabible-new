@@ -1,6 +1,6 @@
 'use client'
 
-import { useSyncExternalStore } from 'react'
+import { useSyncExternalStore, useEffect } from 'react'
 import { SiteHeader } from '@/components/lt/site-header'
 import { MainNav } from '@/components/lt/main-nav'
 import { SiteFooter } from '@/components/lt/site-footer'
@@ -11,6 +11,7 @@ import { AproposPage } from '@/components/lt/pages/apropos-page'
 import { VideosPodcastsPage } from '@/components/lt/pages/videos-podcasts-page'
 import { CalendarPage } from '@/components/lt/pages/calendar-page'
 import { ContactPage } from '@/components/lt/pages/contact-page'
+import { WhatsAppButton } from '@/components/lt/whatsapp-button'
 import { useLitabibleStore } from '@/lib/store'
 
 function PageSwitch() {
@@ -52,6 +53,13 @@ function useMounted() {
 
 export default function Home() {
   const mounted = useMounted()
+  const locale = useLitabibleStore((s) => s.locale)
+  // Keep the <html lang="…"> attribute in sync with the selected locale.
+  useEffect(() => {
+    if (typeof document !== 'undefined') {
+      document.documentElement.lang = locale
+    }
+  }, [locale])
 
   return (
     <div className="min-h-screen flex flex-col bg-transparent">
@@ -67,6 +75,7 @@ export default function Home() {
         </main>
       </div>
       <SiteFooter />
+      <WhatsAppButton />
     </div>
   )
 }

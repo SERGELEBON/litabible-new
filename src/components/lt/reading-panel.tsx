@@ -3,6 +3,7 @@
 import { cn } from '@/lib/utils'
 import type { Reading } from '@/data/types'
 import { Download, Type } from 'lucide-react'
+import { useT, localizedReadingLabel, localizedConclusion } from '@/lib/i18n'
 
 interface ReadingPanelProps {
   title: string
@@ -17,6 +18,7 @@ interface ReadingPanelProps {
  * Each reading block = red uppercase label → citation+reference → italic source → body → conclusion.
  */
 export function ReadingPanel({ title, readings, className, showBadges = true }: ReadingPanelProps) {
+  const { t, locale } = useT()
   return (
     <div className={cn('flex flex-col', className)}>
       {showBadges && (
@@ -24,23 +26,23 @@ export function ReadingPanel({ title, readings, className, showBadges = true }: 
           <button
             type="button"
             className="lt-badge inline-flex items-center gap-1.5 px-2.5 py-1.5"
-            title="Télécharger les textes (.doc)"
+            title={t('mass.download_doc')}
           >
             <Download className="w-3 h-3" />
             <span className="leading-tight">
-              <span className="block">Télécharger</span>
-              <span className="block">les textes (.doc)</span>
+              <span className="block">{t('mass.download_short')}</span>
+              <span className="block">{t('mass.download_long')}</span>
             </span>
           </button>
           <button
             type="button"
             className="lt-badge inline-flex items-center gap-1.5 px-2.5 py-1.5"
-            title="A+ Lecture confort"
+            title={t('mass.confort')}
           >
             <Type className="w-3 h-3" />
             <span className="leading-tight text-[12px]">
-              <span className="block">A+ Lecture</span>
-              <span className="block">confort</span>
+              <span className="block">A+</span>
+              <span className="block">{t('mass.confort_short')}</span>
             </span>
           </button>
         </div>
@@ -52,21 +54,34 @@ export function ReadingPanel({ title, readings, className, showBadges = true }: 
 
       <div className="flex flex-col gap-7">
         {readings.map((r, i) => (
-          <ReadingBlock key={`${r.type}-${i}`} reading={r} />
+          <ReadingBlock
+            key={`${r.type}-${i}`}
+            reading={r}
+            localizedLabel={localizedReadingLabel(r.type, t) || r.label}
+            conclusion={
+              r.conclusion ? localizedConclusion(r.conclusion, locale) : r.conclusion
+            }
+          />
         ))}
       </div>
     </div>
   )
 }
 
-function ReadingBlock({ reading: r }: { reading: Reading }) {
+function ReadingBlock({
+  reading: r,
+  localizedLabel,
+  conclusion,
+}: {
+  reading: Reading
+  localizedLabel: string
+  conclusion?: string
+}) {
   // Alleluia is rendered centered in a box.
   if (r.type === 'alleluia') {
     return (
       <div className="border border-[#e2e0dc] bg-[#f8f7f4] p-5 text-center">
-        {r.label && (
-          <p className="text-[10px] font-bold uppercase text-[#1a4fa0] mb-2">{r.label}</p>
-        )}
+        <p className="text-[10px] font-bold uppercase text-[#1a4fa0] mb-2">{localizedLabel}</p>
         {r.content?.map((p, idx) => (
           <p key={idx} className="text-[16px] font-semibold text-[#333] italic">
             {p}
@@ -80,7 +95,7 @@ function ReadingBlock({ reading: r }: { reading: Reading }) {
   if (r.type === 'psaume') {
     return (
       <article className="lt-reading-text">
-        <h4 className="text-[17px] font-bold uppercase text-[#1a4fa0] mb-1">{r.label}</h4>
+        <h4 className="text-[17px] font-bold uppercase text-[#1a4fa0] mb-1">{localizedLabel}</h4>
         {r.reference && (
           <h5 className="text-[14px] font-bold text-[#333] mb-3">{r.reference}</h5>
         )}
@@ -105,7 +120,7 @@ function ReadingBlock({ reading: r }: { reading: Reading }) {
   if (r.type === 'hymne') {
     return (
       <article className="lt-reading-text">
-        <h4 className="text-[17px] font-bold uppercase text-[#1a4fa0] mb-1">{r.label}</h4>
+        <h4 className="text-[17px] font-bold uppercase text-[#1a4fa0] mb-1">{localizedLabel}</h4>
         {r.reference && (
           <h5 className="text-[14px] font-bold text-[#333] mb-3">{r.reference}</h5>
         )}
@@ -120,7 +135,7 @@ function ReadingBlock({ reading: r }: { reading: Reading }) {
   // Standard reading / gospel / patristic
   return (
     <article className="lt-reading-text">
-      <h4 className="text-[17px] font-bold uppercase text-[#1a4fa0] mb-1">{r.label}</h4>
+      <h4 className="text-[17px] font-bold uppercase text-[#1a4fa0] mb-1">{localizedLabel}</h4>
       {r.citation && (
         <h5 className="text-[14px] font-bold text-[#333] mb-2">{r.citation}</h5>
       )}
@@ -132,11 +147,11 @@ function ReadingBlock({ reading: r }: { reading: Reading }) {
       {r.content?.map((p, idx) => (
         <p key={idx} className="mb-3 text-[17px] text-[#333] leading-[1.75]">{p}</p>
       ))}
-      {r.conclusion && (
-        <p className="font-semibold text-[#333] mt-2 text-[17px]">{r.conclusion}</p>
+      {conclusion && (
+        <p className="font-semibold text-[#333] mt-2 text-[17px]">{conclusion}</p>
       )}
       {r.patristicSource && (
-        <p className="lt-source mt-3">Source : {r.patristicSource}</p>
+        <p className="lt-source mt-3">{r.patristicSource}</p>
       )}
     </article>
   )

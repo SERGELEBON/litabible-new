@@ -27,7 +27,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="fr" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning>
       <body
         className={`${openSans.variable} font-open antialiased`}
         style={{ fontFamily: "'Open Sans', sans-serif" }}

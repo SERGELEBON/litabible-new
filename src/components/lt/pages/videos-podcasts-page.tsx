@@ -1,9 +1,11 @@
 'use client'
 
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { Play } from 'lucide-react'
 import { ChevronTab } from '../chevron-tab'
-import { videos as videoList, podcasts as podcastList } from '@/data/videos-podcasts'
+import { useLitabibleStore } from '@/lib/store'
+import { useT } from '@/lib/i18n'
+import { localizedVideos, localizedPodcasts } from '@/data/videos-podcasts'
 import { videos as videosSection, podcasts as podcastsSection } from '@/data/litabible-content'
 
 type Tab = 'videos' | 'podcasts'
@@ -11,6 +13,13 @@ type Tab = 'videos' | 'podcasts'
 /** Standalone Vidéos & Podcasts page (main nav entry). */
 export function VideosPodcastsPage() {
   const [tab, setTab] = useState<Tab>('videos')
+  const locale = useLitabibleStore((s) => s.locale)
+  const { t } = useT()
+
+  const videoList = useMemo(() => localizedVideos(locale), [locale])
+  const podcastList = useMemo(() => localizedPodcasts(locale), [locale])
+  const videosSect = videosSection[locale]
+  const podcastsSect = podcastsSection[locale]
 
   return (
     <div className="w-full max-w-5xl mx-auto px-4 sm:px-6 py-4 sm:py-6">
@@ -21,7 +30,7 @@ export function VideosPodcastsPage() {
       <section className="bg-white border border-[#e2e0dc] p-5 sm:p-8 flex flex-col md:flex-row gap-6">
         {/* Left — small chevron sub-nav (two tabs) */}
         <nav
-          aria-label="Vidéos & Podcasts"
+          aria-label={t('videos.subnav_aria')}
           className="md:w-[160px] md:flex-shrink-0 flex md:flex-col gap-1 overflow-x-auto md:overflow-visible"
         >
           <ChevronTab
@@ -30,7 +39,7 @@ export function VideosPodcastsPage() {
             active={tab === 'videos'}
             onClick={() => setTab('videos')}
           >
-            Vidéos
+            {t('apropos.videos')}
           </ChevronTab>
           <ChevronTab
             orientation="vertical"
@@ -38,7 +47,7 @@ export function VideosPodcastsPage() {
             active={tab === 'podcasts'}
             onClick={() => setTab('podcasts')}
           >
-            Podcasts
+            {t('apropos.podcasts')}
           </ChevronTab>
         </nav>
 
@@ -47,11 +56,11 @@ export function VideosPodcastsPage() {
           {tab === 'videos' ? (
             <>
               <h1 className="uppercase text-[21px] font-medium text-[#333333] tracking-wide mb-2">
-                {videosSection.title}
+                {t('videos.title')}
               </h1>
-              {videosSection.intro && (
+              {videosSect.intro && (
                 <p className="text-[16px] leading-[1.8] text-[#333333] italic mb-6">
-                  {videosSection.intro}
+                  {videosSect.intro}
                 </p>
               )}
               <ol className="space-y-6">
@@ -93,11 +102,11 @@ export function VideosPodcastsPage() {
           ) : (
             <>
               <h1 className="uppercase text-[21px] font-medium text-[#333333] tracking-wide mb-2">
-                {podcastsSection.title}
+                {t('videos.podcasts')}
               </h1>
-              {podcastsSection.intro && (
+              {podcastsSect.intro && (
                 <p className="text-[16px] leading-[1.8] text-[#333333] italic mb-6">
-                  {podcastsSection.intro}
+                  {podcastsSect.intro}
                 </p>
               )}
               <ol className="space-y-4">
@@ -130,7 +139,7 @@ export function VideosPodcastsPage() {
                           href={p.audioUrl}
                           className="inline-flex items-center gap-1.5 bg-[#000000] hover:bg-[#333333] text-white text-[12px] uppercase font-semibold px-3 py-2 !normal-case"
                         >
-                          <Play className="w-3 h-3" /> Écouter
+                          <Play className="w-3 h-3" /> {t('videos.listen')}
                         </a>
                       )}
                     </div>

@@ -2,8 +2,9 @@
 
 import { useMemo, useState } from 'react'
 import { useLitabibleStore, type OfficeHour } from '@/lib/store'
+import { useT } from '@/lib/i18n'
 import { getOfficeData } from '@/data/office-hours'
-import { getDayInfo } from '@/data/liturgical-calendar'
+import { getDayInfo, localizeDayInfo } from '@/data/liturgical-calendar'
 import type { OfficeData, Reading } from '@/data/types'
 import { TwoPanelLayout } from '@/components/lt/two-panel-layout'
 import { LiturgicalBadge } from '@/components/lt/liturgical-badge'
@@ -17,66 +18,74 @@ import {
   CollapsibleTrigger,
 } from '@/components/ui/collapsible'
 import { ChevronDown } from 'lucide-react'
+import type { Locale } from '@/lib/store'
 
-const FR_MONTHS_SHORT = [
-  'janv.',
-  'févr.',
-  'mars',
-  'avr.',
-  'mai',
-  'juin',
-  'juil.',
-  'août',
-  'sept.',
-  'oct.',
-  'nov.',
-  'déc.',
+const MONTH_SHORT_KEY = [
+  'cal.month.jan', 'cal.month.feb', 'cal.month.mar', 'cal.month.apr',
+  'cal.month.may', 'cal.month.jun', 'cal.month.jul', 'cal.month.aug',
+  'cal.month.sep', 'cal.month.oct', 'cal.month.nov', 'cal.month.dec',
 ]
-const FR_DAYS_LONG = [
-  'dimanche',
-  'lundi',
-  'mardi',
-  'mercredi',
-  'jeudi',
-  'vendredi',
-  'samedi',
+const WEEKDAY_LONG_KEY = [
+  'lit.dimanche', 'lit.lundi', 'lit.mardi', 'lit.mercredi',
+  'lit.jeudi', 'lit.vendredi', 'lit.samedi',
 ]
 
-const HOUR_TABS: { id: OfficeHour; label: string }[] = [
-  { id: 'lectures', label: 'Lectures' },
-  { id: 'laudes', label: 'Laudes' },
-  { id: 'tierce', label: 'Tierce' },
-  { id: 'sexe', label: 'Sexte' },
-  { id: 'none', label: 'None' },
-  { id: 'vepres', label: 'Vêpres' },
-  { id: 'complies', label: 'Complies' },
+const HOUR_TABS: { id: OfficeHour; key: string }[] = [
+  { id: 'lectures', key: 'hours.tab.lectures' },
+  { id: 'laudes', key: 'hours.tab.laudes' },
+  { id: 'tierce', key: 'hours.tab.tierce' },
+  { id: 'sexe', key: 'hours.tab.sexte' },
+  { id: 'none', key: 'hours.tab.none' },
+  { id: 'vepres', key: 'hours.tab.vepres' },
+  { id: 'complies', key: 'hours.tab.complies' },
 ]
 
-function formatFrenchDate(iso: string): string {
+function formatLocalizedDate(iso: string, locale: Locale, t: (k: string) => string): string {
   const d = new Date(iso + 'T00:00:00')
   if (Number.isNaN(d.getTime())) return iso
-  return `${d.getDate()} ${FR_MONTHS_SHORT[d.getMonth()]} ${d.getFullYear()}`
+  if (locale === 'fr') {
+    const FR_MONTHS_SHORT = [
+      'janv.', 'févr.', 'mars', 'avr.', 'mai', 'juin',
+      'juil.', 'août', 'sept.', 'oct.', 'nov.', 'déc.',
+    ]
+    return `${d.getDate()} ${FR_MONTHS_SHORT[d.getMonth()]} ${d.getFullYear()}`
+  }
+  if (locale === 'es') {
+    const ES_MONTHS_SHORT = [
+      'ene', 'feb', 'mar', 'abr', 'may', 'jun',
+      'jul', 'ago', 'sep', 'oct', 'nov', 'dic',
+    ]
+    return `${d.getDate()} ${ES_MONTHS_SHORT[d.getMonth()]} ${d.getFullYear()}`
+  }
+  return `${d.getDate()} ${t(MONTH_SHORT_KEY[d.getMonth()])} ${d.getFullYear()}`
 }
 
-function frenchWeekday(iso: string): string {
+function localizedWeekday(iso: string, t: (k: string) => string): string {
   const d = new Date(iso + 'T00:00:00')
   if (Number.isNaN(d.getTime())) return ''
-  return FR_DAYS_LONG[d.getDay()]
+  return t(WEEKDAY_LONG_KEY[d.getDay()])
 }
 
 /**
  * Flatten an OfficeData into a single `Reading[]` list so both the
  * ReadingTable (left) and ReadingPanel (right) can iterate over a unified
  * sequence: introduction → hymne → psalms → readings → patristic → conclusion.
+ *
+ * Uses localized labels for the introduction / hymn / conclusion synthetic
+ * readings (the labels "Introduction", "Hymne", "Conclusion" come from the
+ * data; we override them with the localized label when the type matches).
  */
-function flattenOfficeReadings(office: OfficeData): Reading[] {
+function flattenOfficeReadings(
+  office: OfficeData,
+  t: (k: string) => string,
+): Reading[] {
   const out: Reading[] = []
 
   if (office.introduction && office.introduction.length > 0) {
     out.push({
       type: 'introduction',
-      label: 'Introduction',
-      title: 'Introduction',
+      label: t('reading.introduction'),
+      title: t('reading.introduction'),
       content: office.introduction,
     })
   }
@@ -84,8 +93,8 @@ function flattenOfficeReadings(office: OfficeData): Reading[] {
   if (office.hymn) {
     out.push({
       type: 'hymne',
-      label: 'Hymne',
-      title: 'Hymne',
+      label: t('reading.hymne'),
+      title: t('reading.hymne'),
       source: office.hymn.author,
       reference: office.hymn.reference,
       content: office.hymn.text,
@@ -102,8 +111,8 @@ function flattenOfficeReadings(office: OfficeData): Reading[] {
   if (office.conclusion && office.conclusion.length > 0) {
     out.push({
       type: 'conclusion',
-      label: 'Conclusion',
-      title: 'Conclusion',
+      label: t('reading.conclusion'),
+      title: t('reading.conclusion'),
       content: office.conclusion,
     })
   }
@@ -124,13 +133,19 @@ export function HoursPage() {
   const setOfficeHour = useLitabibleStore((s) => s.setOfficeHour)
   const goPrevDay = useLitabibleStore((s) => s.goPrevDay)
   const goNextDay = useLitabibleStore((s) => s.goNextDay)
+  const locale = useLitabibleStore((s) => s.locale)
+  const { t } = useT()
 
   const office = getOfficeData(selectedDate, officeHour)
-  const dayInfo = getDayInfo(selectedDate)
+  const dayInfoRaw = getDayInfo(selectedDate)
+  const dayInfo = useMemo(
+    () => localizeDayInfo(dayInfoRaw, locale),
+    [dayInfoRaw, locale],
+  )
 
   const officeReadings = useMemo(
-    () => flattenOfficeReadings(office),
-    [office],
+    () => flattenOfficeReadings(office, t),
+    [office, t],
   )
 
   const [activeIdx, setActiveIdx] = useState(0)
@@ -151,7 +166,7 @@ export function HoursPage() {
   )
 
   return (
-    <section aria-label="Liturgie des heures" className="w-full">
+    <section aria-label={t('nav.heures')} className="w-full">
       <TwoPanelLayout
         left={
           <>
@@ -166,10 +181,10 @@ export function HoursPage() {
                 />
                 <div className="flex-1 min-w-0">
                   <h4 className="text-[19px] font-semibold text-[#333] leading-tight">
-                    {formatFrenchDate(selectedDate)}
+                    {formatLocalizedDate(selectedDate, locale, t)}
                   </h4>
                   <p className="text-[11px] uppercase tracking-wide text-[#6b6b6b] mt-0.5">
-                    {frenchWeekday(selectedDate)}
+                    {localizedWeekday(selectedDate, t)}
                   </p>
                 </div>
               </div>
@@ -197,7 +212,7 @@ export function HoursPage() {
             {/* Horizontal scrollable row of office-hour tabs */}
             <div className="border-b border-[#e2e0dc] overflow-x-auto lt-scroll">
               <nav
-                aria-label="Heures de l'office"
+                aria-label={t('nav.heures')}
                 className="flex items-stretch min-w-max"
               >
                 {HOUR_TABS.map((tab) => (
@@ -208,7 +223,7 @@ export function HoursPage() {
                     onClick={() => setOfficeHour(tab.id)}
                     className="flex-1"
                   >
-                    {tab.label}
+                    {t(tab.key)}
                   </ChevronTab>
                 ))}
               </nav>
@@ -226,7 +241,7 @@ export function HoursPage() {
                   aria-expanded={listOpen}
                   className="w-full flex items-center justify-between bg-black text-white px-3.5 py-2.5 text-[12px] font-bold uppercase tracking-tight cursor-pointer transition-colors hover:bg-[#222]"
                 >
-                  <span>Lectures de l&apos;office</span>
+                  <span>{t('hours.lectures_bar')}</span>
                   <ChevronDown
                     className={`w-4 h-4 transition-transform ${listOpen ? 'rotate-180' : ''}`}
                     aria-hidden
@@ -251,14 +266,14 @@ export function HoursPage() {
                 onClick={goPrevDay}
                 className="!normal-case !font-medium"
               >
-                ‹ hier
+                {t('mass.prev')}
               </BlackButton>
               <BlackButton
                 size="sm"
                 onClick={goNextDay}
                 className="!normal-case !font-medium"
               >
-                demain ›
+                {t('mass.next')}
               </BlackButton>
             </div>
           </>
@@ -270,8 +285,13 @@ export function HoursPage() {
               readings={officeReadings}
               showBadges
             />
+            {locale !== 'fr' && (
+              <p className="text-[11px] text-[#9a9a9a] mt-3 italic">
+                {t('hours.french_note')}
+              </p>
+            )}
             <p className="text-[11px] text-[#9a9a9a] mt-6 pt-3 border-t border-[#e2e0dc]">
-              Textes liturgiques © LitaBible — Tous droits réservés.
+              {t('mass.source')}
             </p>
           </>
         }

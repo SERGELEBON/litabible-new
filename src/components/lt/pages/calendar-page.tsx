@@ -4,27 +4,32 @@ import { useMemo, useState } from 'react'
 import { MonthNavBar } from '../date-nav-bar'
 import { LiturgicalBadge } from '../liturgical-badge'
 import { useLitabibleStore } from '@/lib/store'
-import { getMonthCalendar } from '@/data/liturgical-calendar'
+import { useT } from '@/lib/i18n'
+import { getMonthCalendar, localizeDayInfo } from '@/data/liturgical-calendar'
 import type { DayInfo } from '@/data/types'
 
-const FRENCH_MONTHS_FULL = [
-  'janvier', 'février', 'mars', 'avril', 'mai', 'juin',
-  'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre',
+const MONTH_SHORT_KEY = [
+  'cal.month.jan', 'cal.month.feb', 'cal.month.mar', 'cal.month.apr',
+  'cal.month.may', 'cal.month.jun', 'cal.month.jul', 'cal.month.aug',
+  'cal.month.sep', 'cal.month.oct', 'cal.month.nov', 'cal.month.dec',
 ]
-
-const FRENCH_MONTHS_SHORT = [
-  'janv.', 'févr.', 'mars', 'avr.', 'mai', 'juin',
-  'juil.', 'août', 'sept.', 'oct.', 'nov.', 'déc.',
+const MONTH_FULL_KEY = [
+  'cal.month_full.jan', 'cal.month_full.feb', 'cal.month_full.mar', 'cal.month_full.apr',
+  'cal.month_full.may', 'cal.month_full.jun', 'cal.month_full.jul', 'cal.month_full.aug',
+  'cal.month_full.sep', 'cal.month_full.oct', 'cal.month_full.nov', 'cal.month_full.dec',
 ]
-
-const WEEKDAY_SHORT = ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam']
+// Weekday short labels — JS getDay(): 0 = Sunday, 1 = Monday, ..., 6 = Saturday.
+const WEEKDAY_SHORT_KEY = [
+  'cal.weekday.sun', 'cal.weekday.mon', 'cal.weekday.tue', 'cal.weekday.wed',
+  'cal.weekday.thu', 'cal.weekday.fri', 'cal.weekday.sat',
+]
 
 function parseISO(iso: string): { year: number; month: number; day: number } {
   const [y, m, d] = iso.split('-').map(Number)
   return { year: y, month: m || 1, day: d || 1 }
 }
 
-function describeDay(day: DayInfo): string {
+function describeDay(day: DayInfo, t: (k: string) => string): string {
   // Compose a readable description for a calendar row.
   const parts: string[] = [day.dayName]
   if (day.liturgicalTime) parts.push(`— ${day.liturgicalTime}`)
@@ -37,6 +42,8 @@ export function CalendarPage() {
   const selectedDate = useLitabibleStore((s) => s.selectedDate)
   const setSelectedDate = useLitabibleStore((s) => s.setSelectedDate)
   const setPage = useLitabibleStore((s) => s.setPage)
+  const locale = useLitabibleStore((s) => s.locale)
+  const { t } = useT()
 
   // Local state for the currently-viewed month, initialised from `selectedDate`.
   const [{ year, month }, setView] = useState(() => {
@@ -44,7 +51,10 @@ export function CalendarPage() {
     return { year: parsed.year, month: parsed.month }
   })
 
-  const days = useMemo(() => getMonthCalendar(year, month), [year, month])
+  const days = useMemo(
+    () => getMonthCalendar(year, month).map((d) => localizeDayInfo(d, locale)),
+    [year, month, locale],
+  )
 
   function prevMonth() {
     setView((v) => {
@@ -76,12 +86,12 @@ export function CalendarPage() {
       : new Date(year, m - 1, 1)
   }, [year, month])
 
-  const prevLabel = `${FRENCH_MONTHS_SHORT[prevDate.getMonth()]} ${prevDate.getFullYear()}`
-  const nextLabel = `${FRENCH_MONTHS_SHORT[nextDate.getMonth()]} ${nextDate.getFullYear()}`
+  const prevLabel = t('cal.prev_month', { month: t(MONTH_SHORT_KEY[prevDate.getMonth()]) })
+  const nextLabel = t('cal.next_month', { month: t(MONTH_SHORT_KEY[nextDate.getMonth()]) })
 
-  // Header: "1 SEPT. 2026" — the first day of the viewed month.
-  const monthNameShort = FRENCH_MONTHS_SHORT[month - 1].toUpperCase().replace('.', '')
-  const headerTitle = `1 ${monthNameShort} ${year}`
+  // Header: "1 SEP 2026" — the first day of the viewed month.
+  const monthNameShort = t(MONTH_SHORT_KEY[month - 1]).toUpperCase().replace('.', '')
+  const headerTitle = t('cal.header', { month: monthNameShort, year })
 
   function openDay(dateIso: string, target: 'messe' | 'heures') {
     setSelectedDate(dateIso)
@@ -109,7 +119,11 @@ export function CalendarPage() {
           {headerTitle}
         </h2>
         <p className="text-[13px] text-[#6b6b6b] uppercase tracking-wide mb-5">
-          {FRENCH_MONTHS_FULL[month - 1]} {year} · {days.length} jours
+          {t('cal.subhead', {
+            month: t(MONTH_FULL_KEY[month - 1]),
+            year,
+            n: days.length,
+          })}
         </p>
 
         <div className="max-h-[70vh] overflow-y-auto lt-scroll -mx-1">
@@ -117,8 +131,8 @@ export function CalendarPage() {
             {days.map((day) => {
               const { day: dayNum } = parseISO(day.date)
               const parsed = new Date(year, month - 1, dayNum)
-              const wd = WEEKDAY_SHORT[parsed.getDay()]
-              const dateLabel = `${dayNum} ${FRENCH_MONTHS_SHORT[month - 1]} ${year}`
+              const wd = t(WEEKDAY_SHORT_KEY[parsed.getDay()])
+              const dateLabel = `${dayNum} ${t(MONTH_SHORT_KEY[month - 1])} ${year}`
               const isToday = day.date === selectedDate
 
               return (
@@ -141,7 +155,7 @@ export function CalendarPage() {
                         <span className="text-[#333333]">{dateLabel}</span>
                       </p>
                       <p className="text-[14px] leading-[1.5] text-[#333333] mt-0.5">
-                        {describeDay(day)}
+                        {describeDay(day, t)}
                       </p>
                       {day.year && (
                         <p className="text-[12px] text-[#6b6b6b] mt-0.5 uppercase tracking-wide">
@@ -157,14 +171,14 @@ export function CalendarPage() {
                       onClick={() => openDay(day.date, 'messe')}
                       className="text-[13px] text-[#1a4fa0] hover:underline uppercase font-semibold whitespace-nowrap"
                     >
-                      La messe
+                      {t('cal.la_messe')}
                     </button>
                     <button
                       type="button"
                       onClick={() => openDay(day.date, 'heures')}
                       className="text-[13px] text-[#1a4fa0] hover:underline uppercase font-semibold whitespace-nowrap"
                     >
-                      Les heures
+                      {t('cal.les_heures')}
                     </button>
                   </div>
                 </li>

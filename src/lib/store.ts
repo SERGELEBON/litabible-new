@@ -9,6 +9,8 @@ export type LitabiblePage =
   | 'calendrier'
   | 'contact'
 
+export type Locale = 'en' | 'fr' | 'es'
+
 export type AproposSubPage =
   | 'missions'
   | 'organisation'
@@ -45,12 +47,14 @@ interface LitabibleState {
   calendarZone: CalendarZone
   selectedDate: string // ISO date YYYY-MM-DD
   bibleTab: 'at' | 'nt' | 'psaumes'
+  locale: Locale
   setPage: (p: LitabiblePage) => void
   setAproposSub: (s: AproposSubPage) => void
   setOfficeHour: (h: OfficeHour) => void
   setCalendarZone: (z: CalendarZone) => void
   setSelectedDate: (d: string) => void
   setBibleTab: (t: 'at' | 'nt' | 'psaumes') => void
+  setLocale: (l: Locale) => void
   goNextDay: () => void
   goPrevDay: () => void
 }
@@ -72,12 +76,14 @@ export const useLitabibleStore = create<LitabibleState>((set) => ({
   calendarZone: 'romain',
   selectedDate: isoDate(new Date()),
   bibleTab: 'at',
+  locale: 'en',
   setPage: (p) => set({ page: p }),
   setAproposSub: (s) => set({ aproposSub: s }),
   setOfficeHour: (h) => set({ officeHour: h }),
   setCalendarZone: (z) => set({ calendarZone: z }),
   setSelectedDate: (d) => set({ selectedDate: d }),
   setBibleTab: (t) => set({ bibleTab: t }),
+  setLocale: (l) => set({ locale: l }),
   goNextDay: () => set((s) => ({ selectedDate: addDays(s.selectedDate, 1) })),
   goPrevDay: () => set((s) => ({ selectedDate: addDays(s.selectedDate, -1) })),
 }))

@@ -14,11 +14,13 @@ import {
   SelectItem,
 } from '@/components/ui/select'
 import { useToast } from '@/hooks/use-toast'
-import { contactInfo, contactSubjects } from '@/data/contact'
+import { useT } from '@/lib/i18n'
+import { contactInfo } from '@/data/contact'
 
 type FormState = {
   name: string
   email: string
+  /** Stable id of the chosen subject ("general" | "subscription" | ...) */
   subject: string
   message: string
 }
@@ -30,10 +32,27 @@ const EMPTY_FORM: FormState = {
   message: '',
 }
 
+const SUBJECT_IDS = [
+  'general',
+  'subscription',
+  'rights',
+  'bible',
+  'calendar',
+  'bug',
+  'other',
+] as const
+
+type SubjectId = (typeof SUBJECT_IDS)[number]
+
+function subjectLabel(id: SubjectId, t: (k: string) => string): string {
+  return t(`contact.subjects.${id}`)
+}
+
 /** Contact page — form + INFORMATIONS card. The stained-glass rosette
  *  background shows around the centered white card. */
 export function ContactPage() {
   const { toast } = useToast()
+  const { t } = useT()
   const [form, setForm] = useState<FormState>(EMPTY_FORM)
   const [submitting, setSubmitting] = useState(false)
 
@@ -47,32 +66,32 @@ export function ContactPage() {
     // Basic client-side validation.
     if (!form.name.trim()) {
       toast({
-        title: 'Champ requis',
-        description: 'Veuillez indiquer votre nom.',
+        title: t('contact.name_required_title'),
+        description: t('contact.name_required_desc'),
         variant: 'destructive',
       })
       return
     }
     if (!form.email.includes('@')) {
       toast({
-        title: 'Courriel invalide',
-        description: 'Veuillez saisir une adresse de courriel valide.',
+        title: t('contact.invalid_email_title'),
+        description: t('contact.invalid_email_desc'),
         variant: 'destructive',
       })
       return
     }
     if (!form.subject) {
       toast({
-        title: 'Sujet requis',
-        description: 'Veuillez choisir un sujet dans la liste.',
+        title: t('contact.subject_required_title'),
+        description: t('contact.subject_required_desc'),
         variant: 'destructive',
       })
       return
     }
     if (form.message.trim().length < 10) {
       toast({
-        title: 'Message trop court',
-        description: 'Votre message doit contenir au moins 10 caractères.',
+        title: t('contact.message_short_title'),
+        description: t('contact.message_short_desc'),
         variant: 'destructive',
       })
       return
@@ -88,26 +107,30 @@ export function ContactPage() {
         body: JSON.stringify({
           name: form.name.trim(),
           email: form.email.trim(),
-          subject: form.subject,
+          // Send the localized subject string to the backend — that's what
+          // would land in the inbox. Falls back to the id if missing.
+          subject: subjectLabel(form.subject as SubjectId, t),
           message: form.message.trim(),
         }),
       })
 
       if (!res.ok) {
         const err = await res.json().catch(() => ({}))
-        throw new Error(typeof err.error === 'string' ? err.error : 'Réponse invalide du serveur.')
+        throw new Error(
+          typeof err.error === 'string' ? err.error : t('contact.invalid_response'),
+        )
       }
 
       toast({
-        title: 'Message envoyé',
-        description: 'Merci. Nous vous répondrons dans les meilleurs délais.',
+        title: t('contact.success_title'),
+        description: t('contact.success_desc'),
       })
       setForm(EMPTY_FORM)
     } catch (err) {
-      const message = err instanceof Error ? err.message : 'Erreur inconnue.'
+      const message = err instanceof Error ? err.message : t('contact.invalid_response')
       toast({
-        title: 'Échec de l’envoi',
-        description: `Votre message n’a pas pu être envoyé (${message}). Réessayez plus tard.`,
+        title: t('contact.error_title'),
+        description: t('contact.error_desc', { message }),
         variant: 'destructive',
       })
     } finally {
@@ -120,12 +143,10 @@ export function ContactPage() {
       {/* White centered card — rosette shows around it */}
       <section className="bg-white border border-[#e2e0dc] p-6 sm:p-8 shadow-sm">
         <h2 className="uppercase text-[22px] sm:text-[24px] font-semibold text-[#333333] tracking-wide mb-2">
-          Contacter LitaBible
+          {t('contact.title')}
         </h2>
         <p className="text-[15px] leading-[1.7] text-[#333333] mb-6">
-          Pour toute question relative aux textes liturgiques, à l’utilisation du site,
-          au calendrier ou à un problème technique, vous pouvez nous écrire via le formulaire
-          ci-dessous. Nous vous répondrons dans les meilleurs délais.
+          {t('contact.intro')}
         </p>
 
         <div className="grid md:grid-cols-[1fr_220px] gap-6">
@@ -133,7 +154,7 @@ export function ContactPage() {
           <form onSubmit={handleSubmit} className="flex flex-col gap-4" noValidate>
             <div className="flex flex-col gap-1.5">
               <Label htmlFor="contact-name" className="text-[13px] font-bold text-[#333] uppercase tracking-wide">
-                Nom
+                {t('contact.name')}
               </Label>
               <Input
                 id="contact-name"
@@ -141,7 +162,7 @@ export function ContactPage() {
                 autoComplete="name"
                 value={form.name}
                 onChange={(e) => update('name', e.target.value)}
-                placeholder="Votre nom"
+                placeholder={t('contact.name_ph')}
                 disabled={submitting}
                 className="bg-[#f8f7f4] border-[#ccc] rounded-none h-10"
               />
@@ -149,7 +170,7 @@ export function ContactPage() {
 
             <div className="flex flex-col gap-1.5">
               <Label htmlFor="contact-email" className="text-[13px] font-bold text-[#333] uppercase tracking-wide">
-                Courriel
+                {t('contact.email')}
               </Label>
               <Input
                 id="contact-email"
@@ -157,7 +178,7 @@ export function ContactPage() {
                 autoComplete="email"
                 value={form.email}
                 onChange={(e) => update('email', e.target.value)}
-                placeholder="vous@exemple.fr"
+                placeholder={t('contact.email_ph')}
                 disabled={submitting}
                 className="bg-[#f8f7f4] border-[#ccc] rounded-none h-10"
               />
@@ -165,7 +186,7 @@ export function ContactPage() {
 
             <div className="flex flex-col gap-1.5">
               <Label htmlFor="contact-subject" className="text-[13px] font-bold text-[#333] uppercase tracking-wide">
-                Sujet
+                {t('contact.subject')}
               </Label>
               <Select
                 value={form.subject}
@@ -176,12 +197,12 @@ export function ContactPage() {
                   id="contact-subject"
                   className="bg-[#f8f7f4] border-[#ccc] rounded-none h-10 w-full text-[#333] data-[placeholder]:text-[#6b6b6b]"
                 >
-                  <SelectValue placeholder="Choisissez un sujet…" />
+                  <SelectValue placeholder={t('contact.subject_ph')} />
                 </SelectTrigger>
                 <SelectContent className="rounded-none">
-                  {contactSubjects.map((s) => (
-                    <SelectItem key={s} value={s}>
-                      {s}
+                  {SUBJECT_IDS.map((id) => (
+                    <SelectItem key={id} value={id}>
+                      {subjectLabel(id, t)}
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -190,13 +211,13 @@ export function ContactPage() {
 
             <div className="flex flex-col gap-1.5">
               <Label htmlFor="contact-message" className="text-[13px] font-bold text-[#333] uppercase tracking-wide">
-                Message
+                {t('contact.message')}
               </Label>
               <Textarea
                 id="contact-message"
                 value={form.message}
                 onChange={(e) => update('message', e.target.value)}
-                placeholder="Saisissez votre message…"
+                placeholder={t('contact.message_ph')}
                 disabled={submitting}
                 rows={6}
                 className="bg-[#f8f7f4] border-[#ccc] rounded-none min-h-[140px] text-[#333]"
@@ -207,12 +228,12 @@ export function ContactPage() {
                 Without API keys, we render a decorative labelled box. */}
             <div
               className="flex items-center gap-2 bg-[#f0eeea] border border-[#ccc] px-3 py-2.5 text-[12px] text-[#6b6b6b]"
-              aria-label="Vérification anti-spam Cloudflare Turnstile (désactivée en mode démo)"
+              aria-label={t('contact.captcha')}
             >
               <span className="w-4 h-4 inline-flex items-center justify-center bg-[#1e883f] text-white flex-shrink-0">
                 <Check className="w-3 h-3" />
               </span>
-              <span>Vérification anti-spam (Cloudflare Turnstile)</span>
+              <span>{t('contact.captcha')}</span>
             </div>
 
             <BlackButton
@@ -223,10 +244,10 @@ export function ContactPage() {
             >
               {submitting ? (
                 <>
-                  <Loader2 className="w-4 h-4 animate-spin" /> Envoi en cours…
+                  <Loader2 className="w-4 h-4 animate-spin" /> {t('contact.send_loading')}
                 </>
               ) : (
-                'Envoyer'
+                t('contact.send')
               )}
             </BlackButton>
           </form>
@@ -234,7 +255,7 @@ export function ContactPage() {
           {/* INFORMATIONS card column */}
           <aside className="bg-[#f0eeea] border border-[#e2e0dc] p-4 self-start">
             <h3 className="text-[12px] font-bold text-[#333] uppercase tracking-wide mb-3">
-              Informations
+              {t('contact.info_title')}
             </h3>
             <div className="space-y-3 text-[13px] text-[#333]">
               <div>
@@ -261,7 +282,7 @@ export function ContactPage() {
               </div>
               <div className="flex items-start gap-2">
                 <MapPin className="w-3.5 h-3.5 mt-0.5 flex-shrink-0 text-[#1a4fa0]" />
-                <p className="leading-snug">Secrétariat de LitaBible, Paris.</p>
+                <p className="leading-snug">{t('contact.secretariat')}</p>
               </div>
             </div>
           </aside>

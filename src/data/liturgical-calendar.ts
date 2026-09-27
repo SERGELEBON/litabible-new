@@ -1,4 +1,5 @@
 import type { DayInfo, LiturgicalColor } from './types'
+import type { Locale } from '@/lib/store'
 
 // =============================================================================
 // Liturgical calendar — heuristic, deterministic computation of DayInfo.
@@ -525,4 +526,225 @@ export function getMonthCalendar(year: number, month: number): DayInfo[] {
     out.push(getDayInfo(iso))
   }
   return out
+}
+
+// =============================================================================
+// Localization helpers for DayInfo.
+//
+// The calendar logic above produces French strings (liturgicalTime, dayName,
+// psalterWeek, year, feast). These helpers translate the known building
+// blocks (season names, weekday names, rank suffixes) into English and
+// Spanish. Unknown strings fall back to the French original.
+// =============================================================================
+
+// Map: French weekday (capitalised) → EN/ES equivalent.
+const WEEKDAY_MAP: Record<string, { en: string; es: string }> = {
+  Dimanche: { en: 'Sunday', es: 'Domingo' },
+  Lundi: { en: 'Monday', es: 'Lunes' },
+  Mardi: { en: 'Tuesday', es: 'Martes' },
+  Mercredi: { en: 'Wednesday', es: 'Miércoles' },
+  Jeudi: { en: 'Thursday', es: 'Jueves' },
+  Vendredi: { en: 'Friday', es: 'Viernes' },
+  Samedi: { en: 'Saturday', es: 'Sábado' },
+}
+
+// Map: French liturgical season phrase → EN/ES equivalent.
+const SEASON_MAP: { fr: string; en: string; es: string }[] = [
+  { fr: 'Temps ordinaire', en: 'Ordinary Time', es: 'Tiempo ordinario' },
+  { fr: "Temps de l'Avent", en: 'Advent', es: 'Adviento' },
+  { fr: 'Temps de l’Avent', en: 'Advent', es: 'Adviento' },
+  { fr: 'Temps de Noël', en: 'Christmas Time', es: 'Tiempo de Navidad' },
+  { fr: 'Temps du Carême', en: 'Lent', es: 'Cuaresma' },
+  { fr: 'Temps pascal', en: 'Easter Time', es: 'Tiempo pascual' },
+  { fr: 'Triduum pascal', en: 'Paschal Triduum', es: 'Triduo pascual' },
+]
+
+// Map: season-phrase fragment used inside dayName patterns like
+// "Lundi de la 2e semaine du Temps ordinaire" / "de Carême" / "de l'Avent".
+const SEASON_FRAGMENT_MAP: { fr: string; en: string; es: string }[] = [
+  { fr: 'du Temps ordinaire', en: 'of Ordinary Time', es: 'del Tiempo ordinario' },
+  { fr: "de l'Avent", en: 'of Advent', es: 'de Adviento' },
+  { fr: 'de l’Avent', en: 'of Advent', es: 'de Adviento' },
+  { fr: 'de Carême', en: 'of Lent', es: 'de Cuaresma' },
+  { fr: 'de Pâques', en: 'of Easter', es: 'de Pascua' },
+  { fr: 'de Noël', en: 'of Christmas', es: 'de Navidad' },
+  { fr: 'des Cendres', en: 'of Ashes', es: 'de Ceniza' },
+]
+
+// Map: specific solemnity / feast dayNames that are not derivable from
+// weekday + season fragments.
+const DAYNAME_EXACT_MAP: { fr: string; en: string; es: string }[] = [
+  { fr: 'Mercredi des Cendres', en: 'Ash Wednesday', es: 'Miércoles de Ceniza' },
+  {
+    fr: 'Dimanche des Rameaux et de la Passion du Seigneur',
+    en: "Palm Sunday of the Lord's Passion",
+    es: 'Domingo de Ramos y de la Pasión del Señor',
+  },
+  { fr: 'Jeudi Saint', en: 'Holy Thursday', es: 'Jueves Santo' },
+  { fr: 'Vendredi Saint', en: 'Good Friday', es: 'Viernes Santo' },
+  { fr: 'Samedi Saint', en: 'Holy Saturday', es: 'Sábado Santo' },
+  { fr: 'Dimanche de Pâques', en: 'Easter Sunday', es: 'Domingo de Pascua' },
+  { fr: 'Dimanche de la Pentecôte', en: 'Pentecost Sunday', es: 'Domingo de Pentecostés' },
+  { fr: 'Ascension du Seigneur', en: 'Ascension of the Lord', es: 'Ascensión del Señor' },
+  { fr: 'Nativité du Seigneur', en: 'Nativity of the Lord', es: 'Natividad del Señor' },
+  { fr: 'Baptême du Seigneur', en: 'Baptism of the Lord', es: 'Bautismo del Señor' },
+  { fr: 'Sainte Trinité', en: 'Holy Trinity', es: 'Santísima Trinidad' },
+  { fr: "Christ Roi de l'univers", en: 'Christ the King of the Universe', es: 'Cristo Rey del universo' },
+  { fr: 'Christ Roi de l’univers', en: 'Christ the King of the Universe', es: 'Cristo Rey del universo' },
+  {
+    fr: 'Sainte Famille de Jésus, Marie et Joseph',
+    en: 'Holy Family of Jesus, Mary and Joseph',
+    es: 'Sagrada Familia de Jesús, María y José',
+  },
+  { fr: 'Sainte Famille', en: 'Holy Family', es: 'Sagrada Familia' },
+  { fr: 'Sainte Marie, Mère de Dieu', en: 'Holy Mary, Mother of God', es: 'Santa María, Madre de Dios' },
+  { fr: 'Férie', en: 'Weekday', es: 'Ferial' },
+]
+
+// Map: feast-rank suffix appended by the calendar to feast names.
+const RANK_SUFFIX_MAP: { fr: string; en: string; es: string }[] = [
+  { fr: ' — solennité', en: ' — solemnity', es: ' — solemnidad' },
+  { fr: ' — fête', en: ' — feast', es: ' — fiesta' },
+  { fr: ' — mémoire facultative', en: ' — optional memorial', es: ' — memoria facultativa' },
+  { fr: ' — mémoire', en: ' — memorial', es: ' — memoria' },
+]
+
+// Ordinal map for French ordinals appearing in dayName ("1er", "2e", "3e"...).
+// EN: 1st, 2nd, 3rd, 4th... ; ES: 1.º, 2.º, 3.º, 4.º...
+function localizeOrdinal(s: string, locale: Locale): string {
+  if (locale === 'fr') return s
+  return s.replace(/(\d+)er/g, (m, digits: string) => {
+    const n = Number(digits)
+    if (locale === 'en') return `${n}st`
+    return `${n}.º`
+  }).replace(/(\d+)e\b/g, (m, digits: string) => {
+    const n = Number(digits)
+    if (locale === 'en') {
+      if (n === 0) return '0th'
+      const last = n % 10
+      const lastTwo = n % 100
+      if (lastTwo >= 11 && lastTwo <= 13) return `${n}th`
+      if (last === 1) return `${n}st`
+      if (last === 2) return `${n}nd`
+      if (last === 3) return `${n}rd`
+      return `${n}th`
+    }
+    return `${n}.º`
+  })
+}
+
+function replaceAll(input: string, find: string, replace: string): string {
+  if (!find) return input
+  return input.split(find).join(replace)
+}
+
+function localizeSeason(s: string, locale: Locale): string {
+  if (locale === 'fr' || !s) return s
+  for (const entry of SEASON_MAP) {
+    if (s === entry.fr) return entry[locale]
+  }
+  return s
+}
+
+function localizeString(s: string, locale: Locale): string {
+  if (locale === 'fr' || !s) return s
+
+  // 1. Exact-match dayName overrides.
+  for (const entry of DAYNAME_EXACT_MAP) {
+    if (s === entry.fr) return entry[locale]
+  }
+
+  let out = s
+
+  // 2. Translate weekday names (capitalized).
+  for (const [fr, localeMap] of Object.entries(WEEKDAY_MAP)) {
+    out = replaceAll(out, fr, localeMap[locale])
+  }
+
+  // 3. Translate season fragments inside dayName patterns.
+  for (const entry of SEASON_FRAGMENT_MAP) {
+    out = replaceAll(out, entry.fr, entry[locale])
+  }
+
+  // 4. Translate ordinals ("1er dimanche" → "1st Sunday").
+  out = localizeOrdinal(out, locale)
+
+  // 5. Translate the small connector words used in dayName templates:
+  //    "semaine" (within "semaine du Temps ordinaire"), "dimanche", "du", "de la".
+  if (locale === 'en') {
+    out = replaceAll(out, 'semaine du', 'week of')
+    out = replaceAll(out, 'semaine de', 'week of')
+    out = replaceAll(out, 'semaine des Cendres', 'week of Ashes')
+    out = replaceAll(out, 'semaine', 'week')
+    out = replaceAll(out, 'dimanche', 'Sunday')
+    out = replaceAll(out, 'octave de Pâques', 'Octave of Easter')
+    out = replaceAll(out, 'octave de Noël', 'Octave of Christmas')
+    out = replaceAll(out, 'jour avant l’Épiphanie', 'day before the Epiphany')
+    out = replaceAll(out, "jour de l'octave de Noël", 'day of the Octave of Christmas')
+    out = replaceAll(out, 'jour de l’octave de Noël', 'day of the Octave of Christmas')
+  } else if (locale === 'es') {
+    out = replaceAll(out, 'semaine du', 'semana del')
+    out = replaceAll(out, 'semaine de', 'semana de')
+    out = replaceAll(out, 'semaine des Cendres', 'semana de Ceniza')
+    out = replaceAll(out, 'semaine', 'semana')
+    out = replaceAll(out, 'dimanche', 'domingo')
+    out = replaceAll(out, 'octave de Pâques', 'Octava de Pascua')
+    out = replaceAll(out, 'octave de Noël', 'Octava de Navidad')
+    out = replaceAll(out, 'jour avant l’Épiphanie', 'día antes de la Epifanía')
+    out = replaceAll(out, "jour de l'octave de Noël", 'día de la Octava de Navidad')
+    out = replaceAll(out, 'jour de l’octave de Noël', 'día de la Octava de Navidad')
+  }
+
+  return out
+}
+
+function localizePsalterWeek(s: string, locale: Locale): string {
+  if (locale === 'fr' || !s) return s
+  // "Semaine III du Psautier" → "Week III of the Psalter" / "Semana III del Salterio"
+  if (locale === 'en') {
+    return s.replace(/^Semaine/, 'Week').replace(/du Psautier$/, 'of the Psalter')
+  }
+  return s.replace(/^Semaine/, 'Semana').replace(/du Psautier$/, 'del Salterio')
+}
+
+function localizeYear(s: string, locale: Locale): string {
+  if (locale === 'fr' || !s) return s
+  // "Année B" → "Year B" / "Año B"
+  if (locale === 'en') return s.replace(/^Année/, 'Year')
+  return s.replace(/^Année/, 'Año')
+}
+
+function localizeFeast(s: string, locale: Locale): string {
+  if (locale === 'fr' || !s) return s
+  let out = s
+  // 1. Replace rank suffixes (longest first to avoid partial matches).
+  for (const entry of RANK_SUFFIX_MAP) {
+    out = replaceAll(out, entry.fr, entry[locale])
+  }
+  // 2. Translate weekday + season fragments within feast names.
+  out = localizeString(out, locale)
+  return out
+}
+
+/**
+ * Returns a copy of `day` with localized strings for `liturgicalTime`,
+ * `dayName`, `feast`, `psalterWeek`, and `year`. The `date`, `color`, and
+ * `colorFilled` fields are preserved unchanged. Unknown strings fall back
+ * to the French original.
+ */
+export function localizeDayInfo(day: DayInfo, locale: Locale): DayInfo {
+  if (locale === 'fr') return day
+  return {
+    ...day,
+    liturgicalTime: localizeSeason(day.liturgicalTime, locale),
+    dayName: localizeString(day.dayName, locale),
+    feast: day.feast ? localizeFeast(day.feast, locale) : day.feast,
+    psalterWeek: localizePsalterWeek(day.psalterWeek, locale),
+    year: localizeYear(day.year, locale),
+  }
+}
+
+// Convenience for callers that want a fully-localized month calendar.
+export function getMonthCalendarLocalized(year: number, month: number, locale: Locale): DayInfo[] {
+  return getMonthCalendar(year, month).map((d) => localizeDayInfo(d, locale))
 }

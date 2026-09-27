@@ -1,7 +1,8 @@
 import type { BibleBook } from './types'
+import type { Locale } from '@/lib/store'
 
 // =============================================================================
-// Bible books — Catholic canon in French.
+// Bible books — Catholic canon in French (with EN/ES localized names).
 //
 // The 46 Old Testament books (including the deuterocanonical books: Tobie,
 // Judith, additions to Esther, 1-2 Maccabées, Sagesse, Ecclésiastique/Siracide,
@@ -11,7 +12,111 @@ import type { BibleBook } from './types'
 // `bollsBookId` follows the standard Bolls/AEB mapping (1 = Genesis … 66 =
 // Revelation). Deuterocanonical books not in the Bolls protocanon are left
 // without a `bollsBookId`.
+//
+// `bookNames` provides localized book titles keyed by `BibleBook.id`. For
+// psalms (id `psaume-N`), the EN/ES names are generated on the fly by
+// `getBookName` since there are 150 of them.
 // =============================================================================
+
+// Localized book name map: keyed by book id (NOT by bollsBookId, since some
+// deuterocanonical books share a bolls slot with another book).
+const bookNames: Record<string, { en: string; fr: string; es: string }> = {
+  // --- Old Testament ---
+  genesis: { en: 'Genesis', fr: 'Genèse', es: 'Génesis' },
+  exodus: { en: 'Exodus', fr: 'Exode', es: 'Éxodo' },
+  leviticus: { en: 'Leviticus', fr: 'Lévitique', es: 'Levítico' },
+  numbers: { en: 'Numbers', fr: 'Nombres', es: 'Números' },
+  deuteronomy: { en: 'Deuteronomy', fr: 'Deutéronome', es: 'Deuteronomio' },
+  joshua: { en: 'Joshua', fr: 'Josué', es: 'Josué' },
+  judges: { en: 'Judges', fr: 'Juges', es: 'Jueces' },
+  ruth: { en: 'Ruth', fr: 'Ruth', es: 'Rut' },
+  '1-samuel': { en: '1 Samuel', fr: '1 Samuel', es: '1 Samuel' },
+  '2-samuel': { en: '2 Samuel', fr: '2 Samuel', es: '2 Samuel' },
+  '1-rois': { en: '1 Kings', fr: '1 Rois', es: '1 Reyes' },
+  '2-rois': { en: '2 Kings', fr: '2 Rois', es: '2 Reyes' },
+  '1-chroniques': { en: '1 Chronicles', fr: '1 Chroniques', es: '1 Crónicas' },
+  '2-chroniques': { en: '2 Chronicles', fr: '2 Chroniques', es: '2 Crónicas' },
+  esdras: { en: 'Ezra', fr: 'Esdras', es: 'Esdras' },
+  nehemie: { en: 'Nehemiah', fr: 'Néhémie', es: 'Nehemías' },
+  tobie: { en: 'Tobit', fr: 'Tobie', es: 'Tobit' },
+  judith: { en: 'Judith', fr: 'Judith', es: 'Judit' },
+  esther: { en: 'Esther', fr: 'Esther', es: 'Ester' },
+  '1-maccabees': { en: '1 Maccabees', fr: '1 Maccabées', es: '1 Macabeos' },
+  '2-maccabees': { en: '2 Maccabees', fr: '2 Maccabées', es: '2 Macabeos' },
+  job: { en: 'Job', fr: 'Job', es: 'Job' },
+  psaumes: { en: 'Psalms', fr: 'Psaumes', es: 'Salmos' },
+  proverbes: { en: 'Proverbs', fr: 'Proverbes', es: 'Proverbios' },
+  qoheleth: { en: 'Ecclesiastes', fr: 'Qohéleth (Ecclésiaste)', es: 'Eclesiastés' },
+  cantique: { en: 'Song of Songs', fr: 'Cantique des cantiques', es: 'Cantar de los Cantares' },
+  sagesse: { en: 'Wisdom', fr: 'Sagesse', es: 'Sabiduría' },
+  ecclesiastique: { en: 'Sirach', fr: 'Ecclésiastique (Siracide)', es: 'Eclesiástico (Sirácida)' },
+  isaie: { en: 'Isaiah', fr: 'Isaïe', es: 'Isaías' },
+  jeremie: { en: 'Jeremiah', fr: 'Jérémie', es: 'Jeremías' },
+  lamentations: { en: 'Lamentations', fr: 'Lamentations', es: 'Lamentaciones' },
+  baruc: { en: 'Baruch', fr: 'Baruc', es: 'Baruc' },
+  ezekiel: { en: 'Ezekiel', fr: 'Ézéchiel', es: 'Ezequiel' },
+  daniel: { en: 'Daniel', fr: 'Daniel', es: 'Daniel' },
+  osee: { en: 'Hosea', fr: 'Osée', es: 'Oseas' },
+  joel: { en: 'Joel', fr: 'Joël', es: 'Joel' },
+  amos: { en: 'Amos', fr: 'Amos', es: 'Amós' },
+  abdias: { en: 'Obadiah', fr: 'Abdias', es: 'Abdías' },
+  jonas: { en: 'Jonah', fr: 'Jonas', es: 'Jonás' },
+  miche: { en: 'Micah', fr: 'Miche', es: 'Miqueas' },
+  nahum: { en: 'Nahum', fr: 'Nahum', es: 'Nahúm' },
+  habacuc: { en: 'Habakkuk', fr: 'Habacuc', es: 'Habacuc' },
+  sophonie: { en: 'Zephaniah', fr: 'Sophonie', es: 'Sofonías' },
+  aggee: { en: 'Haggai', fr: 'Aggée', es: 'Ageo' },
+  zacharie: { en: 'Zechariah', fr: 'Zacharie', es: 'Zacarías' },
+  malachie: { en: 'Malachi', fr: 'Malachie', es: 'Malaquías' },
+
+  // --- New Testament ---
+  matthieu: { en: 'Matthew', fr: 'Matthieu', es: 'Mateo' },
+  marc: { en: 'Mark', fr: 'Marc', es: 'Marcos' },
+  luc: { en: 'Luke', fr: 'Luc', es: 'Lucas' },
+  jean: { en: 'John', fr: 'Jean', es: 'Juan' },
+  actes: { en: 'Acts of the Apostles', fr: 'Actes des Apôtres', es: 'Hechos de los Apóstoles' },
+  romains: { en: 'Romans', fr: 'Romains', es: 'Romanos' },
+  '1-corinthiens': { en: '1 Corinthians', fr: '1 Corinthiens', es: '1 Corintios' },
+  '2-corinthiens': { en: '2 Corinthians', fr: '2 Corinthiens', es: '2 Corintios' },
+  galates: { en: 'Galatians', fr: 'Galates', es: 'Gálatas' },
+  ephesiens: { en: 'Ephesians', fr: 'Éphésiens', es: 'Efesios' },
+  philippiens: { en: 'Philippians', fr: 'Philippiens', es: 'Filipenses' },
+  colossiens: { en: 'Colossians', fr: 'Colossiens', es: 'Colosenses' },
+  '1-thessaloniciens': { en: '1 Thessalonians', fr: '1 Thessaloniciens', es: '1 Tesalonicenses' },
+  '2-thessaloniciens': { en: '2 Thessalonians', fr: '2 Thessaloniciens', es: '2 Tesalonicenses' },
+  '1-timothee': { en: '1 Timothy', fr: '1 Timothée', es: '1 Timoteo' },
+  '2-timothee': { en: '2 Timothy', fr: '2 Timothée', es: '2 Timoteo' },
+  tite: { en: 'Titus', fr: 'Tite', es: 'Tito' },
+  philemon: { en: 'Philemon', fr: 'Philémon', es: 'Filemón' },
+  hebreux: { en: 'Hebrews', fr: 'Hébreux', es: 'Hebreos' },
+  jacques: { en: 'James', fr: 'Jacques', es: 'Santiago' },
+  '1-pierre': { en: '1 Peter', fr: '1 Pierre', es: '1 Pedro' },
+  '2-pierre': { en: '2 Peter', fr: '2 Pierre', es: '2 Pedro' },
+  '1-jean': { en: '1 John', fr: '1 Jean', es: '1 Juan' },
+  '2-jean': { en: '2 John', fr: '2 Jean', es: '2 Juan' },
+  '3-jean': { en: '3 John', fr: '3 Jean', es: '3 Juan' },
+  jude: { en: 'Jude', fr: 'Jude', es: 'Judas' },
+  apocalypse: { en: 'Revelation', fr: 'Apocalypse', es: 'Apocalipsis' },
+}
+
+/**
+ * Returns the localized name of a Bible book given its id, falling back to
+ * the book's French `name` if no localization is found. Also handles the 150
+ * psalms (`psaume-N` ids) by formatting "Psaume / Psalm / Salmo N".
+ */
+export function getBookName(book: BibleBook, locale: Locale): string {
+  // Per-psalm entries: id `psaume-N`.
+  if (book.id.startsWith('psaume-')) {
+    const n = book.id.replace('psaume-', '')
+    if (locale === 'en') return `Psalm ${n}`
+    if (locale === 'es') return `Salmo ${n}`
+    return book.name // French "Psaume N"
+  }
+  const entry = bookNames[book.id]
+  if (entry) return entry[locale]
+  // Fallback to the French `name` field on the book entry.
+  return book.name
+}
 
 // ---------------------------------------------------------------------------
 // Old Testament (46 books, Catholic canon).

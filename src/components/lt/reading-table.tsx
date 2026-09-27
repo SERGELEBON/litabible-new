@@ -2,6 +2,7 @@
 
 import { cn } from '@/lib/utils'
 import type { Reading } from '@/data/types'
+import { useT, localizedReadingLabel } from '@/lib/i18n'
 
 interface ReadingTableProps {
   readings: Reading[]
@@ -15,10 +16,12 @@ interface ReadingTableProps {
  * Active row is highlighted red (white text); others white, hover light grey.
  */
 export function ReadingTable({ readings, activeIndex, onSelect, className }: ReadingTableProps) {
+  const { t } = useT()
   return (
     <div className={cn('w-full', className)}>
       {readings.map((r, i) => {
         const active = i === activeIndex
+        const label = localizedReadingLabel(r.type, t) || r.label
         return (
           <button
             key={`${r.type}-${i}`}
@@ -26,7 +29,7 @@ export function ReadingTable({ readings, activeIndex, onSelect, className }: Rea
             onClick={() => onSelect(i)}
             className={cn(
               'w-full text-left flex items-start gap-2 px-3 py-2.5 border-b border-[#e8e6e2] cursor-pointer transition-colors',
-              active ? 'bg-[#1a4fa0] text-white' : 'bg-white text-[#333] hover:bg-[#f0eeea]',
+              active ? 'bg-[#f5c400] text-[#1a4fa0]' : 'bg-white text-[#333] hover:bg-[#f0eeea]',
             )}
           >
             <span
@@ -35,7 +38,7 @@ export function ReadingTable({ readings, activeIndex, onSelect, className }: Rea
               )}
             >
               <span className={cn('block font-bold uppercase tracking-tight', active ? 'text-white' : 'text-[#333]')}>
-                {r.label}
+                {label}
               </span>
               {r.citation && (
                 <span className={cn('block truncate text-[12px] mt-0.5', active ? 'text-white/90' : 'text-[#6b6b6b]')}>
