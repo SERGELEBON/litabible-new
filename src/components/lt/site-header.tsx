@@ -42,8 +42,8 @@ function LanguageSwitcher() {
             className={cn(
               'px-2.5 py-1 text-[11px] font-bold tracking-wide transition-colors',
               active
-                ? 'bg-[#1a4fa0] text-white'
-                : 'bg-transparent text-[#1a4fa0] hover:bg-[#1a4fa0]/15',
+                ? 'bg-[#f5c400] text-[#1a4fa0]'
+                : 'bg-transparent text-white/80 hover:bg-white/15',
             )}
           >
             {l.label}
@@ -80,12 +80,12 @@ export function SiteHeader() {
   }
 
   return (
-    <header className="bg-[#f5c400] w-full">
+    <header className="bg-[#1a4fa0] w-full">
       <div className="flex items-center justify-between gap-4 px-4 sm:px-6 py-3 max-w-[1400px] mx-auto">
         {/* Logo + tagline */}
         <div className="flex items-center gap-3 min-w-0">
           <img src="/litabible-logo.svg" alt="LitaBible" className="h-9 sm:h-10 w-auto flex-shrink-0" />
-          <p className="hidden sm:block text-[11px] leading-tight text-[#1a4fa0] max-w-[230px] border-l border-[#1a4fa0]/30 pl-3">
+          <p className="hidden sm:block text-[11px] leading-tight text-white/80 max-w-[230px] border-l border-white/30 pl-3">
             {t('header.tagline')}
           </p>
         </div>
@@ -94,24 +94,24 @@ export function SiteHeader() {
         <div className="flex items-center gap-3">
           <LanguageSwitcher />
           <div className="hidden md:block text-right">
-            <p className="text-[13px] font-bold text-[#1a4fa0] leading-tight">
+            <p className="text-[13px] font-bold text-white leading-tight">
               {t('header.subscribe_line1')}
             </p>
-            <p className="text-[13px] font-bold text-[#1a4fa0] leading-tight">
+            <p className="text-[13px] font-bold text-white leading-tight">
               {t('header.subscribe_line2')}
             </p>
           </div>
           <BlackButton
             size="md"
             onClick={() => setOpen(true)}
-            className="hidden sm:inline-flex !bg-[#1a4fa0] !text-white hover:!bg-[#143d7a]"
+            className="hidden sm:inline-flex !bg-[#f5c400] !text-[#1a4fa0] hover:!bg-[#ffd000]"
           >
             {t('header.subscribe_btn')}
           </BlackButton>
           <BlackButton
             size="sm"
             onClick={() => setOpen(true)}
-            className="sm:hidden !bg-[#1a4fa0] !text-white hover:!bg-[#143d7a]"
+            className="sm:hidden !bg-[#f5c400] !text-[#1a4fa0] hover:!bg-[#ffd000]"
           >
             {t('header.subscribe_btn')}
           </BlackButton>
@@ -133,7 +133,7 @@ export function SiteHeader() {
               href={href}
               title={label}
               aria-label={label}
-              className="text-[#1a4fa0]/70 hover:text-[#143d7a] transition-colors p-1"
+              className="text-white/70 hover:text-[#f5c400] transition-colors p-1"
             >
               <Icon className="w-4 h-4" />
             </a>

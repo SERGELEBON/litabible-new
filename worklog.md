@@ -406,3 +406,22 @@ Work Log:
 
 Stage Summary:
 - LitaBible final: yellow header + blue accents + yellow brand surfaces with blue ink, WhatsApp float, YouTube/Facebook footer, trilingual EN(default)/FR/ES covering all 7 pages with live switching. Server persistently running — preview stays live.
+
+---
+Task ID: 12
+Agent: main
+Task: Revert header→blue + S'abonner→yellow, YouTube red, WhatsApp 4-option menu
+
+Work Log:
+- Header reverted to blue #1a4fa0 background with WHITE text; S'abonner button → yellow #f5c400 + blue text (as before). Language switcher active state → yellow pill on blue header. Social row icons → white/yellow-hover.
+- Footer: YouTube icon → brand RED #FF0000; Facebook icon → brand BLUE #1877F2; each with its own colored hover-tint background (inline style). User explicitly: "met le logo de youtube en rouge ce qui est normal".
+- WhatsApp button rewritten from direct-link to a 4-option menu popup: src/components/lt/whatsapp-button.tsx. Click toggles a card (above the FAB) with title + 4 numbered options + close (X). Closes on outside-click / Escape / option-click.
+  - Option 1 "Pasteur, j'ai une question" / "Pastor, I have a question" / "Pastor, tengo una pregunta" → WhatsApp community chat invite link https://chat.whatsapp.com/FqfCHONoSsP6JU9Bf1nUZ8?s=cl&p=a&mlu=4&ilr=4&iam=1 (opens new tab).
+  - Option 2 "J'ai véritablement un problème" / "I really have a problem" / "Tengo realmente un problema" → https://wa.me/0778254286 (direct chat with phone).
+  - Option 3 "Je veux de l'aide pour lire la Bible" / "I want help reading the Bible" / "Quiero ayuda para leer la Biblia" → community chat invite link (same as opt 1).
+  - Option 4 "Autre besoin" / "Other need" / "Otra necesidad" → https://wa.me/0778254286.
+  - Menu text localized (EN/FR/ES) via self-contained STR map reading the store locale.
+- Vision-verified: header blue ✓, S'abonner yellow w/ blue text ✓, footer YouTube red ✓ + Facebook blue ✓. Agent-Browser verified menu opens with 4 options in EN ("HOW CAN WE HELP YOU? / 1 Pastor… / 2 I really have a problem / 3 I want help reading the Bible / 4 Other need") and FR ("COMMENT POUVONS-NOUS VOUS AIDER ? / 1 Pasteur, j'ai une question / 2 J'ai véritablement un problème / 3 Je veux de l'aide pour lire la Bible / 4 Autre besoin"). Lint 0 errors; server persists (code 200).
+
+Stage Summary:
+- Header blue + S'abonner yellow (reverted); YouTube red + Facebook blue in footer; WhatsApp floating button now opens a localized 4-option routing menu (chat invite link for "Pasteur…" and "aide pour lire la Bible"; direct phone 0778254286 for "problème" and "Autre besoin"). All trilingual (EN/FR/ES). Server persistently running.
