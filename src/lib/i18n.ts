@@ -27,6 +27,8 @@ const en: Dict = {
   'nav.heures': 'The hours',
   'nav.bible': 'The Bible',
   'nav.apropos': 'About',
+  'nav.rdv': 'Sunday meeting',
+  'nav.lecture': 'Daily reading',
   'nav.videos': 'Videos & Podcasts',
   'nav.calendrier': 'Calendar',
   'nav.contact': 'Contact',
@@ -59,7 +61,25 @@ const en: Dict = {
   'footer.conditions': 'Terms',
   'footer.contact': 'Contact',
 
-  // --- mass page ---
+  // --- RDV du dimanche page ---
+  'rdv.title': 'SUNDAY MEETING',
+  'rdv.intro': 'Every Sunday, join the LitaBible community for a time of prayer, the Word and fellowship — live on Google Meet.',
+  'rdv.card_title': 'Join the Sunday meeting',
+  'rdv.card_desc': 'Come together around the Word of God. The meeting is held every Sunday. Click to join the video call.',
+  'rdv.join_btn': 'Join on Google Meet',
+  'rdv.meet_label': 'Google Meet link',
+  'rdv.time': 'Every Sunday',
+
+  // --- Lecture quotidienne (daily reading poster) page ---
+  'lec.title': 'DAILY READING',
+  'lec.intro': "The poster of today's reading — the mass texts of the day, gathered on a single sheet.",
+  'lec.download': 'Download poster',
+  'lec.print': 'Print',
+  'lec.no_reading': 'No reading available for this date.',
+  'lec.day': 'Day',
+  'lec.date_label': 'Date',
+  'lec.move_prev': '‹ Previous day',
+  'lec.move_next': 'Next day ›',
   'mass.title': 'READINGS OF THE MASS',
   'mass.lectures_bar': 'Readings of the mass',
   'mass.prev': '‹ yesterday',
@@ -289,6 +309,8 @@ const fr: Dict = {
   'nav.heures': 'Les heures',
   'nav.bible': 'La Bible',
   'nav.apropos': 'À PROPOS',
+  'nav.rdv': 'RDV du dimanche',
+  'nav.lecture': 'Lecture quotidienne',
   'nav.videos': 'Vidéos & Podcasts',
   'nav.calendrier': 'Calendrier',
   'nav.contact': 'Contact',
@@ -320,6 +342,26 @@ const fr: Dict = {
   'footer.mentions': 'Mentions légales',
   'footer.conditions': 'Conditions',
   'footer.contact': 'Contact',
+
+  // --- RDV du dimanche page ---
+  'rdv.title': 'RDV DU DIMANCHE',
+  'rdv.intro': "Chaque dimanche, rejoignez la communauté LitaBible pour un temps de prière, de la Parole et de partage — en direct sur Google Meet.",
+  'rdv.card_title': 'Rejoignez le RDV du dimanche',
+  'rdv.card_desc': "Retrouvons-nous autour de la Parole de Dieu. Le rendez-vous a lieu chaque dimanche. Cliquez pour rejoindre l’appel vidéo.",
+  'rdv.join_btn': 'Rejoindre sur Google Meet',
+  'rdv.meet_label': 'Lien Google Meet',
+  'rdv.time': 'Chaque dimanche',
+
+  // --- Lecture quotidienne page ---
+  'lec.title': 'LECTURE QUOTIDIENNE',
+  'lec.intro': "L’affiche de la lecture du jour — les textes de la messe du jour, réunis sur une seule feuille.",
+  'lec.download': "Télécharger l’affiche",
+  'lec.print': 'Imprimer',
+  'lec.no_reading': 'Aucune lecture pour cette date.',
+  'lec.day': 'Jour',
+  'lec.date_label': 'Date',
+  'lec.move_prev': '‹ Jour précédent',
+  'lec.move_next': 'Jour suivant ›',
 
   'mass.title': 'LECTURES DE LA MESSE',
   'mass.lectures_bar': 'Lectures de la messe',
@@ -540,6 +582,8 @@ const es: Dict = {
   'nav.heures': 'Las horas',
   'nav.bible': 'La Biblia',
   'nav.apropos': 'ACERCA DE',
+  'nav.rdv': 'Encuentro del domingo',
+  'nav.lecture': 'Lectura diaria',
   'nav.videos': 'Videos y Podcasts',
   'nav.calendrier': 'Calendario',
   'nav.contact': 'Contacto',
@@ -571,6 +615,26 @@ const es: Dict = {
   'footer.mentions': 'Aviso legal',
   'footer.conditions': 'Condiciones',
   'footer.contact': 'Contacto',
+
+  // --- Encuentro del domingo page ---
+  'rdv.title': 'ENCUENTRO DEL DOMINGO',
+  'rdv.intro': 'Cada domingo, únete a la comunidad LitaBible para un tiempo de oración, la Palabra y comunión — en directo en Google Meet.',
+  'rdv.card_title': 'Únete al encuentro del domingo',
+  'rdv.card_desc': 'Reunámonos en torno a la Palabra de Dios. El encuentro se realiza cada domingo. Haz clic para unirte a la videollamada.',
+  'rdv.join_btn': 'Unirse en Google Meet',
+  'rdv.meet_label': 'Enlace de Google Meet',
+  'rdv.time': 'Cada domingo',
+
+  // --- Lectura diaria page ---
+  'lec.title': 'LECTURA DIARIA',
+  'lec.intro': 'El póster de la lectura de hoy — los textos de la misa del día, reunidos en una sola hoja.',
+  'lec.download': 'Descargar el póster',
+  'lec.print': 'Imprimir',
+  'lec.no_reading': 'Sin lectura para esta fecha.',
+  'lec.day': 'Día',
+  'lec.date_label': 'Fecha',
+  'lec.move_prev': '‹ Día anterior',
+  'lec.move_next': 'Día siguiente ›',
 
   'mass.title': 'LECTURAS DE LA MISA',
   'mass.lectures_bar': 'Lecturas de la misa',

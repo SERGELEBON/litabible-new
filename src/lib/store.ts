@@ -5,6 +5,8 @@ export type LitabiblePage =
   | 'heures'
   | 'bible'
   | 'apropos'
+  | 'rdv-dimanche'
+  | 'lecture-quotidienne'
   | 'videos'
   | 'calendrier'
   | 'contact'

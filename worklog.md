@@ -425,3 +425,22 @@ Work Log:
 
 Stage Summary:
 - Header blue + S'abonner yellow (reverted); YouTube red + Facebook blue in footer; WhatsApp floating button now opens a localized 4-option routing menu (chat invite link for "Pasteur…" and "aide pour lire la Bible"; direct phone 0778254286 for "problème" and "Autre besoin"). All trilingual (EN/FR/ES). Server persistently running.
+
+---
+Task ID: 13
+Agent: main
+Task: Add RDV du dimanche + Lecture quotidienne tabs (between À PROPOS and Vidéos)
+
+Work Log:
+- Store (src/lib/store.ts): added 'rdv-dimanche' + 'lecture-quotidienne' to LitabiblePage type, positioned between 'apropos' and 'videos'.
+- main-nav.tsx: NAV_ITEMS now 9 entries — …apropos, rdv-dimanche (key nav.rdv), lecture-quotidienne (key nav.lecture), videos… in that order.
+- i18n.ts: added nav.rdv + nav.lecture keys (EN "Sunday meeting"/"Daily reading", FR "RDV du dimanche"/"Lecture quotidienne", ES "Encuentro del domingo"/"Lectura diaria") + full rdv.* and lec.* page-content keys (title, intro, card_title/desc, join_btn, meet_label, time; title, intro, download, print, no_reading, day, date_label, move_prev/next) for all 3 locales.
+- New pages:
+  - src/components/lt/pages/rdv-dimanche-page.tsx: centered card with the Sunday-meeting image (/public/rdv-dimanche.png — generated via image-gen since the user's joined file didn't transfer to /upload/), blue+yellow corner badges, description, "Lien Google Meet" label + the exact URL https://meet.google.com/ftb-jjbq-udk, and a yellow "Rejoindre sur Google Meet" button. The whole card is an <a> linking to the Meet URL (the link lives "behind" the card as requested).
+  - src/components/lt/pages/lecture-quotidienne-page.tsx: a printable single-sheet "affiche" of the day's mass readings — blue header band (LitaBible + date + liturgical time), day-info band (liturgical badge + dayName + psalterWeek/year + feast), body with all readings (première lecture / psaume with refrain+strophes / évangile / alléluia) using localizedReadingLabel + localizedConclusion, yellow footer band, Print (window.print) + Download buttons, ‹ Jour précédent / Jour suivant › navigation. Uses getMassData(selectedDate) + getDayInfo.
+- page.tsx: added imports + switch cases for 'rdv-dimanche' → RdvDimanchePage and 'lecture-quotidienne' → LectureQuotidiennePage.
+- Agent-Browser verified (FR locale): nav order = LA MESSE · LES HEURES · LA BIBLE · À PROPOS · RDV DU DIMANCHE · LECTURE QUOTIDIENNE · VIDÉOS & PODCASTS · CALENDRIER · CONTACT ✓. RDV page: H1 "RDV DU DIMANCHE", card with "Rejoignez le RDV du dimanche", "LIEN GOOGLE MEET: HTTPS://MEET.GOOGLE.COM/FTB-JJBQ-UDK", "REJOINDRE SUR GOOGLE MEET" — href exactly https://meet.google.com/ftb-jjbq-udk ✓. Lecture quotidienne: H1 "LECTURE QUOTIDIENNE", IMPRIMER + TÉLÉCHARGER L'AFFICHE buttons, ‹ JOUR PRÉCÉDENT / JOUR SUIVANT ›, poster with blue header + readings (PREMIÈRE LECTURE/PSAUME/ÉVANGILE) + yellow footer ✓. Vision-confirmed poster layout. Lint 0 errors; server persists (PID 10300, code 200).
+- NOTE: user's joined file (pasted_image_1790529384583.png) did NOT transfer to /home/z/my-project/upload/ (empty). Generated a Sunday-worship image at /public/rdv-dimanche.png as the card visual; user can replace it by uploading their image to that path.
+
+Stage Summary:
+- LitaBible now has 9 nav tabs; the two new ones (RDV du dimanche, Lecture quotidienne) sit between À PROPOS and VIDÉOS & PODCASTS exactly as requested. RDV card links to https://meet.google.com/ftb-jjbq-udk; Lecture quotidienne shows a printable daily-reading poster. Trilingual EN/FR/ES. Server persistently running.

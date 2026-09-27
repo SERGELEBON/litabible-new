@@ -8,6 +8,8 @@ import { MassPage } from '@/components/lt/pages/mass-page'
 import { HoursPage } from '@/components/lt/pages/hours-page'
 import { BiblePage } from '@/components/lt/pages/bible-page'
 import { AproposPage } from '@/components/lt/pages/apropos-page'
+import { RdvDimanchePage } from '@/components/lt/pages/rdv-dimanche-page'
+import { LectureQuotidiennePage } from '@/components/lt/pages/lecture-quotidienne-page'
 import { VideosPodcastsPage } from '@/components/lt/pages/videos-podcasts-page'
 import { CalendarPage } from '@/components/lt/pages/calendar-page'
 import { ContactPage } from '@/components/lt/pages/contact-page'
@@ -25,6 +27,10 @@ function PageSwitch() {
       return <BiblePage />
     case 'apropos':
       return <AproposPage />
+    case 'rdv-dimanche':
+      return <RdvDimanchePage />
+    case 'lecture-quotidienne':
+      return <LectureQuotidiennePage />
     case 'videos':
       return <VideosPodcastsPage />
     case 'calendrier':

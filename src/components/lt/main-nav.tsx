@@ -17,6 +17,8 @@ const NAV_ITEMS: NavItem[] = [
   { id: 'heures', key: 'nav.heures' },
   { id: 'bible', key: 'nav.bible' },
   { id: 'apropos', key: 'nav.apropos' },
+  { id: 'rdv-dimanche', key: 'nav.rdv' },
+  { id: 'lecture-quotidienne', key: 'nav.lecture' },
   { id: 'videos', key: 'nav.videos' },
   { id: 'calendrier', key: 'nav.calendrier' },
   { id: 'contact', key: 'nav.contact' },
