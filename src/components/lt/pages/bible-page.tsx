@@ -38,7 +38,7 @@ import {
 import { Skeleton } from '@/components/ui/skeleton'
 import { AlertCircle, ChevronLeft, ChevronRight } from 'lucide-react'
 
-const DEFAULT_VERSION_ID = 'LSG'
+const DEFAULT_VERSION_ID = 'BSB'
 
 const TABS: { id: 'at' | 'nt' | 'psaumes'; labelKey: string }[] = [
   { id: 'at', labelKey: 'bible.at' },
@@ -266,7 +266,7 @@ export function BiblePage() {
           items: versions.filter((v) => v.language === lang),
         }))
         .filter((g) => g.items.length > 0)
-    : [{ lang: 'fr' as const, items: [{ id: DEFAULT_VERSION_ID, name: 'Louis Segond 1910', language: 'fr' as const, bollsCode: 'LSG' }] }]
+    : [{ lang: 'en' as const, items: [{ id: DEFAULT_VERSION_ID, name: 'Berean Standard Bible', language: 'en' as const, apiBibleId: 'bba9f40183526463-01' }] }]
 
   const currentBook = dialogBook
   const currentChapter = dialogChapter

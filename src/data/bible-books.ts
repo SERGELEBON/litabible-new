@@ -20,7 +20,7 @@ import type { Locale } from '@/lib/store'
 
 // Localized book name map: keyed by book id (NOT by bollsBookId, since some
 // deuterocanonical books share a bolls slot with another book).
-const bookNames: Record<string, { en: string; fr: string; es: string }> = {
+export const bookNames: Record<string, { en: string; fr: string; es: string }> = {
   // --- Old Testament ---
   genesis: { en: 'Genesis', fr: 'Genèse', es: 'Génesis' },
   exodus: { en: 'Exodus', fr: 'Exode', es: 'Éxodo' },

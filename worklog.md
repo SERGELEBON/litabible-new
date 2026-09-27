@@ -444,3 +444,26 @@ Work Log:
 
 Stage Summary:
 - LitaBible now has 9 nav tabs; the two new ones (RDV du dimanche, Lecture quotidienne) sit between À PROPOS and VIDÉOS & PODCASTS exactly as requested. RDV card links to https://meet.google.com/ftb-jjbq-udk; Lecture quotidienne shows a printable daily-reading poster. Trilingual EN/FR/ES. Server persistently running.
+
+---
+Task ID: 14
+Agent: main
+Task: Integrate api.bible (rest.api.bible) with the project key — EN/FR/ES versions
+
+Work Log:
+- Verified the api.bible endpoint + key: `https://rest.api.bible/v1/bibles` with header `api-key: phTaCXXUQwJS07WqoxL9f` returns the version catalogue (key valid).
+- Fetched the EN/FR/ES Bible lists: English has BSB, KJV, WEB, ASV, NASB, NKJV, NIV (+ others); French has JND (Darby); Spanish has RVR09 (Reina Valera 1909). Verified chapter fetching (`/v1/bibles/{id}/chapters/{CODE}.{n}?content-type=text`) returns real verse text with `[n]` markers for all three languages.
+- Rewrote src/lib/bible-api.ts:
+  - api.bible is now the PRIMARY source (was bolls.life). The API key is embedded server-side only (`process.env.BIBLE_API_KEY || 'phTaCXXUQwJS07WqoxL9f'`) — safe because the client Bible page uses `import type {…}` (erased at build, so bible-api.ts never reaches the browser). Added BIBLE_API_KEY to .env too.
+  - `bibleVersions` curated list = BSB/KJV/WEB/ASV/NASB/NKJV/NIV (en), JND (fr), RVR09 (es) — each with `apiBibleId`, plus bollsCode/bibleApiCode as fallbacks.
+  - Added `bookIdToAbl()` (1..66 → ABL/USFM codes GEN..REV), `parseApiBibleText()` (splits the `[n] text` content into structured verses, dropping section titles).
+  - `getChapter()`: api.bible → bolls.life → bible-api.com → (route adds local-fallback). `searchBible()`: api.bible (`?query=` param, parses `data.verses[].{reference,text}`) → bolls.life.
+  - Book resolver (`resolveBookId`): now accent-insensitive (strips diacritics via NFD) + augments the alias map with the full localized EN/FR/ES book names from `@/data/bible-books` (exported `bookNames`). Spanish "Génesis"/"Éxodo"/etc. now resolve correctly.
+- Fixed the Bible page default version: `DEFAULT_VERSION_ID` LSG → BSB (since the site default locale is English); updated the fallback version object to the BSB apiBibleId.
+- Lint clean (0 errors). Server persists (PID 10300, code 200).
+- Verified end-to-end:
+  - Routes: /api/bible/versions → 9 versions (BSB/KJV/WEB/ASV/NASB/NKJV/NIV/JND/RVR09). /api/bible/chapter: BSB Gen 1 (31 v., "In the beginning God created…"), JND Genèse 1 (31 v., "Au commencement Dieu créa…"), RVR09 Génesis 1 (31 v., "EN el principio crió Dios…"), KJV John 3 (36 v.) — all source="api.bible". /api/bible/search: "God created"→27 hits (KJV), "amour"→30 hits (JND, "Proverbes 5:19", "Jean 15:10"), "Dios"→30 hits (RVR09, "Génesis 18:7", "Salmos 7:11").
+  - UI (Agent Browser): Bible page version selector shows "Berean Standard Bible" default + the 9 versions; clicking Genesis → chapter 1 dialog → real BSB text "Then God said, Let the earth bring forth vegetation…" rendered live from api.bible.
+
+Stage Summary:
+- api.bible fully integrated as the smart primary Bible source: 9 versions across EN (7) / FR (1, Darby) / ES (1, Reina Valera 1909). Chapters + search work live for all three languages. Key kept server-side (type-only client import). Fallbacks (bolls/bible-api.com/local Louis Segond) preserved for resilience. Lint clean; server persistently running.
