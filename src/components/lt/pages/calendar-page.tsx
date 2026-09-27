@@ -137,7 +137,7 @@ export function CalendarPage() {
                     />
                     <div className="min-w-0">
                       <p className="text-[15px] font-bold text-[#333333]">
-                        <span className="text-[#0e7c66]">{wd}</span>{' '}
+                        <span className="text-[#1a4fa0]">{wd}</span>{' '}
                         <span className="text-[#333333]">{dateLabel}</span>
                       </p>
                       <p className="text-[14px] leading-[1.5] text-[#333333] mt-0.5">
@@ -155,14 +155,14 @@ export function CalendarPage() {
                     <button
                       type="button"
                       onClick={() => openDay(day.date, 'messe')}
-                      className="text-[13px] text-[#0e7c66] hover:underline uppercase font-semibold whitespace-nowrap"
+                      className="text-[13px] text-[#1a4fa0] hover:underline uppercase font-semibold whitespace-nowrap"
                     >
                       La messe
                     </button>
                     <button
                       type="button"
                       onClick={() => openDay(day.date, 'heures')}
-                      className="text-[13px] text-[#0e7c66] hover:underline uppercase font-semibold whitespace-nowrap"
+                      className="text-[13px] text-[#1a4fa0] hover:underline uppercase font-semibold whitespace-nowrap"
                     >
                       Les heures
                     </button>

@@ -26,7 +26,7 @@ export function ReadingTable({ readings, activeIndex, onSelect, className }: Rea
             onClick={() => onSelect(i)}
             className={cn(
               'w-full text-left flex items-start gap-2 px-3 py-2.5 border-b border-[#e8e6e2] cursor-pointer transition-colors',
-              active ? 'bg-[#0e7c66] text-white' : 'bg-white text-[#333] hover:bg-[#f0eeea]',
+              active ? 'bg-[#1a4fa0] text-white' : 'bg-white text-[#333] hover:bg-[#f0eeea]',
             )}
           >
             <span

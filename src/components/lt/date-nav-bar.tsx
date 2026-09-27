@@ -84,14 +84,14 @@ export function MassDateControls({ onPrev, onNext }: { onPrev: () => void; onNex
     <div className="flex flex-wrap items-center gap-2">
       <button
         type="button"
-        className="inline-flex items-center bg-[#f0eeea] hover:bg-[#0e7c66] hover:text-white text-[#333] text-[11px] font-semibold uppercase px-3 py-1.5 border border-[#ccc] rounded-full transition-colors"
+        className="inline-flex items-center bg-[#f0eeea] hover:bg-[#1a4fa0] hover:text-white text-[#333] text-[11px] font-semibold uppercase px-3 py-1.5 border border-[#ccc] rounded-full transition-colors"
         onClick={() => onNext()}
       >
         Dimanche prochain
       </button>
       <button
         type="button"
-        className="text-[12px] text-[#0e7c66] hover:underline uppercase font-semibold"
+        className="text-[12px] text-[#1a4fa0] hover:underline uppercase font-semibold"
       >
         Autres dates
       </button>
@@ -99,7 +99,7 @@ export function MassDateControls({ onPrev, onNext }: { onPrev: () => void; onNex
       <button
         type="button"
         onClick={() => setPage('apropos')}
-        className="text-[12px] text-[#0e7c66] hover:underline"
+        className="text-[12px] text-[#1a4fa0] hover:underline"
       >
         Note sur les calendriers
       </button>

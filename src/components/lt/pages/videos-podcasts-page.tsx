@@ -61,7 +61,7 @@ export function VideosPodcastsPage() {
                     className="border-t border-[#e2e0dc] pt-5 first:border-t-0 first:pt-0"
                   >
                     <div className="flex items-baseline gap-3 mb-2">
-                      <span className="text-[13px] font-bold text-[#0e7c66] uppercase tracking-wide flex-shrink-0">
+                      <span className="text-[13px] font-bold text-[#1a4fa0] uppercase tracking-wide flex-shrink-0">
                         {v.number}
                       </span>
                       <h2 className="text-[16px] font-semibold text-[#333333]">
@@ -107,7 +107,7 @@ export function VideosPodcastsPage() {
                     className="flex flex-col sm:flex-row sm:items-center gap-4 border border-[#e2e0dc] p-4"
                   >
                     <div className="flex items-center gap-3 flex-1 min-w-0">
-                      <span className="text-[13px] font-bold text-[#0e7c66] uppercase tracking-wide flex-shrink-0">
+                      <span className="text-[13px] font-bold text-[#1a4fa0] uppercase tracking-wide flex-shrink-0">
                         {p.number}
                       </span>
                       <div className="min-w-0">

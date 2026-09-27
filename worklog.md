@@ -320,3 +320,20 @@ Work Log:
 Stage Summary:
 - LitaBible rebrand COMPLETE: teal-emerald brand, heart+book logo, "À PROPOS" nav, no AELF references (grep 0). Vision-verified screenshot confirms teal dominant color, no red, no AELF text, heart+book logo, teal chevron active tab, teal ribbon.
 - Dev server now persists across tool calls via setsid -f — preview stays live.
+
+---
+Task ID: 9
+Agent: main
+Task: Rebrand to blue + yellow palette + blue header (per user's affiche)
+
+Work Log:
+- User specified: blue (bleu) + yellow (jaune) palette from an attached affiche; header background blue; all "green" brand parts → blue; use THEIR logo (file didn't transfer — see note).
+- sed bulk-replace: brand teal #0e7c66 → blue #1a4fa0, hover #0a5e4d → #143d7a (across src + public SVGs); gold accent #c9a444 → yellow #f5c400 (src only; liturgical-badge gold preserved).
+- Header (site-header.tsx): background white → blue #1a4fa0; tagline/subscribe text → white; S'abonner buttons → yellow #f5c400 with blue text; social icons → white/yellow-hover.
+- Logo (litabible-logo.svg): white heart + yellow book + "LitaBible" wordmark (white "Lita" + yellow "Bible") — designed for visibility on the blue header. Favicon: blue square + yellow heart.
+- Vision-verified: header blue ✓, S'abonner yellow ✓, brand blue (not red/green) ✓, active nav tab blue+chevron ✓, left ribbon blue ✓, logo white heart + yellow book + LitaBible ✓.
+- Server persistence confirmed: PID 10300 (setsid -f) still alive across calls; localhost:3000 and gateway :81 both 200.
+- NOTE: user's uploaded logo file (pasted_image_1790524111255.png) and affiche (pasted_image_1790524166979.png) did NOT transfer to /home/z/my-project/upload/ (folder empty, no recent images on FS). Used a recolored placeholder logo pending re-send.
+
+Stage Summary:
+- LitaBible now blue + yellow: blue header, blue brand (nav/ribbon/badges/scrollbar), yellow accents (buttons/logo book). Liturgical color badges preserved. Server persistently running.

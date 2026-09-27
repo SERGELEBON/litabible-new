@@ -43,12 +43,12 @@
   --radius-xl: calc(var(--radius) + 4px);
 
   /* LitaBible brand tokens (teal-emerald + warm gold) */
-  --color-lt-brand: #0e7c66;       /* primary teal-emerald */
-  --color-lt-brand-dark: #0a5e4d;  /* hover/active darker */
+  --color-lt-brand: #1a4fa0;       /* primary teal-emerald */
+  --color-lt-brand-dark: #143d7a;  /* hover/active darker */
   --color-lt-black: #000000;
   --color-lt-inactive: #e2ded5;    /* warm light grey for inactive tabs */
   --color-lt-body: #2d2d2d;
-  --color-lt-gold: #c9a444;        /* accent gold */
+  --color-lt-gold: #f5c400;        /* accent gold */
   --color-lt-green: #1e883f;       /* liturgical green (kept) */
   --color-lt-violet: #7d4c9c;     /* liturgical violet (kept) */
   --color-lt-white: #f5f1e8;
@@ -63,7 +63,7 @@
   --card-foreground: #2d2d2d;
   --popover: #ffffff;
   --popover-foreground: #2d2d2d;
-  --primary: #0e7c66;            /* teal-emerald brand */
+  --primary: #1a4fa0;            /* teal-emerald brand */
   --primary-foreground: #ffffff;
   --secondary: #e2ded5;
   --secondary-foreground: #2d2d2d;
@@ -71,23 +71,23 @@
   --muted-foreground: #6b6b6b;
   --accent: #f4f1ea;
   --accent-foreground: #2d2d2d;
-  --destructive: #0e7c66;
+  --destructive: #1a4fa0;
   --border: #e2e0dc;
   --input: #e2e0dc;
-  --ring: #0e7c66;
-  --chart-1: #0e7c66;
+  --ring: #1a4fa0;
+  --chart-1: #1a4fa0;
   --chart-2: #1e883f;
-  --chart-3: #c9a444;
+  --chart-3: #f5c400;
   --chart-4: #7d4c9c;
   --chart-5: #d989a4;
   --sidebar: #ffffff;
   --sidebar-foreground: #2d2d2d;
-  --sidebar-primary: #0e7c66;
+  --sidebar-primary: #1a4fa0;
   --sidebar-primary-foreground: #ffffff;
   --sidebar-accent: #f4f1ea;
   --sidebar-accent-foreground: #2d2d2d;
   --sidebar-border: #e2e0dc;
-  --sidebar-ring: #0e7c66;
+  --sidebar-ring: #1a4fa0;
 }
 
 @layer base {
@@ -136,7 +136,7 @@
   .lt-ribbon {
     position: relative;
     width: 8px;
-    background: #0e7c66;
+    background: #1a4fa0;
   }
   .lt-ribbon::after {
     content: '';
@@ -145,7 +145,7 @@
     left: 0;
     width: 8px;
     height: 14px;
-    background: #0e7c66;
+    background: #1a4fa0;
     clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 60%, 0 100%);
   }
 
@@ -165,7 +165,7 @@
 
   /* Brand compact badge (teal) */
   .lt-badge {
-    background: #0e7c66;
+    background: #1a4fa0;
     color: #ffffff;
     border-radius: 0;
     font-size: 10px;
@@ -194,7 +194,7 @@
   /* Custom scrollbar for inner panels */
   .lt-scroll {
     scrollbar-width: thin;
-    scrollbar-color: #0e7c66 #f4f1ea;
+    scrollbar-color: #1a4fa0 #f4f1ea;
   }
   .lt-scroll::-webkit-scrollbar {
     width: 8px;
@@ -204,10 +204,10 @@
     background: #f4f1ea;
   }
   .lt-scroll::-webkit-scrollbar-thumb {
-    background: #0e7c66;
+    background: #1a4fa0;
     border-radius: 0;
   }
   .lt-scroll::-webkit-scrollbar-thumb:hover {
-    background: #0a5e4d;
+    background: #143d7a;
   }
 }

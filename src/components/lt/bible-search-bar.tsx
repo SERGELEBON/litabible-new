@@ -42,12 +42,12 @@ export function BibleSearchBar({
         onChange={(e) => setValue(e.target.value)}
         placeholder={placeholder}
         aria-label="Recherche dans la Bible"
-        className="flex-1 rounded-none border border-[#ccc] bg-white text-[14px] h-[42px] focus-visible:ring-[#0e7c66]"
+        className="flex-1 rounded-none border border-[#ccc] bg-white text-[14px] h-[42px] focus-visible:ring-[#1a4fa0]"
       />
       <button
         type="submit"
         aria-label="Rechercher"
-        className="bg-[#0e7c66] hover:bg-[#0a5e4d] text-white flex items-center justify-center w-[42px] h-[42px] flex-shrink-0 transition-colors"
+        className="bg-[#1a4fa0] hover:bg-[#143d7a] text-white flex items-center justify-center w-[42px] h-[42px] flex-shrink-0 transition-colors"
       >
         <Search className="w-5 h-5" />
       </button>

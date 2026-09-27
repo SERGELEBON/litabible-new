@@ -65,7 +65,7 @@ function ReadingBlock({ reading: r }: { reading: Reading }) {
     return (
       <div className="border border-[#e2e0dc] bg-[#f8f7f4] p-5 text-center">
         {r.label && (
-          <p className="text-[10px] font-bold uppercase text-[#0e7c66] mb-2">{r.label}</p>
+          <p className="text-[10px] font-bold uppercase text-[#1a4fa0] mb-2">{r.label}</p>
         )}
         {r.content?.map((p, idx) => (
           <p key={idx} className="text-[16px] font-semibold text-[#333] italic">
@@ -80,7 +80,7 @@ function ReadingBlock({ reading: r }: { reading: Reading }) {
   if (r.type === 'psaume') {
     return (
       <article className="lt-reading-text">
-        <h4 className="text-[17px] font-bold uppercase text-[#0e7c66] mb-1">{r.label}</h4>
+        <h4 className="text-[17px] font-bold uppercase text-[#1a4fa0] mb-1">{r.label}</h4>
         {r.reference && (
           <h5 className="text-[14px] font-bold text-[#333] mb-3">{r.reference}</h5>
         )}
@@ -89,7 +89,7 @@ function ReadingBlock({ reading: r }: { reading: Reading }) {
         )}
         {r.strophes?.map((s, idx) => (
           <p key={idx} className="mb-2 text-[16px] text-[#333]">
-            {s.number && <span className="font-bold mr-2 text-[#0e7c66]">{s.number}</span>}
+            {s.number && <span className="font-bold mr-2 text-[#1a4fa0]">{s.number}</span>}
             {s.text}
           </p>
         ))}
@@ -105,7 +105,7 @@ function ReadingBlock({ reading: r }: { reading: Reading }) {
   if (r.type === 'hymne') {
     return (
       <article className="lt-reading-text">
-        <h4 className="text-[17px] font-bold uppercase text-[#0e7c66] mb-1">{r.label}</h4>
+        <h4 className="text-[17px] font-bold uppercase text-[#1a4fa0] mb-1">{r.label}</h4>
         {r.reference && (
           <h5 className="text-[14px] font-bold text-[#333] mb-3">{r.reference}</h5>
         )}
@@ -120,7 +120,7 @@ function ReadingBlock({ reading: r }: { reading: Reading }) {
   // Standard reading / gospel / patristic
   return (
     <article className="lt-reading-text">
-      <h4 className="text-[17px] font-bold uppercase text-[#0e7c66] mb-1">{r.label}</h4>
+      <h4 className="text-[17px] font-bold uppercase text-[#1a4fa0] mb-1">{r.label}</h4>
       {r.citation && (
         <h5 className="text-[14px] font-bold text-[#333] mb-2">{r.citation}</h5>
       )}

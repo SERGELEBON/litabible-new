@@ -15,11 +15,11 @@ export function SiteFooter() {
             © {new Date().getFullYear()} LitaBible — La Bible et les lectures du jour au quotidien. Tous droits réservés.
           </p>
           <nav className="flex items-center gap-3 text-[11px] text-[#6b6b6b]">
-            <button type="button" onClick={() => setPage('apropos')} className="hover:text-[#0e7c66] uppercase">Mentions légales</button>
+            <button type="button" onClick={() => setPage('apropos')} className="hover:text-[#1a4fa0] uppercase">Mentions légales</button>
             <span aria-hidden>·</span>
-            <button type="button" onClick={() => setPage('apropos')} className="hover:text-[#0e7c66] uppercase">Conditions</button>
+            <button type="button" onClick={() => setPage('apropos')} className="hover:text-[#1a4fa0] uppercase">Conditions</button>
             <span aria-hidden>·</span>
-            <button type="button" onClick={() => setPage('contact')} className="hover:text-[#0e7c66] uppercase">Contact</button>
+            <button type="button" onClick={() => setPage('contact')} className="hover:text-[#1a4fa0] uppercase">Contact</button>
           </nav>
         </div>
       </div>

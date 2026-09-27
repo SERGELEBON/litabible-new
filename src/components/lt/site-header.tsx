@@ -33,12 +33,12 @@ export function SiteHeader() {
   }
 
   return (
-    <header className="bg-white border-b border-[#e2e0dc] w-full">
+    <header className="bg-[#1a4fa0] w-full">
       <div className="flex items-center justify-between gap-4 px-4 sm:px-6 py-3 max-w-[1400px] mx-auto">
         {/* Logo + tagline */}
         <div className="flex items-center gap-3 min-w-0">
           <img src="/litabible-logo.svg" alt="LitaBible" className="h-9 sm:h-10 w-auto flex-shrink-0" />
-          <p className="hidden sm:block text-[11px] leading-tight text-[#6b6b6b] max-w-[230px] border-l border-[#e2e0dc] pl-3">
+          <p className="hidden sm:block text-[11px] leading-tight text-white/80 max-w-[230px] border-l border-white/30 pl-3">
             La Bible et les lectures du jour au quotidien
           </p>
         </div>
@@ -46,15 +46,15 @@ export function SiteHeader() {
         {/* Subscribe block */}
         <div className="flex items-center gap-3">
           <div className="hidden md:block text-right">
-            <p className="text-[13px] font-bold text-black leading-tight">
+            <p className="text-[13px] font-bold text-white leading-tight">
               Recevez gratuitement les lectures
             </p>
-            <p className="text-[13px] font-bold text-black leading-tight">du jour par courriel</p>
+            <p className="text-[13px] font-bold text-white leading-tight">du jour par courriel</p>
           </div>
-          <BlackButton size="md" onClick={() => setOpen(true)} className="hidden sm:inline-flex">
+          <BlackButton size="md" onClick={() => setOpen(true)} className="hidden sm:inline-flex !bg-[#f5c400] !text-[#1a4fa0] hover:!bg-[#ffd000]">
             S&apos;abonner
           </BlackButton>
-          <BlackButton size="sm" onClick={() => setOpen(true)} className="sm:hidden">
+          <BlackButton size="sm" onClick={() => setOpen(true)} className="sm:hidden !bg-[#f5c400] !text-[#1a4fa0] hover:!bg-[#ffd000]">
             S&apos;abonner
           </BlackButton>
         </div>
@@ -73,7 +73,7 @@ export function SiteHeader() {
             href={href}
             title={label}
             aria-label={label}
-            className="text-[#9a9a9a] hover:text-[#0e7c66] transition-colors p-1"
+            className="text-white/70 hover:text-[#f5c400] transition-colors p-1"
           >
             <Icon className="w-4 h-4" />
           </a>
@@ -84,7 +84,7 @@ export function SiteHeader() {
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className="max-w-md">
           <DialogHeader>
-            <DialogTitle className="uppercase text-[15px] font-semibold text-[#0e7c66]">
+            <DialogTitle className="uppercase text-[15px] font-semibold text-[#1a4fa0]">
               Recevoir les lectures du jour
             </DialogTitle>
             <DialogDescription className="text-[#333333]">
@@ -112,7 +112,7 @@ export function SiteHeader() {
               <BlackButton variant="solid" size="md" type="submit">S&apos;abonner</BlackButton>
             </div>
           </form>
-          <DialogClose className="absolute top-3 right-3 text-[#6b6b6b] hover:text-[#0e7c66]">
+          <DialogClose className="absolute top-3 right-3 text-[#6b6b6b] hover:text-[#1a4fa0]">
             <X className="w-4 h-4" />
           </DialogClose>
         </DialogContent>

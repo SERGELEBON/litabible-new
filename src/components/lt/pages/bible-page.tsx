@@ -425,7 +425,7 @@ export function BiblePage() {
                   // Error block with retry
                   <div className="flex-1 flex items-center justify-center p-5">
                     <div className="text-center max-w-md">
-                      <AlertCircle className="w-10 h-10 text-[#0e7c66] mx-auto mb-3" />
+                      <AlertCircle className="w-10 h-10 text-[#1a4fa0] mx-auto mb-3" />
                       <p className="text-[14px] font-semibold text-[#333] mb-1">
                         Échec du chargement
                       </p>
@@ -449,7 +449,7 @@ export function BiblePage() {
                       <button
                         type="button"
                         onClick={backToChapterPicker}
-                        className="text-[12px] text-[#0e7c66] hover:underline uppercase font-semibold"
+                        className="text-[12px] text-[#1a4fa0] hover:underline uppercase font-semibold"
                       >
                         ‹ Chapitres
                       </button>
@@ -483,7 +483,7 @@ export function BiblePage() {
                         </button>
                       </div>
                     </div>
-                    <h2 className="text-[17px] font-bold uppercase text-[#0e7c66] mb-3">
+                    <h2 className="text-[17px] font-bold uppercase text-[#1a4fa0] mb-3">
                       {chapterData.reference}
                     </h2>
                     {chapterData.source && (
@@ -494,7 +494,7 @@ export function BiblePage() {
                     <article className="lt-reading-text">
                       {chapterData.verses.map((v) => (
                         <p key={v.verse} className="mb-2 text-[16px] text-[#333] leading-[1.7]">
-                          <sup className="font-bold text-[#0e7c66] mr-1.5 text-[11px]">
+                          <sup className="font-bold text-[#1a4fa0] mr-1.5 text-[11px]">
                             {v.verse}
                           </sup>
                           {v.text}
@@ -531,7 +531,7 @@ function BookListView({
             <button
               type="button"
               onClick={() => onBookClick(book)}
-              className="w-full text-left py-1.5 text-[14px] text-[#333] hover:text-[#0e7c66] transition-colors"
+              className="w-full text-left py-1.5 text-[14px] text-[#333] hover:text-[#1a4fa0] transition-colors"
             >
               {book.name}
               <span className="ml-2 text-[11px] text-[#9a9a9a]">
@@ -572,7 +572,7 @@ function SearchResultsView({
         <button
           type="button"
           onClick={onBack}
-          className="text-[12px] text-[#0e7c66] hover:underline uppercase font-semibold"
+          className="text-[12px] text-[#1a4fa0] hover:underline uppercase font-semibold"
         >
           ← Retour à la liste
         </button>
@@ -590,7 +590,7 @@ function SearchResultsView({
         </div>
       ) : error ? (
         <div className="text-center py-8">
-          <AlertCircle className="w-10 h-10 text-[#0e7c66] mx-auto mb-3" />
+          <AlertCircle className="w-10 h-10 text-[#1a4fa0] mx-auto mb-3" />
           <p className="text-[14px] font-semibold text-[#333] mb-1">
             La recherche a échoué
           </p>
@@ -607,7 +607,7 @@ function SearchResultsView({
         <ul className="space-y-4">
           {results.map((r, i) => (
             <li key={`${r.reference}-${i}`} className="border-b border-[#e8e6e2] pb-3">
-              <p className="text-[14px] font-bold text-[#0e7c66] mb-1">
+              <p className="text-[14px] font-bold text-[#1a4fa0] mb-1">
                 {r.reference}
               </p>
               <p className="text-[14px] text-[#333] leading-relaxed">{r.text}</p>

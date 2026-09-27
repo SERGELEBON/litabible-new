@@ -188,7 +188,7 @@ export function HoursPage() {
                 {' · '}
                 {dayInfo.year}
               </p>
-              <p className="text-[13px] text-[#0e7c66] font-semibold leading-snug mb-3 uppercase tracking-tight">
+              <p className="text-[13px] text-[#1a4fa0] font-semibold leading-snug mb-3 uppercase tracking-tight">
                 {office.title}
               </p>
               <DateNavBar onPrev={goPrevDay} onNext={goNextDay} />

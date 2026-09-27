@@ -25,9 +25,9 @@ export function PromoCard({
       )}
     >
       {/* Packshot placeholder (stylised book cover) */}
-      <div className="flex-shrink-0 w-24 h-32 bg-gradient-to-br from-[#3a2a1a] to-[#1a1208] border border-[#c9a444]/40 flex items-center justify-center relative overflow-hidden">
-        <Book className="w-10 h-10 text-[#c9a444]" />
-        <span className="absolute bottom-1 left-0 right-0 text-center text-[8px] uppercase tracking-widest text-[#c9a444]/80 font-bold">
+      <div className="flex-shrink-0 w-24 h-32 bg-gradient-to-br from-[#3a2a1a] to-[#1a1208] border border-[#f5c400]/40 flex items-center justify-center relative overflow-hidden">
+        <Book className="w-10 h-10 text-[#f5c400]" />
+        <span className="absolute bottom-1 left-0 right-0 text-center text-[8px] uppercase tracking-widest text-[#f5c400]/80 font-bold">
           Bible liturgique
         </span>
       </div>
@@ -36,7 +36,7 @@ export function PromoCard({
         <p className="text-[13px] text-white/80 leading-relaxed">{description}</p>
         <a
           href="#"
-          className="inline-block mt-3 text-[11px] font-bold uppercase text-[#c9a444] hover:text-white transition-colors"
+          className="inline-block mt-3 text-[11px] font-bold uppercase text-[#f5c400] hover:text-white transition-colors"
         >
           En librairie →
         </a>

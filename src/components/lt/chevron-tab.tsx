@@ -41,7 +41,7 @@ export function ChevronTab({
     ? active
       ? {
           clipPath: 'polygon(0 0, calc(100% - 14px) 0, 100% 50%, calc(100% - 14px) 100%, 0 100%)',
-          backgroundColor: '#0e7c66',
+          backgroundColor: '#1a4fa0',
           color: '#ffffff',
         }
       : {
@@ -51,7 +51,7 @@ export function ChevronTab({
     : active
       ? {
           clipPath: 'polygon(0 0, 100% 0, 100% calc(100% - 14px), 50% 100%, 0 calc(100% - 14px))',
-          backgroundColor: '#0e7c66',
+          backgroundColor: '#1a4fa0',
           color: '#ffffff',
         }
       : {
