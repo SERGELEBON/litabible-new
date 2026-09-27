@@ -23,7 +23,7 @@ export function ReadingPanel({ title, readings, className, showBadges = true }: 
         <div className="flex items-center gap-2 mb-4 flex-wrap">
           <button
             type="button"
-            className="aelf-badge-red inline-flex items-center gap-1.5 px-2.5 py-1.5"
+            className="lt-badge inline-flex items-center gap-1.5 px-2.5 py-1.5"
             title="Télécharger les textes (.doc)"
           >
             <Download className="w-3 h-3" />
@@ -34,7 +34,7 @@ export function ReadingPanel({ title, readings, className, showBadges = true }: 
           </button>
           <button
             type="button"
-            className="aelf-badge-red inline-flex items-center gap-1.5 px-2.5 py-1.5"
+            className="lt-badge inline-flex items-center gap-1.5 px-2.5 py-1.5"
             title="A+ Lecture confort"
           >
             <Type className="w-3 h-3" />
@@ -65,7 +65,7 @@ function ReadingBlock({ reading: r }: { reading: Reading }) {
     return (
       <div className="border border-[#e2e0dc] bg-[#f8f7f4] p-5 text-center">
         {r.label && (
-          <p className="text-[10px] font-bold uppercase text-[#bf2329] mb-2">{r.label}</p>
+          <p className="text-[10px] font-bold uppercase text-[#0e7c66] mb-2">{r.label}</p>
         )}
         {r.content?.map((p, idx) => (
           <p key={idx} className="text-[16px] font-semibold text-[#333] italic">
@@ -79,8 +79,8 @@ function ReadingBlock({ reading: r }: { reading: Reading }) {
   // Psalm
   if (r.type === 'psaume') {
     return (
-      <article className="aelf-reading-text">
-        <h4 className="text-[17px] font-bold uppercase text-[#bf2329] mb-1">{r.label}</h4>
+      <article className="lt-reading-text">
+        <h4 className="text-[17px] font-bold uppercase text-[#0e7c66] mb-1">{r.label}</h4>
         {r.reference && (
           <h5 className="text-[14px] font-bold text-[#333] mb-3">{r.reference}</h5>
         )}
@@ -89,7 +89,7 @@ function ReadingBlock({ reading: r }: { reading: Reading }) {
         )}
         {r.strophes?.map((s, idx) => (
           <p key={idx} className="mb-2 text-[16px] text-[#333]">
-            {s.number && <span className="font-bold mr-2 text-[#bf2329]">{s.number}</span>}
+            {s.number && <span className="font-bold mr-2 text-[#0e7c66]">{s.number}</span>}
             {s.text}
           </p>
         ))}
@@ -104,12 +104,12 @@ function ReadingBlock({ reading: r }: { reading: Reading }) {
   // Hymn
   if (r.type === 'hymne') {
     return (
-      <article className="aelf-reading-text">
-        <h4 className="text-[17px] font-bold uppercase text-[#bf2329] mb-1">{r.label}</h4>
+      <article className="lt-reading-text">
+        <h4 className="text-[17px] font-bold uppercase text-[#0e7c66] mb-1">{r.label}</h4>
         {r.reference && (
           <h5 className="text-[14px] font-bold text-[#333] mb-3">{r.reference}</h5>
         )}
-        {r.author && <p className="aelf-source mb-3">{r.author}</p>}
+        {r.author && <p className="lt-source mb-3">{r.author}</p>}
         {r.content?.map((p, idx) => (
           <p key={idx} className="mb-2 text-[16px] text-[#333] italic">{p}</p>
         ))}
@@ -119,16 +119,16 @@ function ReadingBlock({ reading: r }: { reading: Reading }) {
 
   // Standard reading / gospel / patristic
   return (
-    <article className="aelf-reading-text">
-      <h4 className="text-[17px] font-bold uppercase text-[#bf2329] mb-1">{r.label}</h4>
+    <article className="lt-reading-text">
+      <h4 className="text-[17px] font-bold uppercase text-[#0e7c66] mb-1">{r.label}</h4>
       {r.citation && (
         <h5 className="text-[14px] font-bold text-[#333] mb-2">{r.citation}</h5>
       )}
       {r.reference && !r.citation && (
         <h5 className="text-[14px] font-bold text-[#333] mb-2">{r.reference}</h5>
       )}
-      {r.source && <p className="aelf-source mb-3">{r.source}</p>}
-      {!r.source && r.title && <p className="aelf-source mb-3">{r.title}</p>}
+      {r.source && <p className="lt-source mb-3">{r.source}</p>}
+      {!r.source && r.title && <p className="lt-source mb-3">{r.title}</p>}
       {r.content?.map((p, idx) => (
         <p key={idx} className="mb-3 text-[17px] text-[#333] leading-[1.75]">{p}</p>
       ))}
@@ -136,7 +136,7 @@ function ReadingBlock({ reading: r }: { reading: Reading }) {
         <p className="font-semibold text-[#333] mt-2 text-[17px]">{r.conclusion}</p>
       )}
       {r.patristicSource && (
-        <p className="aelf-source mt-3">Source : {r.patristicSource}</p>
+        <p className="lt-source mt-3">Source : {r.patristicSource}</p>
       )}
     </article>
   )

@@ -42,7 +42,7 @@ export function TwoPanelLayout({
       <div
         className={cn(
           'bg-white border border-[#e2e0dc] p-5 sm:p-7 flex-1 min-w-0',
-          fixedHeight && 'lg:h-full lg:overflow-y-auto aelf-scroll',
+          fixedHeight && 'lg:h-full lg:overflow-y-auto lt-scroll',
         )}
       >
         {right}

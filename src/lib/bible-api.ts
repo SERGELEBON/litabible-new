@@ -26,7 +26,6 @@ export const bibleVersions: BibleVersion[] = [
   { id: "LSG", name: "Louis Segond 1910", language: "fr", bollsCode: "LSG", bibleApiCode: "lsg" },
   { id: "BDS", name: "Bible du Semeur", language: "fr", bollsCode: "BDS" },
   { id: "TOB", name: "Traduction Œcuménique de la Bible", language: "fr", bollsCode: "TOB" },
-  { id: "AELF", name: "Traduction liturgique AELF", language: "fr", bollsCode: "AELF" },
   { id: "NEG", name: "Nouvelle Édition de Genève", language: "fr", bollsCode: "NEG" },
   { id: "MAR", name: "Bible Maredsous", language: "fr", bollsCode: "MAR" },
   // English

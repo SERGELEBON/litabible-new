@@ -120,7 +120,7 @@ export function ContactPage() {
       {/* White centered card — rosette shows around it */}
       <section className="bg-white border border-[#e2e0dc] p-6 sm:p-8 shadow-sm">
         <h2 className="uppercase text-[22px] sm:text-[24px] font-semibold text-[#333333] tracking-wide mb-2">
-          Contacter l’AELF
+          Contacter LitaBible
         </h2>
         <p className="text-[15px] leading-[1.7] text-[#333333] mb-6">
           Pour toute question relative aux textes liturgiques, à l’utilisation du site,
@@ -244,24 +244,24 @@ export function ContactPage() {
                 ))}
               </div>
               <div className="flex items-start gap-2">
-                <Phone className="w-3.5 h-3.5 mt-0.5 flex-shrink-0 text-[#bf2329]" />
+                <Phone className="w-3.5 h-3.5 mt-0.5 flex-shrink-0 text-[#0e7c66]" />
                 <a href={`tel:${contactInfo.phone.replace(/\s/g, '')}`} className="hover:underline">
                   {contactInfo.phone}
                 </a>
               </div>
               <div className="flex items-start gap-2">
-                <Mail className="w-3.5 h-3.5 mt-0.5 flex-shrink-0 text-[#bf2329]" />
-                <a href={`mailto:${contactInfo.email}`} className="text-[#bf2329] hover:underline break-all">
+                <Mail className="w-3.5 h-3.5 mt-0.5 flex-shrink-0 text-[#0e7c66]" />
+                <a href={`mailto:${contactInfo.email}`} className="text-[#0e7c66] hover:underline break-all">
                   {contactInfo.email}
                 </a>
               </div>
               <div className="flex items-start gap-2">
-                <Clock className="w-3.5 h-3.5 mt-0.5 flex-shrink-0 text-[#bf2329]" />
+                <Clock className="w-3.5 h-3.5 mt-0.5 flex-shrink-0 text-[#0e7c66]" />
                 <p className="leading-snug">{contactInfo.hours}</p>
               </div>
               <div className="flex items-start gap-2">
-                <MapPin className="w-3.5 h-3.5 mt-0.5 flex-shrink-0 text-[#bf2329]" />
-                <p className="leading-snug">Secrétariat de l’AELF, Paris.</p>
+                <MapPin className="w-3.5 h-3.5 mt-0.5 flex-shrink-0 text-[#0e7c66]" />
+                <p className="leading-snug">Secrétariat de LitaBible, Paris.</p>
               </div>
             </div>
           </aside>

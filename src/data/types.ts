@@ -1,6 +1,6 @@
-// Shared TypeScript types for the AELF liturgical readings clone.
-// All content is sample / public-domain-style text composed for this UI clone
-// and does not reproduce copyrighted AELF translations verbatim.
+// Shared TypeScript types for the LitaBible liturgical readings app.
+// All content is sample / public-domain-style text composed for this app
+// and does not reproduce copyrighted LitaBible translations verbatim.
 
 export type LiturgicalColor = 'green' | 'violet' | 'red' | 'white' | 'rose' | 'gold'
 

@@ -1,12 +1,12 @@
 'use client'
 
 import { cn } from '@/lib/utils'
-import { useAelfStore, type AelfPage } from '@/lib/store'
+import { useLitabibleStore, type LitabiblePage } from '@/lib/store'
 import { ChevronTab } from './chevron-tab'
 import { RedRibbon } from './red-ribbon'
 
 interface NavItem {
-  id: AelfPage
+  id: LitabiblePage
   label: string
 }
 
@@ -14,7 +14,7 @@ const NAV_ITEMS: NavItem[] = [
   { id: 'messe', label: 'La messe' },
   { id: 'heures', label: 'Les heures' },
   { id: 'bible', label: 'La Bible' },
-  { id: 'aelf', label: "L'AELF" },
+  { id: 'apropos', label: 'À PROPOS' },
   { id: 'videos', label: 'Vidéos & Podcasts' },
   { id: 'calendrier', label: 'Calendrier' },
   { id: 'contact', label: 'Contact' },
@@ -22,8 +22,8 @@ const NAV_ITEMS: NavItem[] = [
 
 /** Vertical 7-tab navigation with the chevron active motif and the decorative red ribbon. */
 export function MainNav() {
-  const page = useAelfStore((s) => s.page)
-  const setPage = useAelfStore((s) => s.setPage)
+  const page = useLitabibleStore((s) => s.page)
+  const setPage = useLitabibleStore((s) => s.setPage)
 
   return (
     <nav

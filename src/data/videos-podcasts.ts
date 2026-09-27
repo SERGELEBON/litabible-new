@@ -1,7 +1,7 @@
 import type { VideoItem, PodcastItem } from './types'
 
 // =============================================================================
-// Videos and podcasts — SAMPLE institutional content for the AELF clone.
+// Videos and podcasts — SAMPLE institutional content for the LitaBible app.
 // YouTube IDs are plausible placeholders, not real copyrighted content.
 // =============================================================================
 
@@ -9,9 +9,9 @@ export const videos: VideoItem[] = [
   {
     id: 'video-1',
     number: '1/6',
-    title: "Présentation de l’AELF",
+    title: "Présentation de LitaBible",
     description:
-      "Qu’est-ce que l’Association Épiscopale Liturgique pour les pays Francophones ? À qui s’adresse-t-elle, et quels sont ses grands chantiers de traduction, de formation et de diffusion liturgique ?",
+      "Qu’est-ce que LitaBible ? À qui s’adresse ce service, et quels sont ses grands chantiers de lecture, de méditation et de diffusion biblique et liturgique ?",
     youtubeId: 'dQw4w9WgXcQ',
     duration: '5 min 12',
   },

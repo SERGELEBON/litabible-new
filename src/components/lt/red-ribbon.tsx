@@ -7,7 +7,7 @@ export function RedRibbon({ className }: { className?: string }) {
   return (
     <div
       aria-hidden="true"
-      className={cn('aelf-ribbon relative self-stretch flex-shrink-0', className)}
+      className={cn('lt-ribbon relative self-stretch flex-shrink-0', className)}
     />
   )
 }

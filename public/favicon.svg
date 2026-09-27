@@ -1,4 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" role="img" aria-label="AELF favicon">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" role="img" aria-label="LitaBible">
   <rect width="32" height="32" rx="4" fill="#ffffff"/>
-  <path d="M23 9 C23 4 19 1 16 5 C13 1 9 4 9 9 C9 15 16 20 16 20 C16 20 23 15 23 9 Z" fill="#bf2329"/>
+  <path d="M24 10 C24 4 19 1 16 5 C13 1 8 4 8 10 C8 16 16 21 16 21 C16 21 24 16 24 10 Z" fill="#0e7c66"/>
+  <rect x="10" y="20" width="12" height="2" fill="#c9a444"/>
 </svg>

@@ -1,7 +1,7 @@
 'use client'
 
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { useAelfStore } from '@/lib/store'
+import { useLitabibleStore } from '@/lib/store'
 import {
   oldTestamentBooks,
   newTestamentBooks,
@@ -13,10 +13,10 @@ import type {
   ChapterResult,
   SearchResult,
 } from '@/lib/bible-api'
-import { BibleSearchBar } from '@/components/aelf/bible-search-bar'
-import { ChevronTab } from '@/components/aelf/chevron-tab'
-import { BlackButton } from '@/components/aelf/black-button'
-import { PromoCard } from '@/components/aelf/promo-card'
+import { BibleSearchBar } from '@/components/lt/bible-search-bar'
+import { ChevronTab } from '@/components/lt/chevron-tab'
+import { BlackButton } from '@/components/lt/black-button'
+import { PromoCard } from '@/components/lt/promo-card'
 import {
   Dialog,
   DialogContent,
@@ -87,8 +87,8 @@ interface ChapterErrorBody {
  * navigation).
  */
 export function BiblePage() {
-  const bibleTab = useAelfStore((s) => s.bibleTab)
-  const setBibleTab = useAelfStore((s) => s.setBibleTab)
+  const bibleTab = useLitabibleStore((s) => s.bibleTab)
+  const setBibleTab = useLitabibleStore((s) => s.setBibleTab)
 
   // Version selector state
   const [versions, setVersions] = useState<BibleVersion[]>([])
@@ -295,7 +295,7 @@ export function BiblePage() {
             <div className="flex flex-col sm:flex-row sm:items-stretch sm:justify-between gap-2 border-b border-[#e2e0dc]">
               <nav
                 aria-label="Testaments"
-                className="flex overflow-x-auto aelf-scroll"
+                className="flex overflow-x-auto lt-scroll"
               >
                 {TABS.map((t) => (
                   <ChevronTab
@@ -393,7 +393,7 @@ export function BiblePage() {
               <div className="flex flex-col max-h-[60vh] min-h-0">
                 {currentChapter === null ? (
                   // Chapter picker grid
-                  <div className="flex-1 overflow-y-auto aelf-scroll p-5">
+                  <div className="flex-1 overflow-y-auto lt-scroll p-5">
                     <div className="grid grid-cols-6 sm:grid-cols-8 md:grid-cols-10 gap-1.5">
                       {Array.from({ length: currentBook.chapters }, (_, i) => i + 1).map(
                         (n) => (
@@ -411,7 +411,7 @@ export function BiblePage() {
                   </div>
                 ) : chapterLoading ? (
                   // Loading skeleton
-                  <div className="flex-1 overflow-y-auto aelf-scroll p-5 space-y-3">
+                  <div className="flex-1 overflow-y-auto lt-scroll p-5 space-y-3">
                     <Skeleton className="h-4 w-1/3" />
                     <Skeleton className="h-4 w-full" />
                     <Skeleton className="h-4 w-full" />
@@ -425,7 +425,7 @@ export function BiblePage() {
                   // Error block with retry
                   <div className="flex-1 flex items-center justify-center p-5">
                     <div className="text-center max-w-md">
-                      <AlertCircle className="w-10 h-10 text-[#bf2329] mx-auto mb-3" />
+                      <AlertCircle className="w-10 h-10 text-[#0e7c66] mx-auto mb-3" />
                       <p className="text-[14px] font-semibold text-[#333] mb-1">
                         Échec du chargement
                       </p>
@@ -444,12 +444,12 @@ export function BiblePage() {
                   </div>
                 ) : chapterData ? (
                   // Chapter display
-                  <div className="flex-1 overflow-y-auto aelf-scroll p-5">
+                  <div className="flex-1 overflow-y-auto lt-scroll p-5">
                     <div className="flex items-center justify-between gap-2 mb-4">
                       <button
                         type="button"
                         onClick={backToChapterPicker}
-                        className="text-[12px] text-[#bf2329] hover:underline uppercase font-semibold"
+                        className="text-[12px] text-[#0e7c66] hover:underline uppercase font-semibold"
                       >
                         ‹ Chapitres
                       </button>
@@ -483,7 +483,7 @@ export function BiblePage() {
                         </button>
                       </div>
                     </div>
-                    <h2 className="text-[17px] font-bold uppercase text-[#bf2329] mb-3">
+                    <h2 className="text-[17px] font-bold uppercase text-[#0e7c66] mb-3">
                       {chapterData.reference}
                     </h2>
                     {chapterData.source && (
@@ -491,10 +491,10 @@ export function BiblePage() {
                         Source : {chapterData.source} · {chapterData.translation}
                       </p>
                     )}
-                    <article className="aelf-reading-text">
+                    <article className="lt-reading-text">
                       {chapterData.verses.map((v) => (
                         <p key={v.verse} className="mb-2 text-[16px] text-[#333] leading-[1.7]">
-                          <sup className="font-bold text-[#bf2329] mr-1.5 text-[11px]">
+                          <sup className="font-bold text-[#0e7c66] mr-1.5 text-[11px]">
                             {v.verse}
                           </sup>
                           {v.text}
@@ -531,7 +531,7 @@ function BookListView({
             <button
               type="button"
               onClick={() => onBookClick(book)}
-              className="w-full text-left py-1.5 text-[14px] text-[#333] hover:text-[#bf2329] transition-colors"
+              className="w-full text-left py-1.5 text-[14px] text-[#333] hover:text-[#0e7c66] transition-colors"
             >
               {book.name}
               <span className="ml-2 text-[11px] text-[#9a9a9a]">
@@ -572,7 +572,7 @@ function SearchResultsView({
         <button
           type="button"
           onClick={onBack}
-          className="text-[12px] text-[#bf2329] hover:underline uppercase font-semibold"
+          className="text-[12px] text-[#0e7c66] hover:underline uppercase font-semibold"
         >
           ← Retour à la liste
         </button>
@@ -590,7 +590,7 @@ function SearchResultsView({
         </div>
       ) : error ? (
         <div className="text-center py-8">
-          <AlertCircle className="w-10 h-10 text-[#bf2329] mx-auto mb-3" />
+          <AlertCircle className="w-10 h-10 text-[#0e7c66] mx-auto mb-3" />
           <p className="text-[14px] font-semibold text-[#333] mb-1">
             La recherche a échoué
           </p>
@@ -607,7 +607,7 @@ function SearchResultsView({
         <ul className="space-y-4">
           {results.map((r, i) => (
             <li key={`${r.reference}-${i}`} className="border-b border-[#e8e6e2] pb-3">
-              <p className="text-[14px] font-bold text-[#bf2329] mb-1">
+              <p className="text-[14px] font-bold text-[#0e7c66] mb-1">
                 {r.reference}
               </p>
               <p className="text-[14px] text-[#333] leading-relaxed">{r.text}</p>

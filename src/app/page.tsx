@@ -1,20 +1,20 @@
 'use client'
 
 import { useSyncExternalStore } from 'react'
-import { SiteHeader } from '@/components/aelf/site-header'
-import { MainNav } from '@/components/aelf/main-nav'
-import { SiteFooter } from '@/components/aelf/site-footer'
-import { MassPage } from '@/components/aelf/pages/mass-page'
-import { HoursPage } from '@/components/aelf/pages/hours-page'
-import { BiblePage } from '@/components/aelf/pages/bible-page'
-import { AelfPage } from '@/components/aelf/pages/aelf-page'
-import { VideosPodcastsPage } from '@/components/aelf/pages/videos-podcasts-page'
-import { CalendarPage } from '@/components/aelf/pages/calendar-page'
-import { ContactPage } from '@/components/aelf/pages/contact-page'
-import { useAelfStore } from '@/lib/store'
+import { SiteHeader } from '@/components/lt/site-header'
+import { MainNav } from '@/components/lt/main-nav'
+import { SiteFooter } from '@/components/lt/site-footer'
+import { MassPage } from '@/components/lt/pages/mass-page'
+import { HoursPage } from '@/components/lt/pages/hours-page'
+import { BiblePage } from '@/components/lt/pages/bible-page'
+import { AproposPage } from '@/components/lt/pages/apropos-page'
+import { VideosPodcastsPage } from '@/components/lt/pages/videos-podcasts-page'
+import { CalendarPage } from '@/components/lt/pages/calendar-page'
+import { ContactPage } from '@/components/lt/pages/contact-page'
+import { useLitabibleStore } from '@/lib/store'
 
 function PageSwitch() {
-  const page = useAelfStore((s) => s.page)
+  const page = useLitabibleStore((s) => s.page)
   switch (page) {
     case 'messe':
       return <MassPage />
@@ -22,8 +22,8 @@ function PageSwitch() {
       return <HoursPage />
     case 'bible':
       return <BiblePage />
-    case 'aelf':
-      return <AelfPage />
+    case 'apropos':
+      return <AproposPage />
     case 'videos':
       return <VideosPodcastsPage />
     case 'calendrier':

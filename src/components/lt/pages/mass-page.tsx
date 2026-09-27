@@ -1,14 +1,14 @@
 'use client'
 
 import { useState } from 'react'
-import { useAelfStore } from '@/lib/store'
+import { useLitabibleStore } from '@/lib/store'
 import { getMassData } from '@/data/mass-readings'
-import { TwoPanelLayout } from '@/components/aelf/two-panel-layout'
-import { LiturgicalBadge } from '@/components/aelf/liturgical-badge'
-import { BlackButton } from '@/components/aelf/black-button'
-import { ReadingTable } from '@/components/aelf/reading-table'
-import { ReadingPanel } from '@/components/aelf/reading-panel'
-import { MassDateControls } from '@/components/aelf/date-nav-bar'
+import { TwoPanelLayout } from '@/components/lt/two-panel-layout'
+import { LiturgicalBadge } from '@/components/lt/liturgical-badge'
+import { BlackButton } from '@/components/lt/black-button'
+import { ReadingTable } from '@/components/lt/reading-table'
+import { ReadingPanel } from '@/components/lt/reading-panel'
+import { MassDateControls } from '@/components/lt/date-nav-bar'
 import {
   Collapsible,
   CollapsibleTrigger,
@@ -53,16 +53,16 @@ function frenchWeekday(iso: string): string {
 }
 
 /**
- * LA MESSE page — the home page of the AELF clone.
+ * LA MESSE page — the home page of the LitaBible app.
  *
  * Two-panel layout: left = date header + collapsible readings list, right = full
  * text of the readings. Both panels scroll independently on lg+ screens and
  * stack on mobile.
  */
 export function MassPage() {
-  const selectedDate = useAelfStore((s) => s.selectedDate)
-  const goPrevDay = useAelfStore((s) => s.goPrevDay)
-  const goNextDay = useAelfStore((s) => s.goNextDay)
+  const selectedDate = useLitabibleStore((s) => s.selectedDate)
+  const goPrevDay = useLitabibleStore((s) => s.goPrevDay)
+  const goNextDay = useLitabibleStore((s) => s.goNextDay)
 
   const mass = getMassData(selectedDate)
   const dayInfo = mass.dayInfo
@@ -149,7 +149,7 @@ export function MassPage() {
                 </button>
               </CollapsibleTrigger>
               {listOpen && (
-                <div className="flex-1 min-h-0 overflow-y-auto aelf-scroll">
+                <div className="flex-1 min-h-0 overflow-y-auto lt-scroll">
                   <ReadingTable
                     readings={mass.readings}
                     activeIndex={safeIdx}
@@ -186,7 +186,7 @@ export function MassPage() {
               showBadges
             />
             <p className="text-[11px] text-[#9a9a9a] mt-6 pt-3 border-t border-[#e2e0dc]">
-              Textes liturgiques © AELF — Tous droits réservés.
+              Textes liturgiques © LitaBible — Tous droits réservés.
             </p>
           </>
         }

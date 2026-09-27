@@ -3,14 +3,14 @@
 import { useMemo } from 'react'
 import { Play } from 'lucide-react'
 import { ChevronTab } from '../chevron-tab'
-import { useAelfStore, type AelfSubPage } from '@/lib/store'
+import { useLitabibleStore, type AproposSubPage } from '@/lib/store'
 import {
   getSection,
   questions as questionsSection,
   videos as videosSection,
   podcasts as podcastsSection,
   type TextSection,
-} from '@/data/aelf-content'
+} from '@/data/litabible-content'
 import { videos as videoList, podcasts as podcastList } from '@/data/videos-podcasts'
 import {
   Accordion,
@@ -20,7 +20,7 @@ import {
 } from '@/components/ui/accordion'
 
 interface SubNavItem {
-  id: AelfSubPage
+  id: AproposSubPage
   label: string
 }
 
@@ -28,7 +28,7 @@ const SUB_NAV: SubNavItem[] = [
   { id: 'missions', label: 'Missions' },
   { id: 'organisation', label: 'Organisation' },
   { id: 'realisations', label: 'Réalisations' },
-  { id: 'videos-aelf', label: 'Vidéos' },
+  { id: 'videos-apropos', label: 'Vidéos' },
   { id: 'podcasts', label: 'Podcasts' },
   { id: 'conditions', label: "Conditions d'utilisation" },
   { id: 'questions', label: 'Questions courantes' },
@@ -40,22 +40,22 @@ const FRENCH_MONTHS = [
   'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre',
 ]
 
-/** L'AELF page — institutional section with vertical sub-nav + content. */
-export function AelfPage() {
-  const aelfSub = useAelfStore((s) => s.aelfSub)
-  const setAelfSub = useAelfStore((s) => s.setAelfSub)
+/** À PROPOS page — institutional section with vertical sub-nav + content. */
+export function AproposPage() {
+  const aproposSub = useLitabibleStore((s) => s.aproposSub)
+  const setAproposSub = useLitabibleStore((s) => s.setAproposSub)
 
-  // Resolve the section to display. Most sections come from getSection(aelfSub);
-  // `videos-aelf` and `podcasts` map to the `videos`/`podcasts` TextSections
+  // Resolve the section to display. Most sections come from getSection(aproposSub);
+  // `videos-apropos` and `podcasts` map to the `videos`/`podcasts` TextSections
   // (which use `intro` instead of `paragraphs`), and the lists are pulled from
   // `@/data/videos-podcasts`.
   const { section, kind } = useMemo<{ section: TextSection | undefined; kind: 'text' | 'faq' | 'videos' | 'podcasts' }>(() => {
-    if (aelfSub === 'videos-aelf') return { section: videosSection, kind: 'videos' }
-    if (aelfSub === 'podcasts') return { section: podcastsSection, kind: 'podcasts' }
-    if (aelfSub === 'questions') return { section: questionsSection, kind: 'faq' }
-    const s = getSection(aelfSub)
+    if (aproposSub === 'videos-apropos') return { section: videosSection, kind: 'videos' }
+    if (aproposSub === 'podcasts') return { section: podcastsSection, kind: 'podcasts' }
+    if (aproposSub === 'questions') return { section: questionsSection, kind: 'faq' }
+    const s = getSection(aproposSub)
     return { section: s, kind: 'text' }
-  }, [aelfSub])
+  }, [aproposSub])
 
   return (
     <div className="w-full max-w-5xl mx-auto px-4 sm:px-6 py-4 sm:py-6">
@@ -66,7 +66,7 @@ export function AelfPage() {
       <section className="bg-white border border-[#e2e0dc] p-5 sm:p-8 flex flex-col md:flex-row gap-6">
         {/* Left column — vertical sub-nav */}
         <nav
-          aria-label="Sous-sections L'AELF"
+          aria-label="Sous-sections À PROPOS"
           className="md:w-[180px] md:flex-shrink-0 flex md:flex-col gap-1 overflow-x-auto md:overflow-visible md:pb-2"
         >
           {SUB_NAV.map((item) => (
@@ -74,8 +74,8 @@ export function AelfPage() {
               key={item.id}
               orientation="vertical"
               indent
-              active={aelfSub === item.id}
-              onClick={() => setAelfSub(item.id)}
+              active={aproposSub === item.id}
+              onClick={() => setAproposSub(item.id)}
             >
               {item.label}
             </ChevronTab>
@@ -130,7 +130,7 @@ export function AelfPage() {
                     {videoList.map((v) => (
                       <li key={v.id} className="border-t border-[#e2e0dc] pt-5 first:border-t-0 first:pt-0">
                         <div className="flex items-baseline gap-3 mb-2">
-                          <span className="text-[13px] font-bold text-[#bf2329] uppercase tracking-wide flex-shrink-0">
+                          <span className="text-[13px] font-bold text-[#0e7c66] uppercase tracking-wide flex-shrink-0">
                             {v.number}
                           </span>
                           <h3 className="text-[16px] font-semibold text-[#333333]">
@@ -175,7 +175,7 @@ export function AelfPage() {
                         className="flex flex-col sm:flex-row sm:items-center gap-4 border border-[#e2e0dc] p-4"
                       >
                         <div className="flex items-center gap-3 flex-1 min-w-0">
-                          <span className="text-[13px] font-bold text-[#bf2329] uppercase tracking-wide flex-shrink-0">
+                          <span className="text-[13px] font-bold text-[#0e7c66] uppercase tracking-wide flex-shrink-0">
                             {p.number}
                           </span>
                           <div className="min-w-0">
@@ -214,7 +214,7 @@ export function AelfPage() {
         </div>
       </section>
 
-      {/* Small footer note about the month/year context (purely decorative, matches aelf.org rhythm) */}
+      {/* Small footer note about the month/year context (purely decorative, matches the brand rhythm) */}
       <p className="text-[11px] text-[#6b6b6b] mt-3 text-right uppercase tracking-wide">
         {new Date().getFullYear()} · {FRENCH_MONTHS[new Date().getMonth()]}
       </p>
@@ -222,4 +222,4 @@ export function AelfPage() {
   )
 }
 
-export default AelfPage
+export default AproposPage

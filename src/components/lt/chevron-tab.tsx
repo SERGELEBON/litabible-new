@@ -6,7 +6,7 @@ import type { ReactNode } from 'react'
 interface ChevronTabProps {
   /** tab label */
   children: ReactNode
-  /** active = filled red with pointed chevron; inactive = light grey */
+  /** active = filled teal with pointed chevron; inactive = light grey */
   active?: boolean
   /** orientation: vertical (left column, chevron points right) or horizontal (sub-nav, points down) */
   orientation?: 'vertical' | 'horizontal'
@@ -20,8 +20,8 @@ interface ChevronTabProps {
 }
 
 /**
- * AELF signature "chevron/pointed" tab.
- * - Active tab = solid red rectangle with a pointed chevron that bites into the next panel.
+ * LitaBible signature "chevron/pointed" tab.
+ * - Active tab = solid teal rectangle with a pointed chevron that bites into the next panel.
  * - Inactive = flat grey (#dadad9) rectangle.
  * - Vertical orientation: the pointed arrow is on the RIGHT edge (bites into the content area).
  * - Horizontal orientation: the arrow is on the BOTTOM edge (bites into the content below).
@@ -41,7 +41,7 @@ export function ChevronTab({
     ? active
       ? {
           clipPath: 'polygon(0 0, calc(100% - 14px) 0, 100% 50%, calc(100% - 14px) 100%, 0 100%)',
-          backgroundColor: '#bf2329',
+          backgroundColor: '#0e7c66',
           color: '#ffffff',
         }
       : {
@@ -51,7 +51,7 @@ export function ChevronTab({
     : active
       ? {
           clipPath: 'polygon(0 0, 100% 0, 100% calc(100% - 14px), 50% 100%, 0 calc(100% - 14px))',
-          backgroundColor: '#bf2329',
+          backgroundColor: '#0e7c66',
           color: '#ffffff',
         }
       : {
@@ -61,7 +61,6 @@ export function ChevronTab({
 
   return (
     <Tag
-      // @ts-expect-error union tag
       href={as === 'a' ? href : undefined}
       onClick={onClick}
       className={cn(
@@ -71,7 +70,7 @@ export function ChevronTab({
           ? 'w-full px-3.5 py-3 text-[15px] leading-tight'
           : 'px-4 py-2.5 text-[13px] leading-tight whitespace-nowrap',
         indent && (orientation === 'vertical' ? 'pl-6' : 'mt-1'),
-        active ? 'bg-aelf-red' : 'bg-aelf-inactive',
+        active ? 'bg-lt-brand' : 'bg-lt-inactive',
         className,
       )}
       style={baseStyle}

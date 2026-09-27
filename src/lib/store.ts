@@ -1,19 +1,19 @@
 import { create } from 'zustand'
 
-export type AelfPage =
+export type LitabiblePage =
   | 'messe'
   | 'heures'
   | 'bible'
-  | 'aelf'
+  | 'apropos'
   | 'videos'
   | 'calendrier'
   | 'contact'
 
-export type AelfSubPage =
+export type AproposSubPage =
   | 'missions'
   | 'organisation'
   | 'realisations'
-  | 'videos-aelf'
+  | 'videos-apropos'
   | 'podcasts'
   | 'conditions'
   | 'questions'
@@ -38,15 +38,15 @@ export type CalendarZone =
   | 'suisse'
   | 'monaco'
 
-interface AelfState {
-  page: AelfPage
-  aelfSub: AelfSubPage
+interface LitabibleState {
+  page: LitabiblePage
+  aproposSub: AproposSubPage
   officeHour: OfficeHour
   calendarZone: CalendarZone
   selectedDate: string // ISO date YYYY-MM-DD
   bibleTab: 'at' | 'nt' | 'psaumes'
-  setPage: (p: AelfPage) => void
-  setAelfSub: (s: AelfSubPage) => void
+  setPage: (p: LitabiblePage) => void
+  setAproposSub: (s: AproposSubPage) => void
   setOfficeHour: (h: OfficeHour) => void
   setCalendarZone: (z: CalendarZone) => void
   setSelectedDate: (d: string) => void
@@ -65,15 +65,15 @@ function addDays(dateStr: string, n: number): string {
   return isoDate(d)
 }
 
-export const useAelfStore = create<AelfState>((set) => ({
+export const useLitabibleStore = create<LitabibleState>((set) => ({
   page: 'messe',
-  aelfSub: 'missions',
+  aproposSub: 'missions',
   officeHour: 'lectures',
   calendarZone: 'romain',
   selectedDate: isoDate(new Date()),
   bibleTab: 'at',
   setPage: (p) => set({ page: p }),
-  setAelfSub: (s) => set({ aelfSub: s }),
+  setAproposSub: (s) => set({ aproposSub: s }),
   setOfficeHour: (h) => set({ officeHour: h }),
   setCalendarZone: (z) => set({ calendarZone: z }),
   setSelectedDate: (d) => set({ selectedDate: d }),

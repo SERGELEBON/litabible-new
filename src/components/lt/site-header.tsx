@@ -37,9 +37,9 @@ export function SiteHeader() {
       <div className="flex items-center justify-between gap-4 px-4 sm:px-6 py-3 max-w-[1400px] mx-auto">
         {/* Logo + tagline */}
         <div className="flex items-center gap-3 min-w-0">
-          <img src="/aelf-logo.svg" alt="AELF" className="h-9 sm:h-10 w-auto flex-shrink-0" />
+          <img src="/litabible-logo.svg" alt="LitaBible" className="h-9 sm:h-10 w-auto flex-shrink-0" />
           <p className="hidden sm:block text-[11px] leading-tight text-[#6b6b6b] max-w-[230px] border-l border-[#e2e0dc] pl-3">
-            Association Épiscopale Liturgique pour les pays Francophones
+            La Bible et les lectures du jour au quotidien
           </p>
         </div>
 
@@ -73,7 +73,7 @@ export function SiteHeader() {
             href={href}
             title={label}
             aria-label={label}
-            className="text-[#9a9a9a] hover:text-[#bf2329] transition-colors p-1"
+            className="text-[#9a9a9a] hover:text-[#0e7c66] transition-colors p-1"
           >
             <Icon className="w-4 h-4" />
           </a>
@@ -84,7 +84,7 @@ export function SiteHeader() {
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className="max-w-md">
           <DialogHeader>
-            <DialogTitle className="uppercase text-[15px] font-semibold text-[#bf2329]">
+            <DialogTitle className="uppercase text-[15px] font-semibold text-[#0e7c66]">
               Recevoir les lectures du jour
             </DialogTitle>
             <DialogDescription className="text-[#333333]">
@@ -112,7 +112,7 @@ export function SiteHeader() {
               <BlackButton variant="solid" size="md" type="submit">S&apos;abonner</BlackButton>
             </div>
           </form>
-          <DialogClose className="absolute top-3 right-3 text-[#6b6b6b] hover:text-[#bf2329]">
+          <DialogClose className="absolute top-3 right-3 text-[#6b6b6b] hover:text-[#0e7c66]">
             <X className="w-4 h-4" />
           </DialogClose>
         </DialogContent>

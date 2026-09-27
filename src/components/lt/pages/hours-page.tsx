@@ -1,17 +1,17 @@
 'use client'
 
 import { useMemo, useState } from 'react'
-import { useAelfStore, type OfficeHour } from '@/lib/store'
+import { useLitabibleStore, type OfficeHour } from '@/lib/store'
 import { getOfficeData } from '@/data/office-hours'
 import { getDayInfo } from '@/data/liturgical-calendar'
 import type { OfficeData, Reading } from '@/data/types'
-import { TwoPanelLayout } from '@/components/aelf/two-panel-layout'
-import { LiturgicalBadge } from '@/components/aelf/liturgical-badge'
-import { BlackButton } from '@/components/aelf/black-button'
-import { ReadingTable } from '@/components/aelf/reading-table'
-import { ReadingPanel } from '@/components/aelf/reading-panel'
-import { ChevronTab } from '@/components/aelf/chevron-tab'
-import { DateNavBar } from '@/components/aelf/date-nav-bar'
+import { TwoPanelLayout } from '@/components/lt/two-panel-layout'
+import { LiturgicalBadge } from '@/components/lt/liturgical-badge'
+import { BlackButton } from '@/components/lt/black-button'
+import { ReadingTable } from '@/components/lt/reading-table'
+import { ReadingPanel } from '@/components/lt/reading-panel'
+import { ChevronTab } from '@/components/lt/chevron-tab'
+import { DateNavBar } from '@/components/lt/date-nav-bar'
 import {
   Collapsible,
   CollapsibleTrigger,
@@ -119,11 +119,11 @@ function flattenOfficeReadings(office: OfficeData): Reading[] {
  * OfficeData is loaded via the Zustand store.
  */
 export function HoursPage() {
-  const selectedDate = useAelfStore((s) => s.selectedDate)
-  const officeHour = useAelfStore((s) => s.officeHour)
-  const setOfficeHour = useAelfStore((s) => s.setOfficeHour)
-  const goPrevDay = useAelfStore((s) => s.goPrevDay)
-  const goNextDay = useAelfStore((s) => s.goNextDay)
+  const selectedDate = useLitabibleStore((s) => s.selectedDate)
+  const officeHour = useLitabibleStore((s) => s.officeHour)
+  const setOfficeHour = useLitabibleStore((s) => s.setOfficeHour)
+  const goPrevDay = useLitabibleStore((s) => s.goPrevDay)
+  const goNextDay = useLitabibleStore((s) => s.goNextDay)
 
   const office = getOfficeData(selectedDate, officeHour)
   const dayInfo = getDayInfo(selectedDate)
@@ -188,14 +188,14 @@ export function HoursPage() {
                 {' · '}
                 {dayInfo.year}
               </p>
-              <p className="text-[13px] text-[#bf2329] font-semibold leading-snug mb-3 uppercase tracking-tight">
+              <p className="text-[13px] text-[#0e7c66] font-semibold leading-snug mb-3 uppercase tracking-tight">
                 {office.title}
               </p>
               <DateNavBar onPrev={goPrevDay} onNext={goNextDay} />
             </div>
 
             {/* Horizontal scrollable row of office-hour tabs */}
-            <div className="border-b border-[#e2e0dc] overflow-x-auto aelf-scroll">
+            <div className="border-b border-[#e2e0dc] overflow-x-auto lt-scroll">
               <nav
                 aria-label="Heures de l'office"
                 className="flex items-stretch min-w-max"
@@ -234,7 +234,7 @@ export function HoursPage() {
                 </button>
               </CollapsibleTrigger>
               {listOpen && (
-                <div className="flex-1 min-h-0 overflow-y-auto aelf-scroll">
+                <div className="flex-1 min-h-0 overflow-y-auto lt-scroll">
                   <ReadingTable
                     readings={officeReadings}
                     activeIndex={safeIdx}
@@ -271,7 +271,7 @@ export function HoursPage() {
               showBadges
             />
             <p className="text-[11px] text-[#9a9a9a] mt-6 pt-3 border-t border-[#e2e0dc]">
-              Textes liturgiques © AELF — Tous droits réservés.
+              Textes liturgiques © LitaBible — Tous droits réservés.
             </p>
           </>
         }

@@ -2,11 +2,11 @@ import type { MassData, Reading } from './types'
 import { getDayInfo } from './liturgical-calendar'
 
 // =============================================================================
-// Mass readings — SAMPLE liturgical content for the AELF clone.
+// Mass readings — SAMPLE liturgical content for the LitaBible app.
 //
 // All biblical text below is composed in the public-domain French style of
 // the Louis Segond 1910 translation (which is widely considered public
-// domain). It is NOT a reproduction of any copyrighted AELF translation.
+// domain). It is NOT a reproduction of any copyrighted LitaBible translation.
 // This is sample content for a UI clone.
 // =============================================================================
 

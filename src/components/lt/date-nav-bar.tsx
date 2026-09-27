@@ -9,7 +9,7 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
 } from '@/components/ui/dropdown-menu'
-import { useAelfStore, type CalendarZone } from '@/lib/store'
+import { useLitabibleStore, type CalendarZone } from '@/lib/store'
 
 const ZONES: { id: CalendarZone; label: string }[] = [
   { id: 'romain', label: 'Calendrier romain' },
@@ -38,8 +38,8 @@ export function DateNavBar({
   nextLabel = 'demain ›',
   className,
 }: DateNavBarProps) {
-  const zone = useAelfStore((s) => s.calendarZone)
-  const setZone = useAelfStore((s) => s.setCalendarZone)
+  const zone = useLitabibleStore((s) => s.calendarZone)
+  const setZone = useLitabibleStore((s) => s.setCalendarZone)
   const current = ZONES.find((z) => z.id === zone)
 
   return (
@@ -79,27 +79,27 @@ export { ZONES }
 
 /** Pill button "Dimanche prochain" / "Autres dates" + zone dropdown + note link — used on Messe left panel. */
 export function MassDateControls({ onPrev, onNext }: { onPrev: () => void; onNext: () => void }) {
-  const setPage = useAelfStore((s) => s.setPage)
+  const setPage = useLitabibleStore((s) => s.setPage)
   return (
     <div className="flex flex-wrap items-center gap-2">
       <button
         type="button"
-        className="inline-flex items-center bg-[#f0eeea] hover:bg-[#bf2329] hover:text-white text-[#333] text-[11px] font-semibold uppercase px-3 py-1.5 border border-[#ccc] rounded-full transition-colors"
+        className="inline-flex items-center bg-[#f0eeea] hover:bg-[#0e7c66] hover:text-white text-[#333] text-[11px] font-semibold uppercase px-3 py-1.5 border border-[#ccc] rounded-full transition-colors"
         onClick={() => onNext()}
       >
         Dimanche prochain
       </button>
       <button
         type="button"
-        className="text-[12px] text-[#bf2329] hover:underline uppercase font-semibold"
+        className="text-[12px] text-[#0e7c66] hover:underline uppercase font-semibold"
       >
         Autres dates
       </button>
       <DateNavBar onPrev={onPrev} onNext={onNext} />
       <button
         type="button"
-        onClick={() => setPage('aelf')}
-        className="text-[12px] text-[#bf2329] hover:underline"
+        onClick={() => setPage('apropos')}
+        className="text-[12px] text-[#0e7c66] hover:underline"
       >
         Note sur les calendriers
       </button>
@@ -119,9 +119,9 @@ export function MonthNavBar({
   prevLabel: string
   nextLabel: string
 }) {
-  const zone = useAelfStore((s) => s.calendarZone)
-  const setZone = useAelfStore((s) => s.setCalendarZone)
-  const setPage = useAelfStore((s) => s.setPage)
+  const zone = useLitabibleStore((s) => s.calendarZone)
+  const setZone = useLitabibleStore((s) => s.setCalendarZone)
+  const setPage = useLitabibleStore((s) => s.setPage)
   const current = ZONES.find((z) => z.id === zone)
   return (
     <div className="flex items-center gap-2 flex-wrap">
@@ -145,7 +145,7 @@ export function MonthNavBar({
           ))}
         </DropdownMenuContent>
       </DropdownMenu>
-      <BlackButton size="sm" onClick={() => setPage('aelf')} className="!normal-case">
+      <BlackButton size="sm" onClick={() => setPage('apropos')} className="!normal-case">
         Note sur les calendriers
       </BlackButton>
       <BlackButton size="sm" onClick={onNext} className="!normal-case !font-medium">

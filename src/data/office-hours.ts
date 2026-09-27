@@ -7,7 +7,7 @@ import { getDayInfo } from './liturgical-calendar'
 // Hymn texts are composed in the spirit of very old Latin hymns (4th-9th
 // centuries), which are universally in the public domain. Psalm verses follow
 // the public-domain Louis Segond 1910 style of French. This is sample
-// content for a UI clone; it is not a reproduction of the copyrighted AELF
+// content for a UI clone; it is not a reproduction of the copyrighted LitaBible
 // translation of the Liturgie des Heures.
 // =============================================================================
 

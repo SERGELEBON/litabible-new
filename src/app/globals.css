@@ -42,51 +42,52 @@
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
 
-  /* AELF brand tokens */
-  --color-aelf-red: #bf2329;
-  --color-aelf-black: #000000;
-  --color-aelf-inactive: #dadad9;
-  --color-aelf-body: #333333;
-  --color-aelf-green: #1e883f;
-  --color-aelf-violet: #7d4c9c;
-  --color-aelf-white: #f5f1e8;
-  --color-aelf-rose: #d989a4;
-  --color-aelf-gold: #c9a444;
+  /* LitaBible brand tokens (teal-emerald + warm gold) */
+  --color-lt-brand: #0e7c66;       /* primary teal-emerald */
+  --color-lt-brand-dark: #0a5e4d;  /* hover/active darker */
+  --color-lt-black: #000000;
+  --color-lt-inactive: #e2ded5;    /* warm light grey for inactive tabs */
+  --color-lt-body: #2d2d2d;
+  --color-lt-gold: #c9a444;        /* accent gold */
+  --color-lt-green: #1e883f;       /* liturgical green (kept) */
+  --color-lt-violet: #7d4c9c;     /* liturgical violet (kept) */
+  --color-lt-white: #f5f1e8;
+  --color-lt-rose: #d989a4;
 }
 
 :root {
   --radius: 0.25rem;
   --background: #ffffff;
-  --foreground: #333333;
+  --foreground: #2d2d2d;
   --card: #ffffff;
-  --card-foreground: #333333;
+  --card-foreground: #2d2d2d;
   --popover: #ffffff;
-  --popover-foreground: #333333;
-  --primary: #bf2329;
+  --popover-foreground: #2d2d2d;
+  --primary: #0e7c66;            /* teal-emerald brand */
   --primary-foreground: #ffffff;
-  --secondary: #dadad9;
-  --secondary-foreground: #333333;
-  --muted: #f0eeea;
+  --secondary: #e2ded5;
+  --secondary-foreground: #2d2d2d;
+  --muted: #f4f1ea;
   --muted-foreground: #6b6b6b;
-  --accent: #f0eeea;
-  --accent-foreground: #333333;
-  --destructive: #bf2329;
+  --accent: #f4f1ea;
+  --accent-foreground: #2d2d2d;
+  --destructive: #0e7c66;
   --border: #e2e0dc;
   --input: #e2e0dc;
-  --ring: #bf2329;
-  --chart-1: #bf2329;
+  --ring: #0e7c66;
+  --chart-1: #0e7c66;
   --chart-2: #1e883f;
   --chart-3: #c9a444;
   --chart-4: #7d4c9c;
   --chart-5: #d989a4;
   --sidebar: #ffffff;
-  --sidebar-foreground: #333333;
-  --sidebar-primary: #bf2329;
+  --sidebar-foreground: #2d2d2d;
+  --sidebar-primary: #0e7c66;
   --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #f0eeea;
-  --sidebar-accent-foreground: #333333;
+  --sidebar-accent: #f4f1ea;
+  --sidebar-accent-foreground: #2d2d2d;
   --sidebar-border: #e2e0dc;
-  --sidebar-ring: #bf2329;
+  --sidebar-ring: #0e7c66;
 }
 
 @layer base {
@@ -100,8 +101,10 @@
     @apply text-foreground;
     font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-weight: 400;
-    color: #333333;
-    /* Stained-glass rosette background — fixed/cover, recurring on all pages */
+    color: #2d2d2d;
+    /* Stained-glass rosette background — fixed/cover, recurring on all pages.
+       The warm amber tones complement the teal-emerald brand as a complementary
+       palette. */
     background-image: url('/vitrail-bg.png');
     background-size: cover;
     background-position: center center;
@@ -113,14 +116,14 @@
   }
 }
 
-/* AELF component utilities */
+/* LitaBible component utilities */
 @layer components {
   /* Chevron / pointed active tab — signature motif */
-  .aelf-chevron-tab {
+  .lt-chevron-tab {
     position: relative;
     clip-path: polygon(0 0, 100% 0, calc(100% - 14px) 50%, 100% 100%, 0 100%);
   }
-  .aelf-chevron-pointer {
+  .lt-chevron-pointer {
     position: absolute;
     right: -14px;
     top: 0;
@@ -129,25 +132,25 @@
     clip-path: polygon(0 0, 100% 50%, 0 100%);
   }
 
-  /* Red decorative ribbon with bookmark tail */
-  .aelf-ribbon {
+  /* Brand decorative ribbon with bookmark tail */
+  .lt-ribbon {
     position: relative;
     width: 8px;
-    background: #bf2329;
+    background: #0e7c66;
   }
-  .aelf-ribbon::after {
+  .lt-ribbon::after {
     content: '';
     position: absolute;
     bottom: -14px;
     left: 0;
     width: 8px;
     height: 14px;
-    background: #bf2329;
+    background: #0e7c66;
     clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 60%, 0 100%);
   }
 
   /* Black square button */
-  .aelf-btn-black {
+  .lt-btn-black {
     background: #000000;
     color: #ffffff;
     border: none;
@@ -156,13 +159,13 @@
     font-weight: 600;
     transition: background 0.15s ease;
   }
-  .aelf-btn-black:hover {
+  .lt-btn-black:hover {
     background: #333333;
   }
 
-  /* Red compact badge */
-  .aelf-badge-red {
-    background: #bf2329;
+  /* Brand compact badge (teal) */
+  .lt-badge {
+    background: #0e7c66;
     color: #ffffff;
     border-radius: 0;
     font-size: 10px;
@@ -172,39 +175,39 @@
   }
 
   /* Reading text — comfortable line height */
-  .aelf-reading-text {
+  .lt-reading-text {
     line-height: 1.75;
     font-size: 1.0625rem;
-    color: #333333;
+    color: #2d2d2d;
   }
-  .aelf-reading-text p {
+  .lt-reading-text p {
     margin-bottom: 0.75rem;
   }
 
   /* Italic source line */
-  .aelf-source {
+  .lt-source {
     font-style: italic;
     color: #6b6b6b;
     font-size: 0.95rem;
   }
 
   /* Custom scrollbar for inner panels */
-  .aelf-scroll {
+  .lt-scroll {
     scrollbar-width: thin;
-    scrollbar-color: #bf2329 #f0eeea;
+    scrollbar-color: #0e7c66 #f4f1ea;
   }
-  .aelf-scroll::-webkit-scrollbar {
+  .lt-scroll::-webkit-scrollbar {
     width: 8px;
     height: 8px;
   }
-  .aelf-scroll::-webkit-scrollbar-track {
-    background: #f0eeea;
+  .lt-scroll::-webkit-scrollbar-track {
+    background: #f4f1ea;
   }
-  .aelf-scroll::-webkit-scrollbar-thumb {
-    background: #bf2329;
+  .lt-scroll::-webkit-scrollbar-thumb {
+    background: #0e7c66;
     border-radius: 0;
   }
-  .aelf-scroll::-webkit-scrollbar-thumb:hover {
-    background: #9a1d22;
+  .lt-scroll::-webkit-scrollbar-thumb:hover {
+    background: #0a5e4d;
   }
 }

@@ -3,7 +3,7 @@
 import { useMemo, useState } from 'react'
 import { MonthNavBar } from '../date-nav-bar'
 import { LiturgicalBadge } from '../liturgical-badge'
-import { useAelfStore } from '@/lib/store'
+import { useLitabibleStore } from '@/lib/store'
 import { getMonthCalendar } from '@/data/liturgical-calendar'
 import type { DayInfo } from '@/data/types'
 
@@ -34,9 +34,9 @@ function describeDay(day: DayInfo): string {
 
 /** Calendrier page — vertical list of all days of the viewed month. */
 export function CalendarPage() {
-  const selectedDate = useAelfStore((s) => s.selectedDate)
-  const setSelectedDate = useAelfStore((s) => s.setSelectedDate)
-  const setPage = useAelfStore((s) => s.setPage)
+  const selectedDate = useLitabibleStore((s) => s.selectedDate)
+  const setSelectedDate = useLitabibleStore((s) => s.setSelectedDate)
+  const setPage = useLitabibleStore((s) => s.setPage)
 
   // Local state for the currently-viewed month, initialised from `selectedDate`.
   const [{ year, month }, setView] = useState(() => {
@@ -112,7 +112,7 @@ export function CalendarPage() {
           {FRENCH_MONTHS_FULL[month - 1]} {year} · {days.length} jours
         </p>
 
-        <div className="max-h-[70vh] overflow-y-auto aelf-scroll -mx-1">
+        <div className="max-h-[70vh] overflow-y-auto lt-scroll -mx-1">
           <ul className="divide-y divide-[#e2e0dc]">
             {days.map((day) => {
               const { day: dayNum } = parseISO(day.date)
@@ -137,7 +137,7 @@ export function CalendarPage() {
                     />
                     <div className="min-w-0">
                       <p className="text-[15px] font-bold text-[#333333]">
-                        <span className="text-[#bf2329]">{wd}</span>{' '}
+                        <span className="text-[#0e7c66]">{wd}</span>{' '}
                         <span className="text-[#333333]">{dateLabel}</span>
                       </p>
                       <p className="text-[14px] leading-[1.5] text-[#333333] mt-0.5">
@@ -155,14 +155,14 @@ export function CalendarPage() {
                     <button
                       type="button"
                       onClick={() => openDay(day.date, 'messe')}
-                      className="text-[13px] text-[#bf2329] hover:underline uppercase font-semibold whitespace-nowrap"
+                      className="text-[13px] text-[#0e7c66] hover:underline uppercase font-semibold whitespace-nowrap"
                     >
                       La messe
                     </button>
                     <button
                       type="button"
                       onClick={() => openDay(day.date, 'heures')}
-                      className="text-[13px] text-[#bf2329] hover:underline uppercase font-semibold whitespace-nowrap"
+                      className="text-[13px] text-[#0e7c66] hover:underline uppercase font-semibold whitespace-nowrap"
                     >
                       Les heures
                     </button>
