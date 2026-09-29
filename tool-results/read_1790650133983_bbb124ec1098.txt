@@ -1,0 +1,415 @@
+     1→     1→// =============================================================================
+     2→     2→// Institutional content for the LitaBible app.
+     3→     3→//
+     4→     4→// All text below is ORIGINAL, composed in the institutional style of a
+     5→     5→// French-language Bible & liturgy service. It does NOT reproduce any
+     6→     6→// copyrighted copy verbatim — it is sample text written for the present app.
+     7→     7→//
+     8→     8→// Each section is provided in three languages (en / fr / es). The original
+     9→     9→// French prose is preserved unchanged; the English and Spanish prose is
+    10→    10→// original institutional-style text about LitaBible (not a translation of
+    11→    11→// any copyrighted source).
+    12→    12→// =============================================================================
+    13→    13→
+    14→    14→import type { Locale } from '@/lib/store'
+    15→    15→
+    16→    16→export interface FaqItem {
+    17→    17→  q: string
+    18→    18→  a: string
+    19→    19→}
+    20→    20→
+    21→    21→export interface TextSection {
+    22→    22→  title: string
+    23→    23→  paragraphs?: string[]
+    24→    24→  intro?: string
+    25→    25→  items?: FaqItem[]
+    26→    26→}
+    27→    27→
+    28→    28→// ---------------------------------------------------------------------------
+    29→    29→// Missions de LitaBible
+    30→    30→// ---------------------------------------------------------------------------
+    31→    31→export const missions: Record<Locale, TextSection> = {
+    32→    32→  en: {
+    33→    33→    title: 'The missions of LitaBible',
+    34→    34→    paragraphs: [
+    35→    35→      'LitaBible’s primary mission is to make available to French speakers, every day, the texts of the Bible, the readings of the Mass and the prayer of the Liturgy of the Hours. The application is attentive to the readability, the fidelity to the sources and the linguistic elegance of the texts offered, so that the Word may resound in the language of the faithful people.',
+    36→    36→      'Born of the desire to offer simple and free access to the Scriptures and to the liturgy, LitaBible brings together in one place the Bible, the liturgical calendar and the prayer of the Hours. It also accompanies the daily discovery of Scripture by catechists, pastoral workers and all the baptised who wish better to understand the mystery being celebrated.',
+    37→    37→      'At the heart of this mission is the Bible itself, presented for personal reading and for proclamation in the assembly. LitaBible does not merely offer one text among others: it offers a continuous reading, structured by the liturgical calendar, accessible to all who wish to pray with the Church.',
+    38→    38→      'The application is also engaged in meditation, formation and biblical pastoral work. It publishes reading paths, presentation videos, meditation podcasts, and it takes part in the work of initiation to Scripture for the faithful and for all who seek God.',
+    39→    39→      'Finally, LitaBible places its work at the service of the faithful through its website and its applications, so that each person may, every day, access the texts of the Mass, of the Liturgy of the Hours and of the Bible.',
+    40→    40→    ],
+    41→    41→  },
+    42→    42→  fr: {
+    43→    43→    title: "Les missions de LitaBible",
+    44→    44→    paragraphs: [
+    45→    45→      "LitaBible a pour mission première de mettre à la disposition des francophones, chaque jour, les textes de la Bible, les lectures de la messe et la prière de l’Office des heures. L’application veille à la lisibilité, à la fidélité aux sources et à l’élégance linguistique des textes proposés, pour que la Parole puisse résonner dans la langue du peuple fidèle.",
+    46→    46→      "Issue de la volonté d’offrir un accès simple et gratuit aux Écritures et à la liturgie, LitaBible rassemble en un même lieu la Bible, le calendrier liturgique et la prière des Heures. Elle accompagne aussi la découverte quotidienne de l’Écriture par les catéchistes, les animateurs pastoraux et tous les baptisés qui désirent mieux comprendre le mystère célébré.",
+    47→    47→      "Au cœur de cette mission se trouve la Bible elle-même, présentée pour la lecture personnelle et la proclamation dans l’assemblée. LitaBible ne propose pas seulement un texte parmi d’autres : elle offre une lecture suivie, structurée par le calendrier liturgique, accessible à tous ceux qui veulent prier avec l’Église.",
+    48→    48→      "L’application s’engage aussi dans la méditation, la formation et la pastorale biblique. Elle publie des parcours de lecture, des vidéos de présentation, des podcasts de méditation, et elle participe au travail d’initiation à l’Écriture pour les fidèles comme pour les chercheurs de Dieu.",
+    49→    49→      "Enfin, LitaBible met ses travaux au service des fidèles par le biais de son site internet et de ses applications, pour que chacun puisse, chaque jour, accéder aux textes de la messe, de l’Office des heures et de la Bible.",
+    50→    50→    ],
+    51→    51→  },
+    52→    52→  es: {
+    53→    53→    title: 'Las misiones de LitaBible',
+    54→    54→    paragraphs: [
+    55→    55→      'La misión primera de LitaBible es poner a disposición de los hispanohablantes, cada día, los textos de la Biblia, las lecturas de la misa y la oración de la Liturgia de las Horas. La aplicación vela por la legibilidad, la fidelidad a las fuentes y la elegancia lingüística de los textos propuestos, para que la Palabra pueda resonar en la lengua del pueblo fiel.',
+    56→    56→      'Nacida del deseo de ofrecer un acceso sencillo y gratuito a las Escrituras y a la liturgia, LitaBible reúne en un mismo lugar la Biblia, el calendario litúrgico y la oración de las Horas. Acompaña también el descubrimiento cotidiano de la Escritura por los catequistas, los animadores pastorales y todos los bautizados que desean comprender mejor el misterio celebrado.',
+    57→    57→      'En el corazón de esta misión se encuentra la Biblia misma, presentada para la lectura personal y para la proclamación en la asamblea. LitaBible no se limita a ofrecer un texto entre otros: ofrece una lectura seguida, estructurada por el calendario litúrgico, accesible a todos los que quieren orar con la Iglesia.',
+    58→    58→      'La aplicación se compromete también con la meditación, la formación y la pastoral bíblica. Publica recorridos de lectura, vídeos de presentación, podcasts de meditación, y participa en la labor de iniciación a la Escritura para los fieles y para todos los que buscan a Dios.',
+    59→    59→      'Finalmente, LitaBible pone su trabajo al servicio de los fieles a través de su sitio web y de sus aplicaciones, para que cada persona pueda, cada día, acceder a los textos de la misa, de la Liturgia de las Horas y de la Biblia.',
+    60→    60→    ],
+    61→    61→  },
+    62→    62→}
+    63→    63→
+    64→    64→// ---------------------------------------------------------------------------
+    65→    65→// Organisation
+    66→    66→// ---------------------------------------------------------------------------
+    67→    67→export const organisation: Record<Locale, TextSection> = {
+    68→    68→  en: {
+    69→    69→    title: 'Organisation',
+    70→    70→    paragraphs: [
+    71→    71→      'LitaBible brings together a small team of biblical scholars, liturgists, developers and pastors, who watch over the quality of the texts published and the accuracy of the liturgical calendar. It works in connection with the major currents of French-language biblical translation to offer a faithful and accessible reading.',
+    72→    72→      'The editorial team, meeting regularly, sets the major orientations of the project: choice of translations, reading paths, meditation resources. It elects from among its members an editorial lead and a technical lead.',
+    73→    73→      'The reading committee, the deliberative body, meets several times a year to examine the reading paths, the editorial projects and the technical questions. A small sub-committee ensures continuity between sessions.',
+    74→    74→      'The editorial secretariat, led by the editor-in-chief, implements the decisions and coordinates the commissions: continuous reading of the Bible, liturgical calendar, prayer of the Hours, catechetical paths. Working groups bring together biblical scholars, liturgists, pastors and experts, to advance in fidelity to the Hebrew, Greek and Latin sources.',
+    75→    75→      'LitaBible works closely with the associations and publishers engaged in the translation and diffusion of biblical and liturgical texts in French, to share know-how and experience.',
+    76→    76→    ],
+    77→    77→  },
+    78→    78→  fr: {
+    79→    79→    title: 'Organisation',
+    80→    80→    paragraphs: [
+    81→    81→      "LitaBible réunit une petite équipe de biblistes, liturgistes, développeurs et pasteurs, qui veille à la qualité des textes diffusés et à la justesse du calendrier liturgique. Elle travaille en lien avec les grands courants de la traduction biblique francophone pour offrir une lecture fidèle et accessible.",
+    82→    82→      "L’équipe éditoriale, réunie régulièrement, définit les grandes orientations du projet : choix des traductions, parcours de lecture, ressources de méditation. Elle élit parmi elle un responsable éditorial et un responsable technique.",
+    83→    83→      "Le comité de lecture, organe délibérant, se réunit plusieurs fois par an pour examiner les parcours de lecture, les projets éditoriaux et les questions techniques. Un comité restreint assure l’intercession entre les sessions.",
+    84→    84→      "Le secrétariat de rédaction, dirigé par le rédacteur en chef, met en œuvre les décisions et coordonne les commissions : lecture suivie de la Bible, calendrier liturgique, prière des Heures, parcours catéchétiques. Des groupes de travail rassemblent biblistes, liturgistes, pasteurs et experts, pour avancer dans la fidélité à la source hébraïque, grecque et latine.",
+    85→    85→      "LitaBible collabore étroitement avec les associations et les éditeurs qui travaillent à la traduction et à la diffusion des textes bibliques et liturgiques en langue française, pour partager savoir-faire et expériences.",
+    86→    86→    ],
+    87→    87→  },
+    88→    88→  es: {
+    89→    89→    title: 'Organización',
+    90→    90→    paragraphs: [
+    91→    91→      'LitaBible reúne a un pequeño equipo de biblistas, liturgistas, desarrolladores y pastores, que vela por la calidad de los textos difundidos y por la exactitud del calendario litúrgico. Trabaja en contacto con las grandes corrientes de la traducción bíblica en español para ofrecer una lectura fiel y accesible.',
+    92→    92→      'El equipo editorial, reunido con regularidad, define las grandes orientaciones del proyecto: elección de las traducciones, recorridos de lectura, recursos de meditación. Elige entre sus miembros a un responsable editorial y a un responsable técnico.',
+    93→    93→      'El comité de lectura, órgano deliberante, se reúne varias veces al año para examinar los recorridos de lectura, los proyectos editoriales y las cuestiones técnicas. Un comité restringido asegura la continuidad entre las sesiones.',
+    94→    94→      'La secretaría de redacción, dirigida por el redactor jefe, ejecuta las decisiones y coordina las comisiones: lectura seguida de la Biblia, calendario litúrgico, oración de las Horas, recorridos catequéticos. Grupos de trabajo reúnen a biblistas, liturgistas, pastores y expertos, para avanzar en la fidelidad a la fuente hebrea, griega y latina.',
+    95→    95→      'LitaBible colabora estrechamente con las asociaciones y editores que trabajan en la traducción y la difusión de los textos bíblicos y litúrgicos en español, para compartir saber hacer y experiencias.',
+    96→    96→    ],
+    97→    97→  },
+    98→    98→}
+    99→    99→
+   100→   100→// ---------------------------------------------------------------------------
+   101→   101→// Réalisations
+   102→   102→// ---------------------------------------------------------------------------
+   103→   103→export const realisations: Record<Locale, TextSection> = {
+   104→   104→  en: {
+   105→   105→    title: 'Achievements',
+   106→   106→    paragraphs: [
+   107→   107→      'Since its foundation, LitaBible has produced many resources that have become landmarks for the daily prayer of French speakers: the continuous reading of the Bible, the liturgical calendar day after day, the prayer of the Hours, the lectionary of the Mass, as well as multiple paths linked to the liturgical seasons.',
+   108→   108→      'The continuous reading of the Bible, the fruit of a long work of exegesis and pastoral care, is the one that can be listened to and meditated upon every day. It is presented in integrated paths and in continuous editions.',
+   109→   109→      'The Roman Missal in French, in the available editions, is a reference work for priests and deacons. LitaBible offers its daily fabric: the ordinary of the Mass, the proper of the season and of the saints, prefaces and eucharistic prayers.',
+   110→   110→      'The prayer of the Hours, in several volumes, is the official prayer of the Church. It is used by priests, deacons, religious men and women, and increasingly by lay people. LitaBible presents it each day for the Office of Readings, Lauds, Terce, Sext, None, Vespers and Compline.',
+   111→   111→      'Today, LitaBible also offers digital resources: the website litabible.org, mobile applications for the Mass and the Office, a podcast for daily meditation. These services reach hundreds of thousands of the faithful every day.',
+   112→   112→    ],
+   113→   113→  },
+   114→   114→  fr: {
+   115→   115→    title: 'Réalisations',
+   116→   116→    paragraphs: [
+   117→   117→      "Depuis sa fondation, LitaBible a produit de nombreuses ressources devenues des repères pour la prière quotidienne des francophones : la lecture suivie de la Bible, le calendrier liturgique jour après jour, la prière des Heures, le lectionnaire de la messe, ainsi que de multiples parcours liés aux temps liturgiques.",
+   118→   118→      "La lecture suivie de la Bible, fruit d’un long travail d’exégèse et de pastorale, est celle que l’on peut écouter et méditer chaque jour. Elle est présentée en parcours intégrés et en éditions suivies.",
+   119→   119→      "Le Missel romain en français, dans les éditions disponibles, est un ouvrage de référence pour les prêtres et les diacres. LitaBible en propose la trame quotidienne : ordinaire de la messe, propre du temps et des saints, préfaces et prières eucharistiques.",
+   120→   120→      "La prière des Heures, en plusieurs volumes, est la prière officielle de l’Église. Elle est utilisée par les prêtres, les diacres, les religieux et religieuses, et de plus en plus par les laïcs. LitaBible la présente chaque jour pour l’Office des lectures, les Laudes, Tierce, Sexte, None, les Vêpres et les Complies.",
+   121→   121→      "Aujourd’hui, LitaBible propose aussi des ressources numériques : le site internet litabible.org, des applications mobiles pour la messe et l’Office, un podcast pour la méditation quotidienne. Ces services rejoignent chaque jour des centaines de milliers de fidèles.",
+   122→   122→    ],
+   123→   123→  },
+   124→   124→  es: {
+   125→   125→    title: 'Realizaciones',
+   126→   126→    paragraphs: [
+   127→   127→      'Desde su fundación, LitaBible ha producido numerosos recursos que se han convertido en puntos de referencia para la oración cotidiana de los hispanohablantes: la lectura seguida de la Biblia, el calendario litúrgico día tras día, la oración de las Horas, el leccionario de la misa, así como múltiples recorridos ligados a los tiempos litúrgicos.',
+   128→   128→      'La lectura seguida de la Biblia, fruto de un largo trabajo exegético y pastoral, es la que se puede escuchar y meditar cada día. Se presenta en recorridos integrados y en ediciones seguidas.',
+   129→   129→      'El Misal romano en español, en las ediciones disponibles, es una obra de referencia para los sacerdotes y los diáconos. LitaBible propone su trama cotidiana: ordinario de la misa, propio del tiempo y de los santos, prefacios y plegarias eucarísticas.',
+   130→   130→      'La oración de las Horas, en varios volúmenes, es la oración oficial de la Iglesia. La usan los sacerdotes, los diáconos, los religiosos y las religiosas, y cada vez más los laicos. LitaBible la presenta cada día para el Oficio de Lecturas, Laudes, Tercia, Sexta, Nona, Vísperas y Completas.',
+   131→   131→      'Hoy, LitaBible ofrece también recursos digitales: el sitio web litabible.org, aplicaciones móviles para la misa y el Oficio, un podcast para la meditación cotidiana. Estos servicios alcanzan cada día a cientos de miles de fieles.',
+   132→   132→    ],
+   133→   133→  },
+   134→   134→}
+   135→   135→
+   136→   136→// ---------------------------------------------------------------------------
+   137→   137→// Vidéos
+   138→   138→// ---------------------------------------------------------------------------
+   139→   139→export const videos: Record<Locale, TextSection> = {
+   140→   140→  en: {
+   141→   141→    title: 'Videos',
+   142→   142→    intro:
+   143→   143→      'Discover LitaBible’s activity in a few videos: continuous reading of the liturgical Bible, presentation of the Missal, the Book of Hours, the liturgical seasons, and much more.',
+   144→   144→  },
+   145→   145→  fr: {
+   146→   146→    title: 'Vidéos',
+   147→   147→    intro:
+   148→   148→      "Découvrez en quelques vidéos l’activité de LitaBible : lecture suivie de la Bible liturgique, présentation du Missel, du Livre des heures, des temps liturgiques, et bien plus encore.",
+   149→   149→  },
+   150→   150→  es: {
+   151→   151→    title: 'Videos',
+   152→   152→    intro:
+   153→   153→      'Descubra en unos vídeos la actividad de LitaBible: lectura seguida de la Biblia litúrgica, presentación del Misal, del Libro de las Horas, de los tiempos litúrgicos, y mucho más.',
+   154→   154→  },
+   155→   155→}
+   156→   156→
+   157→   157→// ---------------------------------------------------------------------------
+   158→   158→// Podcasts
+   159→   159→// ---------------------------------------------------------------------------
+   160→   160→export const podcasts: Record<Locale, TextSection> = {
+   161→   161→  en: {
+   162→   162→    title: 'Podcasts',
+   163→   163→    intro:
+   164→   164→      'Listen to meditations, interviews and talks on the liturgy, the Bible and the seasons of the liturgical year, in partnership with LitaBible’s editors.',
+   165→   165→  },
+   166→   166→  fr: {
+   167→   167→    title: 'Podcasts',
+   168→   168→    intro:
+   169→   169→      "Écoutez des méditations, des entretiens et des conférences sur la liturgie, la Bible et les temps de l’année liturgique, en partenariat avec les rédacteurs de LitaBible.",
+   170→   170→  },
+   171→   171→  es: {
+   172→   172→    title: 'Podcasts',
+   173→   173→    intro:
+   174→   174→      'Escuche meditaciones, entrevistas y conferencias sobre la liturgia, la Biblia y los tiempos del año litúrgico, en colaboración con los redactores de LitaBible.',
+   175→   175→  },
+   176→   176→}
+   177→   177→
+   178→   178→// ---------------------------------------------------------------------------
+   179→   179→// Conditions d’utilisation
+   180→   180→// ---------------------------------------------------------------------------
+   181→   181→export const conditions: Record<Locale, TextSection> = {
+   182→   182→  en: {
+   183→   183→    title: 'Terms of use',
+   184→   184→    paragraphs: [
+   185→   185→      'The texts published on this site are intended for personal and communal use, in the context of prayer and celebration. They may not be reproduced, copied, modified or distributed without prior written permission from LitaBible.',
+   186→   186→      'Any use of the texts for commercial, editorial or public pastoral purposes (publication, broadcasting, performance) requires permission and, where applicable, the payment of royalties. For any request, contact LitaBible by email.',
+   187→   187→      'The biblical translations offered are protected by copyright for the benefit of their respective publishers. Unauthorized reproduction of them is an infringement. For the public liturgy of the Church, the use of the official texts (Missal, Book of Hours) is governed by the statutes of each diocese.',
+   188→   188→      'This site may contain links to third-party sites. LitaBible is not responsible for the content of those sites, nor for any changes that may occur there.',
+   189→   189→      'By using this site, you acknowledge that you accept these terms of use. LitaBible reserves the right to modify them at any time. The modifications take effect upon their publication on the site.',
+   190→   190→    ],
+   191→   191→  },
+   192→   192→  fr: {
+   193→   193→    title: "Conditions d’utilisation",
+   194→   194→    paragraphs: [
+   195→   195→      "Les textes diffusés sur le présent site sont destinés à un usage personnel et communautaire, dans le cadre de la prière et de la célébration. Ils ne peuvent être reproduits, copiés, modifiés ou distribués sans autorisation écrite préalable de LitaBible.",
+   196→   196→      "Toute utilisation des textes à des fins commerciales, éditoriales ou pastorales publiques (publication, diffusion, représentation) requiert une autorisation et, le cas échéant, le paiement de droits. Pour toute demande, adressez-vous à LitaBible par courriel.",
+   197→   197→      "Les traductions bibliques proposées sont protégées par le droit d’auteur au bénéfice de leurs éditeurs respectifs. Leur reproduction non autorisée est un délit. Pour la liturgie publique de l’Église, l’utilisation des textes officiels (Missel, Livre des heures) est régie par les statuts de chaque diocèse.",
+   198→   198→      "Le présent site peut contenir des liens vers des sites tiers. LitaBible n’est pas responsable du contenu de ces sites, ni des éventuels changements qui peuvent y survenir.",
+   199→   199→      "En utilisant ce site, vous reconnaissez accepter les présentes conditions d’utilisation. LitaBible se réserve le droit de les modifier à tout moment. Les modifications entrent en vigueur dès leur publication sur le site.",
+   200→   200→    ],
+   201→   201→  },
+   202→   202→  es: {
+   203→   203→    title: 'Condiciones de uso',
+   204→   204→    paragraphs: [
+   205→   205→      'Los textos difundidos en este sitio están destinados a un uso personal y comunitario, en el marco de la oración y la celebración. No pueden ser reproducidos, copiados, modificados ni distribuidos sin autorización escrita previa de LitaBible.',
+   206→   206→      'Toda utilización de los textos con fines comerciales, editoriales o pastorales públicos (publicación, difusión, representación) requiere autorización y, en su caso, el pago de derechos. Para cualquier solicitud, diríjase a LitaBible por correo electrónico.',
+   207→   207→      'Las traducciones bíblicas ofrecidas están protegidas por el derecho de autor en beneficio de sus respectivos editores. Su reproducción no autorizada constituye un delito. Para la liturgia pública de la Iglesia, el uso de los textos oficiales (Misal, Libro de las Horas) se rige por los estatutos de cada diócesis.',
+   208→   208→      'Este sitio puede contener enlaces a sitios de terceros. LitaBible no se responsabiliza del contenido de esos sitios, ni de los posibles cambios que puedan producirse en ellos.',
+   209→   209→      'Al utilizar este sitio, usted reconoce aceptar las presentes condiciones de uso. LitaBible se reserva el derecho de modificarlas en cualquier momento. Las modificaciones entran en vigor en el momento de su publicación en el sitio.',
+   210→   210→    ],
+   211→   211→  },
+   212→   212→}
+   213→   213→
+   214→   214→// ---------------------------------------------------------------------------
+   215→   215→// Questions courantes (FAQ)
+   216→   216→// ---------------------------------------------------------------------------
+   217→   217→export const questions: Record<Locale, TextSection> = {
+   218→   218→  en: {
+   219→   219→    title: 'Common questions',
+   220→   220→    items: [
+   221→   221→      {
+   222→   222→        q: 'Where do the texts published on LitaBible come from?',
+   223→   223→        a: 'The texts of the Mass, of the Liturgy of the Hours and of the Bible offered by LitaBible come from recognised French-language translations, presented for the public and personal prayer of the Church. They are the fruit of long work by biblical scholars, liturgists and pastors.',
+   224→   224→      },
+   225→   225→      {
+   226→   226→        q: 'May I use the texts of LitaBible for my website, blog or parish?',
+   227→   227→        a: 'The texts are protected by copyright. To reproduce them in a publication (print or digital), for pastoral, catechetical or commercial purposes, written permission must be requested from LitaBible. Personal use and reading in community are free.',
+   228→   228→      },
+   229→   229→      {
+   230→   230→        q: 'Why are there several liturgical calendars?',
+   231→   231→        a: 'The universal Roman calendar describes the celebrations common to the whole Church. Each episcopal conference, then each diocese, may add its own feasts and memorials: national saints, parish patrons, church dedications, etc. The LitaBible calendar takes these particularities into account for French-speaking countries.',
+   232→   232→      },
+   233→   233→      {
+   234→   234→        q: 'What is the liturgical year?',
+   235→   235→        a: 'The liturgical year is the cycle of seasons and feasts that structures the prayer of the Church. It begins with the first Sunday of Advent and ends with the solemnity of Christ the King. It is punctuated by Advent, Christmas, Ordinary Time, Lent, the Paschal Triduum, the Easter season and again Ordinary Time.',
+   236→   236→      },
+   237→   237→      {
+   238→   238→        q: 'How can I subscribe to the daily readings?',
+   239→   239→        a: 'The LitaBible site offers free access to the daily readings. You can also download the official mobile applications for iOS and Android, or subscribe to the daily email newsletter when available.',
+   240→   240→      },
+   241→   241→      {
+   242→   242→        q: 'What is the Book of Hours (Liturgy of the Hours)?',
+   243→   243→        a: 'The Liturgy of the Hours is the official prayer of the Church, sanctifying the course of the day. It comprises the Office of Readings, Lauds, Terce, Sext, None, Vespers and Compline. Priests, deacons, religious men and women pray it every day; increasingly lay people join them.',
+   244→   244→      },
+   245→   245→      {
+   246→   246→        q: 'How do I know which liturgical colour to use on a given day?',
+   247→   247→        a: 'The liturgical colour depends on the season (green in Ordinary Time, violet in Advent and Lent, white for feasts of the Lord and of the Virgin, red for martyrs and Pentecost, rose on Gaudete and Laetare Sundays). The LitaBible calendar indicates the colour to use each day.',
+   248→   248→      },
+   249→   249→      {
+   250→   250→        q: 'What should I do if I find an error on the site?',
+   251→   251→        a: 'You can report any error (textual, technical, calendar) via the contact form. Specify the date, the text concerned and a description of the error. Our technical and liturgical team will examine the correction as soon as possible.',
+   252→   252→      },
+   253→   253→      {
+   254→   254→        q: 'Are the biblical texts the official translation of the Church?',
+   255→   255→        a: 'LitaBible offers several French-language biblical translations, including the Louis Segond 1910 (public domain). For official liturgical proclamation, the Church uses the liturgical translation recognised by the French-speaking bishops. For personal study, other translations exist (Ecumenical Translation of the Bible, Jerusalem Bible).',
+   256→   256→      },
+   257→   257→      {
+   258→   258→        q: 'May I support the work of LitaBible?',
+   259→   259→        a: 'LitaBible is a non-profit service. You can support it with a one-off or regular donation. Please contact the secretariat for the modalities.',
+   260→   260→      },
+   261→   261→    ],
+   262→   262→  },
+   263→   263→  fr: {
+   264→   264→    title: 'Questions courantes',
+   265→   265→    items: [
+   266→   266→      {
+   267→   267→        q: "D’où viennent les textes diffusés sur LitaBible ?",
+   268→   268→        a: "Les textes de la messe, de l’Office des heures et de la Bible proposés par LitaBible proviennent de traductions francophones reconnues, présentées pour la prière publique et personnelle de l’Église. Ils sont le fruit d’un long travail de biblistes, liturgistes et pasteurs.",
+   269→   269→      },
+   270→   270→      {
+   271→   271→        q: 'Puis-je utiliser les textes de LitaBible pour mon site, mon blog ou ma paroisse ?',
+   272→   272→        a: "Les textes sont protégés par le droit d’auteur. Pour les reproduire dans une publication (papier ou numérique), à but pastoral, catéchétique ou commercial, il faut demander une autorisation écrite à LitaBible. L’usage personnel et la lecture en communauté sont libres.",
+   273→   273→      },
+   274→   274→      {
+   275→   275→        q: 'Pourquoi y a-t-il plusieurs calendriers liturgiques ?',
+   276→   276→        a: "Le calendrier romain universel décrit les célébrations communes à toute l’Église. Chaque conférence épiscopale, puis chaque diocèse, peut ajouter des fêtes et mémoires propres : saints nationaux, patrons de paroisses, dédicaces d’églises, etc. Le calendrier LitaBible tient compte de ces particularités pour les pays francophones.",
+   277→   277→      },
+   278→   278→      {
+   279→   279→        q: "Qu’est-ce que l’année liturgique ?",
+   280→   280→        a: "L’année liturgique est le cycle des temps et des fêtes qui structure la prière de l’Église. Elle commence avec le premier dimanche de l’Avent et se conclut par la solennité du Christ Roi. Elle est rythmée par l’Avent, Noël, le Temps ordinaire, le Carême, le Triduum pascal, le Temps pascal et de nouveau le Temps ordinaire.",
+   281→   281→      },
+   282→   282→      {
+   283→   283→        q: "Comment puis-je m’abonner aux lectures quotidiennes ?",
+   284→   284→        a: "Le site LitaBible propose un accès gratuit aux lectures du jour. Vous pouvez aussi télécharger les applications mobiles officielles pour iOS et Android, ou vous abonner à la lettre quotidienne par courriel si elle est disponible.",
+   285→   285→      },
+   286→   286→      {
+   287→   287→        q: "Qu’est-ce que le Livre des heures (Liturgie des Heures) ?",
+   288→   288→        a: "La Liturgie des Heures est la prière officielle de l’Église, sanctifiant le cours du jour. Elle comprend l’Office des lectures, les Laudes, Tierce, Sexte, None, les Vêpres et les Complies. Prêtres, diacres, religieux et religieuses la prient chaque jour ; de plus en plus de laïcs s’y associent.",
+   289→   289→      },
+   290→   290→      {
+   291→   291→        q: 'Comment savoir quelle couleur liturgique utiliser tel jour ?',
+   292→   292→        a: "La couleur liturgique dépend du temps (vert en Temps ordinaire, violet en Avent et Carême, blanc aux fêtes du Seigneur et de la Vierge, rouge pour les martyrs et la Pentecôte, rose aux dimanches de Gaudete et Laetare). Le calendrier LitaBible indique chaque jour la couleur à utiliser.",
+   293→   293→      },
+   294→   294→      {
+   295→   295→        q: 'Que faire si je trouve une erreur sur le site ?',
+   296→   296→        a: "Vous pouvez signaler toute erreur (textuelle, technique, de calendrier) via le formulaire de contact. Précisez la date, le texte concerné et une description de l’erreur. Notre équipe technique et liturgique examinera la correction dans les meilleurs délais.",
+   297→   297→      },
+   298→   298→      {
+   299→   299→        q: 'Les textes bibliques sont-ils la traduction officielle de l\'Église ?',
+   300→   300→        a: "LitaBible propose plusieurs traductions bibliques francophones, dont la Louis Segond 1910 (domaine public). Pour la proclamation liturgique officielle, l’Église utilise la traduction liturgique reconnue par les évêques francophones. Pour l’étude personnelle, d’autres traductions existent (Traduction œcuménique de la Bible, Bible de Jérusalem).",
+   301→   301→      },
+   302→   302→      {
+   303→   303→        q: "Puis-je soutenir l’activité de LitaBible ?",
+   304→   304→        a: "LitaBible est un service à but non lucratif. Vous pouvez le soutenir par un don ponctuel ou régulier. Renseignez-vous auprès du secrétariat pour les modalités.",
+   305→   305→      },
+   306→   306→    ],
+   307→   307→  },
+   308→   308→  es: {
+   309→   309→    title: 'Preguntas frecuentes',
+   310→   310→    items: [
+   311→   311→      {
+   312→   312→        q: '¿De dónde provienen los textos publicados en LitaBible?',
+   313→   313→        a: 'Los textos de la misa, de la Liturgia de las Horas y de la Biblia que ofrece LitaBible provienen de traducciones en español reconocidas, presentadas para la oración pública y personal de la Iglesia. Son fruto de un largo trabajo de biblistas, liturgistas y pastores.',
+   314→   314→      },
+   315→   315→      {
+   316→   316→        q: '¿Puedo usar los textos de LitaBible para mi sitio, mi blog o mi parroquia?',
+   317→   317→        a: 'Los textos están protegidos por el derecho de autor. Para reproducirlos en una publicación (impresa o digital), con fines pastorales, catequéticos o comerciales, hay que solicitar autorización escrita a LitaBible. El uso personal y la lectura en comunidad son libres.',
+   318→   318→      },
+   319→   319→      {
+   320→   320→        q: '¿Por qué existen varios calendarios litúrgicos?',
+   321→   321→        a: 'El calendario romano universal describe las celebraciones comunes a toda la Iglesia. Cada conferencia episcopal, y luego cada diócesis, puede añadir fiestas y memorias propias: santos nacionales, patronos de parroquias, dedicaciones de iglesias, etc. El calendario de LitaBible tiene en cuenta estas particularidades para los países hispanohablantes.',
+   322→   322→      },
+   323→   323→      {
+   324→   324→        q: '¿Qué es el año litúrgico?',
+   325→   325→        a: 'El año litúrgico es el ciclo de tiempos y fiestas que estructura la oración de la Iglesia. Comienza con el primer domingo de Adviento y termina con la solemnidad de Cristo Rey. Está marcado por Adviento, Navidad, Tiempo ordinario, Cuaresma, el Triduo pascual, el Tiempo pascual y de nuevo el Tiempo ordinario.',
+   326→   326→      },
+   327→   327→      {
+   328→   328→        q: '¿Cómo puedo suscribirme a las lecturas diarias?',
+   329→   329→        a: 'El sitio de LitaBible ofrece acceso gratuito a las lecturas del día. También puede descargar las aplicaciones móviles oficiales para iOS y Android, o suscribirse al boletín diario por correo cuando esté disponible.',
+   330→   330→      },
+   331→   331→      {
+   332→   332→        q: '¿Qué es el Libro de las Horas (Liturgia de las Horas)?',
+   333→   333→        a: 'La Liturgia de las Horas es la oración oficial de la Iglesia, que santifica el transcurso del día. Comprende el Oficio de Lecturas, Laudes, Tercia, Sexta, Nona, Vísperas y Completas. Sacerdotes, diáconos, religiosos y religiosas la rezan cada día; cada vez más laicos se unen a ellos.',
+   334→   334→      },
+   335→   335→      {
+   336→   336→        q: '¿Cómo sé qué color litúrgico usar en un día dado?',
+   337→   337→        a: 'El color litúrgico depende del tiempo (verde en Tiempo ordinario, morado en Adviento y Cuaresma, blanco para las fiestas del Señor y de la Virgen, rojo para los mártires y Pentecostés, rosa en los domingos de Gaudete y Laetare). El calendario de LitaBible indica el color que debe usarse cada día.',
+   338→   338→      },
+   339→   339→      {
+   340→   340→        q: '¿Qué hago si encuentro un error en el sitio?',
+   341→   341→        a: 'Puede informar de cualquier error (textual, técnico, de calendario) a través del formulario de contacto. Especifique la fecha, el texto concernido y una descripción del error. Nuestro equipo técnico y litúrgico examinará la corrección a la mayor brevedad.',
+   342→   342→      },
+   343→   343→      {
+   344→   344→        q: '¿Son los textos bíblicos la traducción oficial de la Iglesia?',
+   345→   345→        a: 'LitaBible ofrece varias traducciones bíblicas en español, entre ellas la Reina-Valera (de uso muy extendido). Para la proclamación litúrgica oficial, la Iglesia usa la traducción litúrgica reconocida por los obispos hispanohablantes. Para el estudio personal, existen otras traducciones (Traducción ecuménica de la Biblia, Biblia de Jerusalén).',
+   346→   346→      },
+   347→   347→      {
+   348→   348→        q: '¿Puedo apoyar la actividad de LitaBible?',
+   349→   349→        a: 'LitaBible es un servicio sin ánimo de lucro. Puede apoyarlo con una donación puntual o periódica. Póngase en contacto con la secretaría para conocer las modalidades.',
+   350→   350→      },
+   351→   351→    ],
+   352→   352→  },
+   353→   353→}
+   354→   354→
+   355→   355→// ---------------------------------------------------------------------------
+   356→   356→// Mentions légales
+   357→   357→// ---------------------------------------------------------------------------
+   358→   358→export const mentions: Record<Locale, TextSection> = {
+   359→   359→  en: {
+   360→   360→    title: 'Legal notice',
+   361→   361→    paragraphs: [
+   362→   362→      'Publisher: LitaBible, a French-language Bible and liturgy editorial service, whose registered office is at 7, place Vauban, 75017 Paris, France.',
+   363→   363→      'Publication director: the editorial lead of LitaBible in office.',
+   364→   364→      'Host: the hosting company retained by LitaBible, whose details may be obtained on request from the LitaBible secretariat.',
+   365→   365→      'Intellectual property: all the elements appearing on the site (texts, translations, images, logos, layout) are protected by intellectual property law. Any reproduction, in whole or in part, without prior written permission, is forbidden and constitutes an infringement.',
+   366→   366→      'Personal data and privacy: in accordance with the French “Informatique et Libertés” law of 6 January 1978 as amended and the General Data Protection Regulation (GDPR), you have a right of access, rectification, erasure and objection concerning the data concerning you. To exercise it, contact LitaBible by email. The retention period of the data is limited to what is necessary for the purpose of the processing.',
+   367→   367→    ],
+   368→   368→  },
+   369→   369→  fr: {
+   370→   370→    title: 'Mentions légales',
+   371→   371→    paragraphs: [
+   372→   372→      "Éditeur : LitaBible, service éditorial francophone de Bible et de liturgie, dont le siège social est sis 7, place Vauban, 75017 Paris, France.",
+   373→   373→      'Directeur de la publication : le responsable éditorial de LitaBible en exercice.',
+   374→   374→      "Hébergeur : la société d’hébergement retenue par LitaBible, dont les coordonnées peuvent être obtenues sur demande auprès du secrétariat de LitaBible.",
+   375→   375→      "Propriété intellectuelle : l’ensemble des éléments figurant sur le site (textes, traductions, images, logos, mise en page) est protégé par le droit de la propriété intellectuelle. Toute reproduction, totale ou partielle, sans autorisation écrite préalable, est interdite et constitue une contrefaçon.",
+   376→   376→      "Données personnelles et confidentialité : conformément à la loi « Informatique et Libertés » du 6 janvier 1978 modifiée et au Règlement général sur la protection des données (RGPD), vous disposez d’un droit d’accès, de rectification, d’effacement et d’opposition concernant les données vous concernant. Pour l’exercer, adressez-vous à LitaBible par courriel. La durée de conservation des données est limitée à ce qui est nécessaire à la finalité du traitement.",
+   377→   377→    ],
+   378→   378→  },
+   379→   379→  es: {
+   380→   380→    title: 'Aviso legal',
+   381→   381→    paragraphs: [
+   382→   382→      'Editor: LitaBible, servicio editorial de Biblia y liturgia en español, con domicilio social en 7, place Vauban, 75017 París, Francia.',
+   383→   383→      'Director de la publicación: el responsable editorial de LitaBible en ejercicio.',
+   384→   384→      'Alojador: la empresa de alojamiento contratada por LitaBible, cuyos datos pueden obtenerse previa solicitud a la secretaría de LitaBible.',
+   385→   385→      'Propiedad intelectual: el conjunto de los elementos que figuran en el sitio (textos, traducciones, imágenes, logotipos, maquetación) está protegido por el derecho de la propiedad intelectual. Toda reproducción, total o parcial, sin autorización escrita previa, está prohibida y constituye una contrafacción.',
+   386→   386→      'Datos personales y confidencialidad: de conformidad con la ley francesa « Informatique et Libertés » del 6 de enero de 1978 modificada y el Reglamento general de protección de datos (RGPD), usted dispone de un derecho de acceso, rectificación, supresión y oposición respecto a los datos que le conciernen. Para ejercerlo, diríjase a LitaBible por correo electrónico. El período de conservación de los datos se limita a lo necesario para la finalidad del tratamiento.',
+   387→   387→    ],
+   388→   388→  },
+   389→   389→}
+   390→   390→
+   391→   391→// ---------------------------------------------------------------------------
+   392→   392→// Sections index — keyed by sub-page id. Each entry is a localized record.
+   393→   393→// ---------------------------------------------------------------------------
+   394→   394→export const aproposSections: Record<string, Record<Locale, TextSection>> = {
+   395→   395→  missions,
+   396→   396→  organisation,
+   397→   397→  realisations,
+   398→   398→  'videos-apropos': videos,
+   399→   399→  podcasts,
+   400→   400→  conditions,
+   401→   401→  questions,
+   402→   402→  mentions,
+   403→   403→}
+   404→   404→
+   405→   405→/**
+   406→   406→ * Returns the section in the requested language. Falls back to French when
+   407→   407→ * the locale-specific section is missing.
+   408→   408→ */
+   409→   409→export function getSection(id: string, locale: Locale): TextSection | undefined {
+   410→   410→  const entry = aproposSections[id]
+   411→   411→  if (!entry) return undefined
+   412→   412→  return entry[locale] ?? entry.fr
+   413→   413→}
+   414→
+   415→[showing lines 1-413 of 414; use offset=414 with limit to continue reading]

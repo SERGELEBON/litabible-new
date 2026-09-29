@@ -3,8 +3,8 @@ import type { Locale } from '@/lib/store'
 
 // =============================================================================
 // Liturgical calendar — heuristic, deterministic computation of DayInfo.
-// All fixed-date feasts are taken from the General Roman Calendar; movable
-// feasts are computed via the Computus (Meeus/Jones/Butcher algorithm).
+// All fixed-date feasts follow the shared calendar; movable feasts are
+// computed via the Computus (Meeus/Jones/Butcher algorithm).
 // =============================================================================
 
 function easterDate(year: number): Date {
@@ -85,7 +85,7 @@ function liturgicalYearLabel(date: Date): 'A' | 'B' | 'C' {
 }
 
 // ---------------------------------------------------------------------------
-// Fixed-date feasts (subset of the General Roman Calendar, in French).
+// Fixed-date feasts (subset of the shared calendar, in French).
 // ---------------------------------------------------------------------------
 type FeastRank = 'solemnite' | 'fete' | 'memoire' | 'memoire_facultative'
 
@@ -102,102 +102,102 @@ const fixedFeasts: FixedFeast[] = [
   { month: 1, day: 25, name: 'Conversion de saint Paul, apôtre — fête', color: 'white', rank: 'fete' },
   { month: 1, day: 26, name: 'Saints Timothée et Tite — mémoire', color: 'white', rank: 'memoire' },
   { month: 2, day: 2, name: 'Présentation du Seigneur — fête', color: 'white', rank: 'fete' },
-  { month: 2, day: 14, name: 'Saints Cyrille, moine, et Méthode, évêque — mémoire', color: 'white', rank: 'memoire' },
+  { month: 2, day: 14, name: 'Saints Cyrille et Méthode — commémoration', color: 'white', rank: 'memoire' },
   { month: 2, day: 22, name: 'Chaire de saint Pierre, apôtre — fête', color: 'white', rank: 'fete' },
   { month: 3, day: 7, name: 'Saintes Perpétue et Félicité, martyres — mémoire', color: 'red', rank: 'memoire' },
-  { month: 3, day: 17, name: 'Saint Patrice, évêque — mémoire', color: 'white', rank: 'memoire_facultative' },
+  { month: 3, day: 17, name: 'Saint Patrice — commémoration', color: 'white', rank: 'memoire_facultative' },
   { month: 3, day: 19, name: 'Saint Joseph, époux de la Vierge Marie — solennité', color: 'white', rank: 'solemnite' },
   { month: 3, day: 25, name: 'Annonciation du Seigneur — solennité', color: 'white', rank: 'solemnite' },
   { month: 4, day: 25, name: 'Saint Marc, évangéliste — fête', color: 'red', rank: 'fete' },
   { month: 4, day: 29, name: 'Sainte Catherine de Sienne, vierge et docteur — mémoire', color: 'white', rank: 'memoire' },
   { month: 5, day: 1, name: 'Saint Joseph artisan — mémoire', color: 'white', rank: 'memoire_facultative' },
-  { month: 5, day: 2, name: 'Saint Athanase, évêque et docteur — mémoire', color: 'white', rank: 'memoire' },
+  { month: 5, day: 2, name: 'Saint Athanase, docteur — commémoration', color: 'white', rank: 'memoire' },
   { month: 5, day: 3, name: 'Saints Philippe et Jacques, apôtres — fête', color: 'red', rank: 'fete' },
   { month: 5, day: 14, name: 'Saint Matthias, apôtre — fête', color: 'red', rank: 'fete' },
   { month: 5, day: 31, name: 'Visitation de la Vierge Marie — fête', color: 'white', rank: 'fete' },
   { month: 6, day: 1, name: 'Saint Justin, martyr — mémoire', color: 'red', rank: 'memoire' },
-  { month: 6, day: 5, name: 'Saint Boniface, évêque et martyr — mémoire', color: 'red', rank: 'memoire' },
-  { month: 6, day: 9, name: 'Saint Éphrem, diacre et docteur — mémoire', color: 'white', rank: 'memoire' },
+  { month: 6, day: 5, name: 'Saint Boniface, martyr — commémoration', color: 'red', rank: 'memoire' },
+  { month: 6, day: 9, name: 'Saint Éphrem, docteur — commémoration', color: 'white', rank: 'memoire' },
   { month: 6, day: 13, name: 'Saint Antoine de Padoue, docteur — mémoire', color: 'white', rank: 'memoire' },
-  { month: 6, day: 21, name: 'Saint Louis de Gonzague, religieux — mémoire', color: 'white', rank: 'memoire' },
+  { month: 6, day: 21, name: 'Saint Louis de Gonzague — commémoration', color: 'white', rank: 'memoire' },
   { month: 6, day: 24, name: 'Nativité de saint Jean Baptiste — solennité', color: 'white', rank: 'solemnite' },
-  { month: 6, day: 27, name: 'Saint Cyrille d\'Alexandrie, évêque et docteur — mémoire', color: 'white', rank: 'memoire_facultative' },
-  { month: 6, day: 28, name: 'Saint Irénée, évêque et martyr — mémoire', color: 'red', rank: 'memoire' },
+  { month: 6, day: 27, name: 'Saint Cyrille d\'Alexandrie, docteur — commémoration', color: 'white', rank: 'memoire_facultative' },
+  { month: 6, day: 28, name: 'Saint Irénée, martyr — commémoration', color: 'red', rank: 'memoire' },
   { month: 6, day: 29, name: 'Saints Pierre et Paul, apôtres — solennité', color: 'red', rank: 'solemnite' },
-  { month: 6, day: 30, name: 'Premiers martyrs de l\'Église de Rome — mémoire', color: 'red', rank: 'memoire_facultative' },
+  { month: 6, day: 30, name: 'Premiers témoins — commémoration', color: 'red', rank: 'memoire_facultative' },
   { month: 7, day: 3, name: 'Saint Thomas, apôtre — fête', color: 'red', rank: 'fete' },
-  { month: 7, day: 11, name: 'Saint Benoît, abbé — mémoire', color: 'white', rank: 'memoire' },
-  { month: 7, day: 14, name: 'Saint Camille de Lellis, religieux — mémoire', color: 'white', rank: 'memoire_facultative' },
-  { month: 7, day: 15, name: 'Saint Bonaventure, évêque et docteur — mémoire', color: 'white', rank: 'memoire' },
+  { month: 7, day: 11, name: 'Saint Benoît — commémoration', color: 'white', rank: 'memoire' },
+  { month: 7, day: 14, name: 'Saint Camille de Lellis — commémoration', color: 'white', rank: 'memoire_facultative' },
+  { month: 7, day: 15, name: 'Saint Bonaventure, docteur — commémoration', color: 'white', rank: 'memoire' },
   { month: 7, day: 22, name: 'Sainte Marie Madeleine — fête', color: 'white', rank: 'fete' },
   { month: 7, day: 25, name: 'Saint Jacques, apôtre — fête', color: 'red', rank: 'fete' },
   { month: 7, day: 26, name: 'Saints Anne et Joachim, parents de la Vierge Marie — mémoire', color: 'white', rank: 'memoire' },
   { month: 7, day: 29, name: 'Sainte Marthe — mémoire', color: 'white', rank: 'memoire' },
-  { month: 7, day: 31, name: 'Saint Ignace de Loyola, prêtre — mémoire', color: 'white', rank: 'memoire' },
-  { month: 8, day: 1, name: 'Saint Alphonse de Liguori, évêque et docteur — mémoire', color: 'white', rank: 'memoire' },
-  { month: 8, day: 4, name: 'Saint Jean-Marie Vianney, curé d\'Ars — mémoire', color: 'white', rank: 'memoire' },
-  { month: 8, day: 8, name: 'Saint Dominique, prêtre — mémoire', color: 'white', rank: 'memoire' },
+  { month: 7, day: 31, name: 'Saint Ignace de Loyola — commémoration', color: 'white', rank: 'memoire' },
+  { month: 8, day: 1, name: 'Saint Alphonse de Liguori, docteur — commémoration', color: 'white', rank: 'memoire' },
+  { month: 8, day: 4, name: 'Saint Jean-Marie Vianney — commémoration', color: 'white', rank: 'memoire' },
+  { month: 8, day: 8, name: 'Saint Dominique — commémoration', color: 'white', rank: 'memoire' },
   { month: 8, day: 9, name: 'Sainte Thérèse-Bénédicte de la Croix, vierge et martyre — fête', color: 'white', rank: 'fete' },
-  { month: 8, day: 10, name: 'Saint Laurent, diacre et martyr — fête', color: 'red', rank: 'fete' },
+  { month: 8, day: 10, name: 'Saint Laurent, martyr — fête', color: 'red', rank: 'fete' },
   { month: 8, day: 11, name: 'Sainte Claire, vierge — mémoire', color: 'white', rank: 'memoire' },
-  { month: 8, day: 14, name: 'Saint Maximilien-Marie Kolbe, prêtre et martyr — mémoire', color: 'red', rank: 'memoire' },
+  { month: 8, day: 14, name: 'Saint Maximilien-Marie Kolbe, martyr — commémoration', color: 'red', rank: 'memoire' },
   { month: 8, day: 15, name: 'Assomption de la Vierge Marie — solennité', color: 'white', rank: 'solemnite' },
-  { month: 8, day: 20, name: 'Saint Bernard, abbé et docteur — mémoire', color: 'white', rank: 'memoire' },
-  { month: 8, day: 21, name: 'Saint Pie X, pape — mémoire', color: 'white', rank: 'memoire' },
+  { month: 8, day: 20, name: 'Saint Bernard, docteur — commémoration', color: 'white', rank: 'memoire' },
+  { month: 8, day: 21, name: 'Saint Pie X — commémoration', color: 'white', rank: 'memoire' },
   { month: 8, day: 22, name: 'Vierge Marie, Reine — mémoire', color: 'white', rank: 'memoire' },
   { month: 8, day: 24, name: 'Saint Barthélemy, apôtre — fête', color: 'red', rank: 'fete' },
   { month: 8, day: 25, name: 'Saint Louis, roi — mémoire', color: 'white', rank: 'memoire' },
   { month: 8, day: 27, name: 'Sainte Monique — mémoire', color: 'white', rank: 'memoire' },
-  { month: 8, day: 28, name: 'Saint Augustin, évêque et docteur — mémoire', color: 'white', rank: 'memoire' },
+  { month: 8, day: 28, name: 'Saint Augustin, docteur — commémoration', color: 'white', rank: 'memoire' },
   { month: 8, day: 29, name: 'Martyre de saint Jean Baptiste — mémoire', color: 'red', rank: 'memoire' },
-  { month: 9, day: 3, name: 'Saint Grégoire le Grand, pape et docteur — mémoire', color: 'white', rank: 'memoire' },
+  { month: 9, day: 3, name: 'Saint Grégoire le Grand, docteur — commémoration', color: 'white', rank: 'memoire' },
   { month: 9, day: 8, name: 'Nativité de la Vierge Marie — fête', color: 'white', rank: 'fete' },
-  { month: 9, day: 13, name: 'Saint Jean Chrysostome, évêque et docteur — mémoire', color: 'white', rank: 'memoire' },
+  { month: 9, day: 13, name: 'Saint Jean Chrysostome, docteur — commémoration', color: 'white', rank: 'memoire' },
   { month: 9, day: 14, name: 'Exaltation de la Sainte Croix — fête', color: 'red', rank: 'fete' },
   { month: 9, day: 15, name: 'Notre-Dame des Douleurs — mémoire', color: 'white', rank: 'memoire' },
-  { month: 9, day: 16, name: 'Saints Corneille, pape, et Cyprien, évêque, martyrs — mémoire', color: 'red', rank: 'memoire' },
-  { month: 9, day: 20, name: 'Saints André Kim Tægon, prêtre, et Paul Chong Hasang et ses compagnons, martyrs — mémoire', color: 'red', rank: 'memoire' },
+  { month: 9, day: 16, name: 'Saints Corneille et Cyprien, martyrs — commémoration', color: 'red', rank: 'memoire' },
+  { month: 9, day: 20, name: 'Saints André Kim Tægon, Paul Chong Hasang et ses compagnons, martyrs — commémoration', color: 'red', rank: 'memoire' },
   { month: 9, day: 21, name: 'Saint Matthieu, apôtre et évangéliste — fête', color: 'red', rank: 'fete' },
-  { month: 9, day: 23, name: 'Saint Padre Pio, prêtre — mémoire', color: 'white', rank: 'memoire_facultative' },
+  { month: 9, day: 23, name: 'Saint Padre Pio — commémoration', color: 'white', rank: 'memoire_facultative' },
   { month: 9, day: 26, name: 'Saints Côme et Damien, martyrs — mémoire', color: 'red', rank: 'memoire_facultative' },
-  { month: 9, day: 27, name: 'Saint Vincent de Paul, prêtre — mémoire', color: 'white', rank: 'memoire' },
+  { month: 9, day: 27, name: 'Saint Vincent de Paul — commémoration', color: 'white', rank: 'memoire' },
   { month: 9, day: 29, name: 'Saints Michel, Gabriel et Raphaël, archanges — fête', color: 'red', rank: 'fete' },
-  { month: 9, day: 30, name: 'Saint Jérôme, prêtre et docteur — mémoire', color: 'white', rank: 'memoire' },
+  { month: 9, day: 30, name: 'Saint Jérôme, docteur — commémoration', color: 'white', rank: 'memoire' },
   { month: 10, day: 1, name: 'Sainte Thérèse de l\'Enfant-Jésus, vierge et docteur — fête', color: 'white', rank: 'fete' },
   { month: 10, day: 2, name: 'Saints Anges gardiens — mémoire', color: 'white', rank: 'memoire' },
   { month: 10, day: 4, name: 'Saint François d\'Assise — mémoire', color: 'white', rank: 'memoire' },
   { month: 10, day: 7, name: 'Notre-Dame du Rosaire — mémoire', color: 'white', rank: 'memoire' },
-  { month: 10, day: 9, name: 'Saint Denis, évêque, et ses compagnons, martyrs — fête', color: 'red', rank: 'fete' },
+  { month: 10, day: 9, name: 'Saint Denis et ses compagnons, martyrs — fête', color: 'red', rank: 'fete' },
   { month: 10, day: 15, name: 'Sainte Thérèse d\'Avila, vierge et docteur — mémoire', color: 'white', rank: 'memoire' },
-  { month: 10, day: 17, name: 'Saint Ignace d\'Antioche, évêque et martyr — mémoire', color: 'red', rank: 'memoire' },
+  { month: 10, day: 17, name: 'Saint Ignace d\'Antioche, martyr — commémoration', color: 'red', rank: 'memoire' },
   { month: 10, day: 18, name: 'Saint Luc, évangéliste — fête', color: 'red', rank: 'fete' },
-  { month: 10, day: 19, name: 'Saints Jean de Brébeuf et Isaac Jogues, prêtres, et leurs compagnons, martyrs — mémoire', color: 'red', rank: 'memoire' },
-  { month: 10, day: 22, name: 'Saint Jean-Paul II, pape — mémoire', color: 'white', rank: 'memoire_facultative' },
+  { month: 10, day: 19, name: 'Saints Jean de Brébeuf et Isaac Jogues et leurs compagnons, martyrs — commémoration', color: 'red', rank: 'memoire' },
+  { month: 10, day: 22, name: 'Saint Jean-Paul II — commémoration', color: 'white', rank: 'memoire_facultative' },
   { month: 10, day: 28, name: 'Saints Simon et Jude, apôtres — fête', color: 'red', rank: 'fete' },
   { month: 11, day: 1, name: 'Tous les saints — solennité', color: 'white', rank: 'solemnite' },
   { month: 11, day: 2, name: 'Commémoraison de tous les fidèles défunts', color: 'violet', rank: 'fete' },
-  { month: 11, day: 3, name: 'Saint Martin de Tours, évêque — mémoire', color: 'white', rank: 'memoire' },
-  { month: 11, day: 4, name: 'Saint Charles Borromée, évêque — mémoire', color: 'white', rank: 'memoire' },
+  { month: 11, day: 3, name: 'Saint Martin de Tours — commémoration', color: 'white', rank: 'memoire' },
+  { month: 11, day: 4, name: 'Saint Charles Borromée — commémoration', color: 'white', rank: 'memoire' },
   { month: 11, day: 9, name: 'Dédicace de la basilique du Latran — fête', color: 'white', rank: 'fete' },
-  { month: 11, day: 10, name: 'Saint Léon le Grand, pape et docteur — mémoire', color: 'white', rank: 'memoire' },
-  { month: 11, day: 11, name: 'Saint Martin de Tours, évêque — mémoire', color: 'white', rank: 'memoire_facultative' },
-  { month: 11, day: 12, name: 'Saint Josaphat, évêque et martyr — mémoire', color: 'red', rank: 'memoire' },
-  { month: 11, day: 17, name: 'Sainte Élisabeth de Hongrie, religieuse — mémoire', color: 'white', rank: 'memoire' },
+  { month: 11, day: 10, name: 'Saint Léon le Grand, docteur — commémoration', color: 'white', rank: 'memoire' },
+  { month: 11, day: 11, name: 'Saint Martin de Tours — commémoration', color: 'white', rank: 'memoire_facultative' },
+  { month: 11, day: 12, name: 'Saint Josaphat, martyr — commémoration', color: 'red', rank: 'memoire' },
+  { month: 11, day: 17, name: 'Sainte Élisabeth de Hongrie — commémoration', color: 'white', rank: 'memoire' },
   { month: 11, day: 22, name: 'Sainte Cécile, vierge et martyre — mémoire', color: 'red', rank: 'memoire' },
-  { month: 11, day: 24, name: 'Saint André Dũng-Lạc, prêtre, et ses compagnons, martyrs — fête', color: 'red', rank: 'fete' },
+  { month: 11, day: 24, name: 'Saint André Dũng-Lạc et ses compagnons, martyrs — fête', color: 'red', rank: 'fete' },
   { month: 11, day: 30, name: 'Saint André, apôtre — fête', color: 'red', rank: 'fete' },
-  { month: 12, day: 3, name: 'Saint François-Xavier, prêtre — mémoire', color: 'white', rank: 'memoire' },
-  { month: 12, day: 6, name: 'Saint Nicolas, évêque — mémoire', color: 'white', rank: 'memoire_facultative' },
-  { month: 12, day: 7, name: 'Saint Ambroise, évêque et docteur — mémoire', color: 'white', rank: 'memoire' },
+  { month: 12, day: 3, name: 'Saint François-Xavier — commémoration', color: 'white', rank: 'memoire' },
+  { month: 12, day: 6, name: 'Saint Nicolas — commémoration', color: 'white', rank: 'memoire_facultative' },
+  { month: 12, day: 7, name: 'Saint Ambroise, docteur — commémoration', color: 'white', rank: 'memoire' },
   { month: 12, day: 8, name: 'Immaculée Conception de la Vierge Marie — solennité', color: 'white', rank: 'solemnite' },
   { month: 12, day: 12, name: 'Notre-Dame de Guadalupe — mémoire', color: 'white', rank: 'memoire_facultative' },
   { month: 12, day: 13, name: 'Sainte Lucie, vierge et martyre — mémoire', color: 'red', rank: 'memoire' },
-  { month: 12, day: 14, name: 'Saint Jean de la Croix, prêtre et docteur — mémoire', color: 'white', rank: 'memoire' },
+  { month: 12, day: 14, name: 'Saint Jean de la Croix, docteur — commémoration', color: 'white', rank: 'memoire' },
   { month: 12, day: 25, name: 'Nativité de notre Seigneur Jésus Christ — solennité', color: 'white', rank: 'solemnite' },
   { month: 12, day: 26, name: 'Saint Étienne, premier martyr — fête', color: 'red', rank: 'fete' },
   { month: 12, day: 27, name: 'Saint Jean, apôtre et évangéliste — fête', color: 'white', rank: 'fete' },
   { month: 12, day: 28, name: 'Saints Innocents, martyrs — fête', color: 'red', rank: 'fete' },
-  { month: 12, day: 31, name: 'Saint Sylvestre Ier, pape — mémoire', color: 'white', rank: 'memoire_facultative' },
+  { month: 12, day: 31, name: 'Saint Sylvestre Ier — commémoration', color: 'white', rank: 'memoire_facultative' },
 ]
 
 function findFixedFeast(date: Date): FixedFeast | undefined {
@@ -482,7 +482,7 @@ export function getDayInfo(dateInput: string): DayInfo {
       // Memorial on a weekday — memorial wins.
       color = feast.color
       colorFilled = feast.rank === 'memoire'
-      dayName = feast.name.replace(/ — mémoire$/, '').replace(/ — mémoire facultative$/, '')
+      dayName = feast.name.replace(/ — commémoration facultative$/, '').replace(/ — commémoration$/, '')
       feastLabel = feast.name
     }
   } else {
@@ -605,8 +605,8 @@ const DAYNAME_EXACT_MAP: { fr: string; en: string; es: string }[] = [
 const RANK_SUFFIX_MAP: { fr: string; en: string; es: string }[] = [
   { fr: ' — solennité', en: ' — solemnity', es: ' — solemnidad' },
   { fr: ' — fête', en: ' — feast', es: ' — fiesta' },
-  { fr: ' — mémoire facultative', en: ' — optional memorial', es: ' — memoria facultativa' },
-  { fr: ' — mémoire', en: ' — memorial', es: ' — memoria' },
+  { fr: ' — commémoration facultative', en: ' — optional commemoration', es: ' — conmemoración facultativa' },
+  { fr: ' — commémoration', en: ' — commemoration', es: ' — conmemoración' },
 ]
 
 // Ordinal map for French ordinals appearing in dayName ("1er", "2e", "3e"...).

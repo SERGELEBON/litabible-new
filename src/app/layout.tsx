@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   title: "LitaBible — La Bible et les lectures du jour",
   description:
     "Lectures de la messe, office des heures, Bible et calendrier liturgique au quotidien. LitaBible — la Parole au cœur de chaque jour.",
-  keywords: ["LitaBible", "liturgie", "messe", "lectures", "Bible", "calendrier liturgique", "office des heures", "catholique"],
+  keywords: ["LitaBible", "Bible", "lectures du jour", "lecture quotidienne", "calendrier", "office des heures", "partage", "communauté"],
   authors: [{ name: "LitaBible" }],
   icons: {
     icon: "/favicon.svg",

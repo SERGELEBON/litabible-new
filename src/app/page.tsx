@@ -4,7 +4,7 @@ import { useSyncExternalStore, useEffect } from 'react'
 import { SiteHeader } from '@/components/lt/site-header'
 import { MainNav } from '@/components/lt/main-nav'
 import { SiteFooter } from '@/components/lt/site-footer'
-import { MassPage } from '@/components/lt/pages/mass-page'
+import { ReseauPage } from '@/components/lt/pages/reseau-page'
 import { HoursPage } from '@/components/lt/pages/hours-page'
 import { BiblePage } from '@/components/lt/pages/bible-page'
 import { AproposPage } from '@/components/lt/pages/apropos-page'
@@ -20,7 +20,7 @@ function PageSwitch() {
   const page = useLitabibleStore((s) => s.page)
   switch (page) {
     case 'messe':
-      return <MassPage />
+      return <ReseauPage />
     case 'heures':
       return <HoursPage />
     case 'bible':
@@ -38,7 +38,7 @@ function PageSwitch() {
     case 'contact':
       return <ContactPage />
     default:
-      return <MassPage />
+      return <ReseauPage />
   }
 }
 

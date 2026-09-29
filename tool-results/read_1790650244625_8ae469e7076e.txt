@@ -1,0 +1,751 @@
+     1→import type { DayInfo, LiturgicalColor } from './types'
+     2→import type { Locale } from '@/lib/store'
+     3→
+     4→// =============================================================================
+     5→// Liturgical calendar — heuristic, deterministic computation of DayInfo.
+     6→// All fixed-date feasts are taken from the General Roman Calendar; movable
+     7→// feasts are computed via the Computus (Meeus/Jones/Butcher algorithm).
+     8→// =============================================================================
+     9→
+    10→function easterDate(year: number): Date {
+    11→  const a = year % 19
+    12→  const b = Math.floor(year / 100)
+    13→  const c = year % 100
+    14→  const d = Math.floor(b / 4)
+    15→  const e = b % 4
+    16→  const f = Math.floor((b + 8) / 25)
+    17→  const g = Math.floor((b - f + 1) / 3)
+    18→  const h = (19 * a + b - d - g + 15) % 30
+    19→  const i = Math.floor(c / 4)
+    20→  const k = c % 4
+    21→  const l = (32 + 2 * e + 2 * i - h - k) % 7
+    22→  const m = Math.floor((a + 11 * h + 22 * l) / 451)
+    23→  const month = Math.floor((h + l - 7 * m + 114) / 31)
+    24→  const day = ((h + l - 7 * m + 114) % 31) + 1
+    25→  return new Date(year, month - 1, day)
+    26→}
+    27→
+    28→function addDays(d: Date, n: number): Date {
+    29→  const r = new Date(d)
+    30→  r.setDate(r.getDate() + n)
+    31→  return r
+    32→}
+    33→
+    34→function daysBetween(a: Date, b: Date): number {
+    35→  const ms = b.getTime() - a.getTime()
+    36→  return Math.round(ms / (24 * 60 * 60 * 1000))
+    37→}
+    38→
+    39→function ashWednesday(year: number): Date {
+    40→  return addDays(easterDate(year), -46)
+    41→}
+    42→
+    43→function palmSunday(year: number): Date {
+    44→  return addDays(easterDate(year), -7)
+    45→}
+    46→
+    47→function pentecostDate(year: number): Date {
+    48→  return addDays(easterDate(year), 49)
+    49→}
+    50→
+    51→function trinitySunday(year: number): Date {
+    52→  return addDays(pentecostDate(year), 7)
+    53→}
+    54→
+    55→function firstSundayOfAdvent(year: number): Date {
+    56→  // 4th Sunday before Christmas (Dec 25). Find the Sunday on or before Dec 25
+    57→  // and subtract 3 weeks (21 days).
+    58→  const christmas = new Date(year, 11, 25)
+    59→  const dow = christmas.getDay()
+    60→  const sundayOnOrBefore = addDays(christmas, -dow)
+    61→  return addDays(sundayOnOrBefore, -21)
+    62→}
+    63→
+    64→function epiphanySunday(year: number): Date {
+    65→  // In France, Epiphany is the Sunday between Jan 2 and Jan 8.
+    66→  const jan1 = new Date(year, 0, 1)
+    67→  const dow = jan1.getDay()
+    68→  const offset = dow === 0 ? 7 : 7 - dow
+    69→  return addDays(jan1, offset)
+    70→}
+    71→
+    72→function baptismOfLord(year: number): Date {
+    73→  // Sunday after Epiphany Sunday.
+    74→  return addDays(epiphanySunday(year), 7)
+    75→}
+    76→
+    77→function liturgicalYearLabel(date: Date): 'A' | 'B' | 'C' {
+    78→  // Year A starts First Sunday of Advent of years 2016, 2019, 2022, 2025, ...
+    79→  // i.e. (year_of_Advent % 3) === 0 -> A, === 1 -> B, === 2 -> C.
+    80→  let Y = date.getFullYear()
+    81→  let adv = firstSundayOfAdvent(Y)
+    82→  if (date.getTime() < adv.getTime()) Y -= 1
+    83→  const mod = ((Y % 3) + 3) % 3
+    84→  return mod === 0 ? 'A' : mod === 1 ? 'B' : 'C'
+    85→}
+    86→
+    87→// ---------------------------------------------------------------------------
+    88→// Fixed-date feasts (subset of the General Roman Calendar, in French).
+    89→// ---------------------------------------------------------------------------
+    90→type FeastRank = 'solemnite' | 'fete' | 'memoire' | 'memoire_facultative'
+    91→
+    92→interface FixedFeast {
+    93→  month: number
+    94→  day: number
+    95→  name: string
+    96→  color: LiturgicalColor
+    97→  rank: FeastRank
+    98→}
+    99→
+   100→const fixedFeasts: FixedFeast[] = [
+   101→  { month: 1, day: 1, name: 'Sainte Marie, Mère de Dieu — solennité', color: 'white', rank: 'solemnite' },
+   102→  { month: 1, day: 25, name: 'Conversion de saint Paul, apôtre — fête', color: 'white', rank: 'fete' },
+   103→  { month: 1, day: 26, name: 'Saints Timothée et Tite — mémoire', color: 'white', rank: 'memoire' },
+   104→  { month: 2, day: 2, name: 'Présentation du Seigneur — fête', color: 'white', rank: 'fete' },
+   105→  { month: 2, day: 14, name: 'Saints Cyrille, moine, et Méthode, évêque — mémoire', color: 'white', rank: 'memoire' },
+   106→  { month: 2, day: 22, name: 'Chaire de saint Pierre, apôtre — fête', color: 'white', rank: 'fete' },
+   107→  { month: 3, day: 7, name: 'Saintes Perpétue et Félicité, martyres — mémoire', color: 'red', rank: 'memoire' },
+   108→  { month: 3, day: 17, name: 'Saint Patrice, évêque — mémoire', color: 'white', rank: 'memoire_facultative' },
+   109→  { month: 3, day: 19, name: 'Saint Joseph, époux de la Vierge Marie — solennité', color: 'white', rank: 'solemnite' },
+   110→  { month: 3, day: 25, name: 'Annonciation du Seigneur — solennité', color: 'white', rank: 'solemnite' },
+   111→  { month: 4, day: 25, name: 'Saint Marc, évangéliste — fête', color: 'red', rank: 'fete' },
+   112→  { month: 4, day: 29, name: 'Sainte Catherine de Sienne, vierge et docteur — mémoire', color: 'white', rank: 'memoire' },
+   113→  { month: 5, day: 1, name: 'Saint Joseph artisan — mémoire', color: 'white', rank: 'memoire_facultative' },
+   114→  { month: 5, day: 2, name: 'Saint Athanase, évêque et docteur — mémoire', color: 'white', rank: 'memoire' },
+   115→  { month: 5, day: 3, name: 'Saints Philippe et Jacques, apôtres — fête', color: 'red', rank: 'fete' },
+   116→  { month: 5, day: 14, name: 'Saint Matthias, apôtre — fête', color: 'red', rank: 'fete' },
+   117→  { month: 5, day: 31, name: 'Visitation de la Vierge Marie — fête', color: 'white', rank: 'fete' },
+   118→  { month: 6, day: 1, name: 'Saint Justin, martyr — mémoire', color: 'red', rank: 'memoire' },
+   119→  { month: 6, day: 5, name: 'Saint Boniface, évêque et martyr — mémoire', color: 'red', rank: 'memoire' },
+   120→  { month: 6, day: 9, name: 'Saint Éphrem, diacre et docteur — mémoire', color: 'white', rank: 'memoire' },
+   121→  { month: 6, day: 13, name: 'Saint Antoine de Padoue, docteur — mémoire', color: 'white', rank: 'memoire' },
+   122→  { month: 6, day: 21, name: 'Saint Louis de Gonzague, religieux — mémoire', color: 'white', rank: 'memoire' },
+   123→  { month: 6, day: 24, name: 'Nativité de saint Jean Baptiste — solennité', color: 'white', rank: 'solemnite' },
+   124→  { month: 6, day: 27, name: 'Saint Cyrille d\'Alexandrie, évêque et docteur — mémoire', color: 'white', rank: 'memoire_facultative' },
+   125→  { month: 6, day: 28, name: 'Saint Irénée, évêque et martyr — mémoire', color: 'red', rank: 'memoire' },
+   126→  { month: 6, day: 29, name: 'Saints Pierre et Paul, apôtres — solennité', color: 'red', rank: 'solemnite' },
+   127→  { month: 6, day: 30, name: 'Premiers martyrs de l\'Église de Rome — mémoire', color: 'red', rank: 'memoire_facultative' },
+   128→  { month: 7, day: 3, name: 'Saint Thomas, apôtre — fête', color: 'red', rank: 'fete' },
+   129→  { month: 7, day: 11, name: 'Saint Benoît, abbé — mémoire', color: 'white', rank: 'memoire' },
+   130→  { month: 7, day: 14, name: 'Saint Camille de Lellis, religieux — mémoire', color: 'white', rank: 'memoire_facultative' },
+   131→  { month: 7, day: 15, name: 'Saint Bonaventure, évêque et docteur — mémoire', color: 'white', rank: 'memoire' },
+   132→  { month: 7, day: 22, name: 'Sainte Marie Madeleine — fête', color: 'white', rank: 'fete' },
+   133→  { month: 7, day: 25, name: 'Saint Jacques, apôtre — fête', color: 'red', rank: 'fete' },
+   134→  { month: 7, day: 26, name: 'Saints Anne et Joachim, parents de la Vierge Marie — mémoire', color: 'white', rank: 'memoire' },
+   135→  { month: 7, day: 29, name: 'Sainte Marthe — mémoire', color: 'white', rank: 'memoire' },
+   136→  { month: 7, day: 31, name: 'Saint Ignace de Loyola, prêtre — mémoire', color: 'white', rank: 'memoire' },
+   137→  { month: 8, day: 1, name: 'Saint Alphonse de Liguori, évêque et docteur — mémoire', color: 'white', rank: 'memoire' },
+   138→  { month: 8, day: 4, name: 'Saint Jean-Marie Vianney, curé d\'Ars — mémoire', color: 'white', rank: 'memoire' },
+   139→  { month: 8, day: 8, name: 'Saint Dominique, prêtre — mémoire', color: 'white', rank: 'memoire' },
+   140→  { month: 8, day: 9, name: 'Sainte Thérèse-Bénédicte de la Croix, vierge et martyre — fête', color: 'white', rank: 'fete' },
+   141→  { month: 8, day: 10, name: 'Saint Laurent, diacre et martyr — fête', color: 'red', rank: 'fete' },
+   142→  { month: 8, day: 11, name: 'Sainte Claire, vierge — mémoire', color: 'white', rank: 'memoire' },
+   143→  { month: 8, day: 14, name: 'Saint Maximilien-Marie Kolbe, prêtre et martyr — mémoire', color: 'red', rank: 'memoire' },
+   144→  { month: 8, day: 15, name: 'Assomption de la Vierge Marie — solennité', color: 'white', rank: 'solemnite' },
+   145→  { month: 8, day: 20, name: 'Saint Bernard, abbé et docteur — mémoire', color: 'white', rank: 'memoire' },
+   146→  { month: 8, day: 21, name: 'Saint Pie X, pape — mémoire', color: 'white', rank: 'memoire' },
+   147→  { month: 8, day: 22, name: 'Vierge Marie, Reine — mémoire', color: 'white', rank: 'memoire' },
+   148→  { month: 8, day: 24, name: 'Saint Barthélemy, apôtre — fête', color: 'red', rank: 'fete' },
+   149→  { month: 8, day: 25, name: 'Saint Louis, roi — mémoire', color: 'white', rank: 'memoire' },
+   150→  { month: 8, day: 27, name: 'Sainte Monique — mémoire', color: 'white', rank: 'memoire' },
+   151→  { month: 8, day: 28, name: 'Saint Augustin, évêque et docteur — mémoire', color: 'white', rank: 'memoire' },
+   152→  { month: 8, day: 29, name: 'Martyre de saint Jean Baptiste — mémoire', color: 'red', rank: 'memoire' },
+   153→  { month: 9, day: 3, name: 'Saint Grégoire le Grand, pape et docteur — mémoire', color: 'white', rank: 'memoire' },
+   154→  { month: 9, day: 8, name: 'Nativité de la Vierge Marie — fête', color: 'white', rank: 'fete' },
+   155→  { month: 9, day: 13, name: 'Saint Jean Chrysostome, évêque et docteur — mémoire', color: 'white', rank: 'memoire' },
+   156→  { month: 9, day: 14, name: 'Exaltation de la Sainte Croix — fête', color: 'red', rank: 'fete' },
+   157→  { month: 9, day: 15, name: 'Notre-Dame des Douleurs — mémoire', color: 'white', rank: 'memoire' },
+   158→  { month: 9, day: 16, name: 'Saints Corneille, pape, et Cyprien, évêque, martyrs — mémoire', color: 'red', rank: 'memoire' },
+   159→  { month: 9, day: 20, name: 'Saints André Kim Tægon, prêtre, et Paul Chong Hasang et ses compagnons, martyrs — mémoire', color: 'red', rank: 'memoire' },
+   160→  { month: 9, day: 21, name: 'Saint Matthieu, apôtre et évangéliste — fête', color: 'red', rank: 'fete' },
+   161→  { month: 9, day: 23, name: 'Saint Padre Pio, prêtre — mémoire', color: 'white', rank: 'memoire_facultative' },
+   162→  { month: 9, day: 26, name: 'Saints Côme et Damien, martyrs — mémoire', color: 'red', rank: 'memoire_facultative' },
+   163→  { month: 9, day: 27, name: 'Saint Vincent de Paul, prêtre — mémoire', color: 'white', rank: 'memoire' },
+   164→  { month: 9, day: 29, name: 'Saints Michel, Gabriel et Raphaël, archanges — fête', color: 'red', rank: 'fete' },
+   165→  { month: 9, day: 30, name: 'Saint Jérôme, prêtre et docteur — mémoire', color: 'white', rank: 'memoire' },
+   166→  { month: 10, day: 1, name: 'Sainte Thérèse de l\'Enfant-Jésus, vierge et docteur — fête', color: 'white', rank: 'fete' },
+   167→  { month: 10, day: 2, name: 'Saints Anges gardiens — mémoire', color: 'white', rank: 'memoire' },
+   168→  { month: 10, day: 4, name: 'Saint François d\'Assise — mémoire', color: 'white', rank: 'memoire' },
+   169→  { month: 10, day: 7, name: 'Notre-Dame du Rosaire — mémoire', color: 'white', rank: 'memoire' },
+   170→  { month: 10, day: 9, name: 'Saint Denis, évêque, et ses compagnons, martyrs — fête', color: 'red', rank: 'fete' },
+   171→  { month: 10, day: 15, name: 'Sainte Thérèse d\'Avila, vierge et docteur — mémoire', color: 'white', rank: 'memoire' },
+   172→  { month: 10, day: 17, name: 'Saint Ignace d\'Antioche, évêque et martyr — mémoire', color: 'red', rank: 'memoire' },
+   173→  { month: 10, day: 18, name: 'Saint Luc, évangéliste — fête', color: 'red', rank: 'fete' },
+   174→  { month: 10, day: 19, name: 'Saints Jean de Brébeuf et Isaac Jogues, prêtres, et leurs compagnons, martyrs — mémoire', color: 'red', rank: 'memoire' },
+   175→  { month: 10, day: 22, name: 'Saint Jean-Paul II, pape — mémoire', color: 'white', rank: 'memoire_facultative' },
+   176→  { month: 10, day: 28, name: 'Saints Simon et Jude, apôtres — fête', color: 'red', rank: 'fete' },
+   177→  { month: 11, day: 1, name: 'Tous les saints — solennité', color: 'white', rank: 'solemnite' },
+   178→  { month: 11, day: 2, name: 'Commémoraison de tous les fidèles défunts', color: 'violet', rank: 'fete' },
+   179→  { month: 11, day: 3, name: 'Saint Martin de Tours, évêque — mémoire', color: 'white', rank: 'memoire' },
+   180→  { month: 11, day: 4, name: 'Saint Charles Borromée, évêque — mémoire', color: 'white', rank: 'memoire' },
+   181→  { month: 11, day: 9, name: 'Dédicace de la basilique du Latran — fête', color: 'white', rank: 'fete' },
+   182→  { month: 11, day: 10, name: 'Saint Léon le Grand, pape et docteur — mémoire', color: 'white', rank: 'memoire' },
+   183→  { month: 11, day: 11, name: 'Saint Martin de Tours, évêque — mémoire', color: 'white', rank: 'memoire_facultative' },
+   184→  { month: 11, day: 12, name: 'Saint Josaphat, évêque et martyr — mémoire', color: 'red', rank: 'memoire' },
+   185→  { month: 11, day: 17, name: 'Sainte Élisabeth de Hongrie, religieuse — mémoire', color: 'white', rank: 'memoire' },
+   186→  { month: 11, day: 22, name: 'Sainte Cécile, vierge et martyre — mémoire', color: 'red', rank: 'memoire' },
+   187→  { month: 11, day: 24, name: 'Saint André Dũng-Lạc, prêtre, et ses compagnons, martyrs — fête', color: 'red', rank: 'fete' },
+   188→  { month: 11, day: 30, name: 'Saint André, apôtre — fête', color: 'red', rank: 'fete' },
+   189→  { month: 12, day: 3, name: 'Saint François-Xavier, prêtre — mémoire', color: 'white', rank: 'memoire' },
+   190→  { month: 12, day: 6, name: 'Saint Nicolas, évêque — mémoire', color: 'white', rank: 'memoire_facultative' },
+   191→  { month: 12, day: 7, name: 'Saint Ambroise, évêque et docteur — mémoire', color: 'white', rank: 'memoire' },
+   192→  { month: 12, day: 8, name: 'Immaculée Conception de la Vierge Marie — solennité', color: 'white', rank: 'solemnite' },
+   193→  { month: 12, day: 12, name: 'Notre-Dame de Guadalupe — mémoire', color: 'white', rank: 'memoire_facultative' },
+   194→  { month: 12, day: 13, name: 'Sainte Lucie, vierge et martyre — mémoire', color: 'red', rank: 'memoire' },
+   195→  { month: 12, day: 14, name: 'Saint Jean de la Croix, prêtre et docteur — mémoire', color: 'white', rank: 'memoire' },
+   196→  { month: 12, day: 25, name: 'Nativité de notre Seigneur Jésus Christ — solennité', color: 'white', rank: 'solemnite' },
+   197→  { month: 12, day: 26, name: 'Saint Étienne, premier martyr — fête', color: 'red', rank: 'fete' },
+   198→  { month: 12, day: 27, name: 'Saint Jean, apôtre et évangéliste — fête', color: 'white', rank: 'fete' },
+   199→  { month: 12, day: 28, name: 'Saints Innocents, martyrs — fête', color: 'red', rank: 'fete' },
+   200→  { month: 12, day: 31, name: 'Saint Sylvestre Ier, pape — mémoire', color: 'white', rank: 'memoire_facultative' },
+   201→]
+   202→
+   203→function findFixedFeast(date: Date): FixedFeast | undefined {
+   204→  const m = date.getMonth() + 1
+   205→  const d = date.getDate()
+   206→  return fixedFeasts.find((f) => f.month === m && f.day === d)
+   207→}
+   208→
+   209→const WEEKDAY_NAMES = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi']
+   210→
+   211→function ordinal(n: number): string {
+   212→  if (n === 1) return '1er'
+   213→  return `${n}e`
+   214→}
+   215→
+   216→function psalterWeekFor(date: Date): string {
+   217→  // Deterministic 4-week cycle based on the day of year.
+   218→  const startOfYear = new Date(date.getFullYear(), 0, 1)
+   219→  const dayOfYear = Math.floor((date.getTime() - startOfYear.getTime()) / (24 * 60 * 60 * 1000))
+   220→  const idx = (Math.floor(dayOfYear / 7) + 3) % 4
+   221→  const labels = ['I', 'II', 'III', 'IV']
+   222→  return `Semaine ${labels[idx]} du Psautier`
+   223→}
+   224→
+   225→interface SeasonInfo {
+   226→  time: string
+   227→  color: LiturgicalColor
+   228→  /** Number of the week within this season (for Sunday numbering), 0 if N/A. */
+   229→  weekNumber: number
+   230→  /** Special override for the day name. */
+   231→  dayName?: string
+   232→}
+   233→
+   234→function determineSeason(date: Date): SeasonInfo {
+   235→  const year = date.getFullYear()
+   236→  const easter = easterDate(year)
+   237→  const ashWed = ashWednesday(year)
+   238→  const holyThu = addDays(easter, -3)
+   239→  const goodFri = addDays(easter, -2)
+   240→  const holySat = addDays(easter, -1)
+   241→  const pentecost = pentecostDate(year)
+   242→  const trinity = trinitySunday(year)
+   243→  const advent = firstSundayOfAdvent(year)
+   244→  const baptism = baptismOfLord(year)
+   245→  const christmas = new Date(year, 11, 25)
+   246→  const prevChristmas = new Date(year - 1, 11, 25)
+   247→  const prevBaptism = baptismOfLord(year - 1)
+   248→
+   249→  // 1. Christmas season: Dec 25 (prev year) -> Baptism of Lord (this year),
+   250→  //    and Dec 25 (this year) -> Baptism of Lord (next year).
+   251→  const baptismThisYear = baptism
+   252→  const baptismNextYear = baptismOfLord(year + 1)
+   253→  if ((date >= prevChristmas && date <= baptismThisYear) || (date >= christmas && date <= baptismNextYear)) {
+   254→    // Determine day name within Christmas season.
+   255→    if (sameDay(date, christmas)) return { time: 'Temps de Noël', color: 'white', weekNumber: 0, dayName: 'Nativité du Seigneur' }
+   256→    if (sameDay(date, prevChristmas)) return { time: 'Temps de Noël', color: 'white', weekNumber: 0, dayName: 'Nativité du Seigneur' }
+   257→    if (sameDay(date, baptism) || sameDay(date, prevBaptism) || sameDay(date, baptismThisYear) || sameDay(date, baptismNextYear)) return { time: 'Temps de Noël', color: 'white', weekNumber: 0, dayName: 'Baptême du Seigneur' }
+   258→    // Sunday within Octave of Christmas (Holy Family in modern French calendar = Sunday between Dec 25 and Jan 1 inclusive, otherwise Dec 30)
+   259→    return { time: 'Temps de Noël', color: 'white', weekNumber: 0, dayName: christmasNameFor(date) }
+   260→  }
+   261→
+   262→  // 2. Ordinary Time, first part: Monday after Baptism -> day before Ash Wednesday.
+   263→  if (date > baptism && date < ashWed) {
+   264→    const weeksAfterBaptism = Math.floor(daysBetween(baptism, date) / 7)
+   265→    const isSunday = date.getDay() === 0
+   266→    const n = weeksAfterBaptism // baptism = 0; 1st Sunday = 1
+   267→    if (isSunday) {
+   268→      return { time: 'Temps ordinaire', color: 'green', weekNumber: n, dayName: `${ordinal(n)} dimanche du Temps ordinaire` }
+   269→    }
+   270→    return { time: 'Temps ordinaire', color: 'green', weekNumber: n, dayName: weekdayName(date, `${ordinal(n)} semaine du Temps ordinaire`) }
+   271→  }
+   272→
+   273→  // 3. Lent: Ash Wednesday -> Holy Saturday (Easter eve).
+   274→  if (date >= ashWed && date < easter) {
+   275→    if (sameDay(date, ashWed)) return { time: 'Temps du Carême', color: 'violet', weekNumber: 0, dayName: 'Mercredi des Cendres' }
+   276→    if (sameDay(date, palmSunday(year))) return { time: 'Temps du Carême', color: 'red', weekNumber: 6, dayName: 'Dimanche des Rameaux et de la Passion du Seigneur' }
+   277→    if (sameDay(date, holyThu)) return { time: 'Triduum pascal', color: 'white', weekNumber: 0, dayName: 'Jeudi Saint' }
+   278→    if (sameDay(date, goodFri)) return { time: 'Triduum pascal', color: 'red', weekNumber: 0, dayName: 'Vendredi Saint' }
+   279→    if (sameDay(date, holySat)) return { time: 'Triduum pascal', color: 'violet', weekNumber: 0, dayName: 'Samedi Saint' }
+   280→
+   281→    // Within Lent proper.
+   282→    const firstSunOfLent = addDays(ashWed, 7 - ashWed.getDay() + (ashWed.getDay() === 0 ? 0 : 0))
+   283→    // Recompute: 1st Sunday of Lent is the Sunday following Ash Wednesday.
+   284→    const sun1 = addDays(ashWed, 7 - ashWed.getDay())
+   285→    if (date < sun1) {
+   286→      // Days after Ash Wed but before 1st Sunday of Lent.
+   287→      const isSunday = date.getDay() === 0
+   288→      if (isSunday) return { time: 'Temps du Carême', color: 'violet', weekNumber: 1, dayName: '1er dimanche de Carême' }
+   289→      return { time: 'Temps du Carême', color: 'violet', weekNumber: 0, dayName: weekdayName(date, 'semaine des Cendres') }
+   290→    }
+   291→    // Otherwise count Sundays since the 1st Sunday of Lent.
+   292→    const weeksAfterSun1 = Math.floor(daysBetween(sun1, date) / 7)
+   293→    const n = weeksAfterSun1 + 1
+   294→    const isSunday = date.getDay() === 0
+   295→    if (isSunday) {
+   296→      const color: LiturgicalColor = n === 4 ? 'rose' : 'violet'
+   297→      const name = n === 4 ? `4e dimanche de Carême (Laetare)` : `${ordinal(n)} dimanche de Carême`
+   298→      return { time: 'Temps du Carême', color, weekNumber: n, dayName: name }
+   299→    }
+   300→    // Weekdays of Lent — use the week number based on which Sunday’s week we’re in.
+   301→    const weekN = n // n is the upcoming Sunday’s number
+   302→    return { time: 'Temps du Carême', color: 'violet', weekNumber: weekN, dayName: weekdayName(date, `${ordinal(weekN)} semaine de Carême`) }
+   303→  }
+   304→
+   305→  // 4. Easter season: Easter Sunday -> Pentecost.
+   306→  if (date >= easter && date <= pentecost) {
+   307→    if (sameDay(date, easter)) return { time: 'Temps pascal', color: 'white', weekNumber: 0, dayName: 'Dimanche de Pâques' }
+   308→    if (sameDay(date, addDays(easter, 39))) return { time: 'Temps pascal', color: 'white', weekNumber: 0, dayName: 'Ascension du Seigneur' }
+   309→    if (sameDay(date, pentecost)) return { time: 'Temps pascal', color: 'red', weekNumber: 0, dayName: 'Dimanche de la Pentecôte' }
+   310→    // Determine week of Easter.
+   311→    const daysAfterEaster = daysBetween(easter, date)
+   312→    const weekN = Math.floor(daysAfterEaster / 7) + 1
+   313→    const isSunday = date.getDay() === 0
+   314→    if (isSunday) {
+   315→      return { time: 'Temps pascal', color: 'white', weekNumber: weekN, dayName: `${ordinal(weekN)} dimanche de Pâques` }
+   316→    }
+   317→    // Within the Octave of Easter (first 7 days after Easter).
+   318→    if (daysAfterEaster < 7) {
+   319→      return { time: 'Temps pascal', color: 'white', weekNumber: 1, dayName: weekdayName(date, "l’Octave de Pâques") }
+   320→    }
+   321→    return { time: 'Temps pascal', color: 'white', weekNumber: weekN, dayName: weekdayName(date, `${ordinal(weekN)} semaine de Pâques`) }
+   322→  }
+   323→
+   324→  // 5. Trinity Sunday (Sunday after Pentecost).
+   325→  if (sameDay(date, trinity)) {
+   326→    return { time: 'Temps ordinaire', color: 'white', weekNumber: 0, dayName: 'Sainte Trinité' }
+   327→  }
+   328→
+   329→  // 6. Ordinary Time, second part: Monday after Trinity -> Saturday before Advent Sunday.
+   330→  if (date > trinity && date < advent) {
+   331→    // Number of Sundays before Lent this year (for continuous numbering).
+   332→    const baptismThisYear = baptismOfLord(year)
+   333→    const ashWedThisYear = ashWednesday(year)
+   334→    let preLentSundays = 0
+   335→    let cursor = addDays(baptismThisYear, 7)
+   336→    while (cursor < ashWedThisYear) {
+   337→      preLentSundays++
+   338→      cursor = addDays(cursor, 7)
+   339→    }
+   340→    const weeksAfterTrinity = Math.floor(daysBetween(trinity, date) / 7)
+   341→    const isSunday = date.getDay() === 0
+   342→    // Trinity Sunday is celebrated as a separate solemnity; the Sunday after
+   343→    // Trinity is the (preLentSundays + 1)th Sunday of Ordinary Time.
+   344→    const n = preLentSundays + weeksAfterTrinity
+   345→    if (isSunday) {
+   346→      // Christ the King (Sunday before Advent) — solemnity.
+   347→      if (sameDay(date, addDays(advent, -7))) {
+   348→        return { time: 'Temps ordinaire', color: 'white', weekNumber: n, dayName: 'Christ Roi de l\'univers' }
+   349→      }
+   350→      return { time: 'Temps ordinaire', color: 'green', weekNumber: n, dayName: `${ordinal(n)} dimanche du Temps ordinaire` }
+   351→    }
+   352→    return { time: 'Temps ordinaire', color: 'green', weekNumber: n, dayName: weekdayName(date, `${ordinal(n)} semaine du Temps ordinaire`) }
+   353→  }
+   354→
+   355→  // 7. Advent: Advent Sunday -> Dec 24.
+   356→  if (date >= advent && date < christmas) {
+   357→    const weeksAfterAdvent = Math.floor(daysBetween(advent, date) / 7)
+   358→    const n = weeksAfterAdvent + 1
+   359→    const isSunday = date.getDay() === 0
+   360→    if (isSunday) {
+   361→      const color: LiturgicalColor = n === 3 ? 'rose' : 'violet'
+   362→      const name = n === 3 ? `3e dimanche de l’Avent (Gaudete)` : `${ordinal(n)} dimanche de l’Avent`
+   363→      return { time: 'Temps de l\'Avent', color, weekNumber: n, dayName: name }
+   364→    }
+   365→    return { time: 'Temps de l\'Avent', color: 'violet', weekNumber: n, dayName: weekdayName(date, `${ordinal(n)} semaine de l’Avent`) }
+   366→  }
+   367→
+   368→  // Fallback (shouldn’t happen).
+   369→  return { time: 'Temps ordinaire', color: 'green', weekNumber: 0 }
+   370→}
+   371→
+   372→function sameDay(a: Date, b: Date): boolean {
+   373→  return a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate()
+   374→}
+   375→
+   376→function weekdayName(date: Date, weekLabel: string): string {
+   377→  const wd = WEEKDAY_NAMES[date.getDay()]
+   378→  return `${wd} de la ${weekLabel}`
+   379→}
+   380→
+   381→function christmasNameFor(date: Date): string {
+   382→  // Sunday within the Octave of Christmas — Holy Family.
+   383→  if (date.getDay() === 0) return 'Sainte Famille de Jésus, Marie et Joseph'
+   384→  const d = date.getDate()
+   385→  const m = date.getMonth() + 1
+   386→  if (m === 12) {
+   387→    if (d >= 26 && d <= 31) return `${ordinal(d - 24)} jour de l’octave de Noël`
+   388→  }
+   389→  if (m === 1) {
+   390→    if (d >= 2 && d <= 6) return `${ordinal(d)} jour avant l’Épiphanie`
+   391→    if (d === 1) return 'Sainte Marie, Mère de Dieu'
+   392→  }
+   393→  return 'Temps de Noël'
+   394→}
+   395→
+   396→function parseISO(iso: string): Date {
+   397→  const [y, m, d] = iso.split('-').map(Number)
+   398→  return new Date(y, (m || 1) - 1, d || 1)
+   399→}
+   400→
+   401→function toISO(d: Date): string {
+   402→  const y = d.getFullYear()
+   403→  const m = String(d.getMonth() + 1).padStart(2, '0')
+   404→  const day = String(d.getDate()).padStart(2, '0')
+   405→  return `${y}-${m}-${day}`
+   406→}
+   407→
+   408→export function getDayInfo(dateInput: string): DayInfo {
+   409→  const date = parseISO(dateInput)
+   410→  const season = determineSeason(date)
+   411→  const isSunday = date.getDay() === 0
+   412→  const feast = findFixedFeast(date)
+   413→
+   414→  // Determine the "principal celebration" of the day: Sundays and solemnities
+   415→  // outrank fixed memorials; memorials are observed on weekdays.
+   416→  let color: LiturgicalColor = season.color
+   417→  let colorFilled: boolean
+   418→  let dayName: string = season.dayName ?? ''
+   419→  let feastLabel: string | undefined
+   420→
+   421→  // "Top-rank" days computed by the season — Sundays of Advent/Lent/Easter,
+   422→  // Holy Week, Octave of Easter, Christmas octave, Trinity Sunday, Christ the
+   423→  // King, Ash Wednesday, Holy Thursday, Good Friday, Holy Saturday, Ascension,
+   424→  // Nativité, Baptême du Seigneur, Sainte Famille. These outrank ALL fixed
+   425→  // feasts and memorials.
+   426→  const seasonDayName = season.dayName ?? ''
+   427→  const seasonIsTopRank =
+   428→    (isSunday &&
+   429→      (season.time === "Temps de l'Avent" ||
+   430→        season.time === 'Temps du Carême' ||
+   431→        season.time === 'Temps pascal' ||
+   432→        season.time === 'Triduum pascal' ||
+   433→        season.time === 'Temps de Noël')) ||
+   434→    [
+   435→      'Sainte Trinité',
+   436→      'Christ Roi de l\'univers',
+   437→      'Dimanche de Pâques',
+   438→      'Dimanche de la Pentecôte',
+   439→      'Dimanche des Rameaux et de la Passion du Seigneur',
+   440→      'Mercredi des Cendres',
+   441→      'Jeudi Saint',
+   442→      'Vendredi Saint',
+   443→      'Samedi Saint',
+   444→      'Ascension du Seigneur',
+   445→      'Nativité du Seigneur',
+   446→      'Baptême du Seigneur',
+   447→      'Sainte Famille',
+   448→    ].includes(seasonDayName)
+   449→
+   450→  // Sundays of Ordinary Time are "solemnities of the Lord" (rank 3) — they
+   451→  // outrank feasts and memorials, but are replaced by saints' solemnities.
+   452→  const seasonIsSundayOT = isSunday && season.time === 'Temps ordinaire'
+   453→
+   454→  if (feast) {
+   455→    const isSolemnity = feast.rank === 'solemnite'
+   456→    const isFeast = feast.rank === 'fete'
+   457→    if (seasonIsTopRank) {
+   458→      // Season's top-rank day wins; fixed feast is noted (transferred/suppressed).
+   459→      color = season.color
+   460→      colorFilled = true
+   461→      dayName = seasonDayName
+   462→      feastLabel = feast.name
+   463→    } else if (isSolemnity) {
+   464→      // Fixed solemnity replaces the day (incl. Sunday of OT and weekdays).
+   465→      color = feast.color
+   466→      colorFilled = true
+   467→      dayName = feast.name.replace(/ — solennité$/, '')
+   468→      feastLabel = feast.name
+   469→    } else if (seasonIsSundayOT) {
+   470→      // Sunday of Ordinary Time wins over fixed feasts and memorials.
+   471→      color = season.color
+   472→      colorFilled = true
+   473→      dayName = seasonDayName
+   474→      feastLabel = feast.name
+   475→    } else if (isFeast) {
+   476→      // Feast wins for non-solemn weekdays.
+   477→      color = feast.color
+   478→      colorFilled = true
+   479→      dayName = feast.name.replace(/ — fête$/, '')
+   480→      feastLabel = feast.name
+   481→    } else {
+   482→      // Memorial on a weekday — memorial wins.
+   483→      color = feast.color
+   484→      colorFilled = feast.rank === 'memoire'
+   485→      dayName = feast.name.replace(/ — mémoire$/, '').replace(/ — mémoire facultative$/, '')
+   486→      feastLabel = feast.name
+   487→    }
+   488→  } else {
+   489→    // No fixed feast.
+   490→    if (isSunday) {
+   491→      colorFilled = true // Sundays are always filled.
+   492→    } else if (season.weekNumber > 0 && (season.time === 'Temps ordinaire' || season.time === 'Temps de l\'Avent' || season.time === 'Temps du Carême' || season.time === 'Temps pascal')) {
+   493→      // Weekday of a liturgical season — outline badge.
+   494→      colorFilled = false
+   495→    } else {
+   496→      colorFilled = false
+   497→    }
+   498→  }
+   499→
+   500→  // Sundays of Lent/Advent/Easter are filled.
+   501→  if (isSunday && (season.time === 'Temps du Carême' || season.time === 'Temps de l\'Avent' || season.time === 'Temps pascal' || season.time === 'Triduum pascal')) {
+   502→    colorFilled = true
+   503→    color = season.color
+   504→  }
+   505→
+   506→  if (!dayName) dayName = 'Férie'
+   507→
+   508→  return {
+   509→    date: toISO(date),
+   510→    color,
+   511→    colorFilled,
+   512→    liturgicalTime: season.time,
+   513→    psalterWeek: psalterWeekFor(date),
+   514→    year: `Année ${liturgicalYearLabel(date)}`,
+   515→    dayName,
+   516→    feast: feastLabel,
+   517→  }
+   518→}
+   519→
+   520→export function getMonthCalendar(year: number, month: number): DayInfo[] {
+   521→  // month is 1-12.
+   522→  const daysInMonth = new Date(year, month, 0).getDate()
+   523→  const out: DayInfo[] = []
+   524→  for (let d = 1; d <= daysInMonth; d++) {
+   525→    const iso = `${year}-${String(month).padStart(2, '0')}-${String(d).padStart(2, '0')}`
+   526→    out.push(getDayInfo(iso))
+   527→  }
+   528→  return out
+   529→}
+   530→
+   531→// =============================================================================
+   532→// Localization helpers for DayInfo.
+   533→//
+   534→// The calendar logic above produces French strings (liturgicalTime, dayName,
+   535→// psalterWeek, year, feast). These helpers translate the known building
+   536→// blocks (season names, weekday names, rank suffixes) into English and
+   537→// Spanish. Unknown strings fall back to the French original.
+   538→// =============================================================================
+   539→
+   540→// Map: French weekday (capitalised) → EN/ES equivalent.
+   541→const WEEKDAY_MAP: Record<string, { en: string; es: string }> = {
+   542→  Dimanche: { en: 'Sunday', es: 'Domingo' },
+   543→  Lundi: { en: 'Monday', es: 'Lunes' },
+   544→  Mardi: { en: 'Tuesday', es: 'Martes' },
+   545→  Mercredi: { en: 'Wednesday', es: 'Miércoles' },
+   546→  Jeudi: { en: 'Thursday', es: 'Jueves' },
+   547→  Vendredi: { en: 'Friday', es: 'Viernes' },
+   548→  Samedi: { en: 'Saturday', es: 'Sábado' },
+   549→}
+   550→
+   551→// Map: French liturgical season phrase → EN/ES equivalent.
+   552→const SEASON_MAP: { fr: string; en: string; es: string }[] = [
+   553→  { fr: 'Temps ordinaire', en: 'Ordinary Time', es: 'Tiempo ordinario' },
+   554→  { fr: "Temps de l'Avent", en: 'Advent', es: 'Adviento' },
+   555→  { fr: 'Temps de l’Avent', en: 'Advent', es: 'Adviento' },
+   556→  { fr: 'Temps de Noël', en: 'Christmas Time', es: 'Tiempo de Navidad' },
+   557→  { fr: 'Temps du Carême', en: 'Lent', es: 'Cuaresma' },
+   558→  { fr: 'Temps pascal', en: 'Easter Time', es: 'Tiempo pascual' },
+   559→  { fr: 'Triduum pascal', en: 'Paschal Triduum', es: 'Triduo pascual' },
+   560→]
+   561→
+   562→// Map: season-phrase fragment used inside dayName patterns like
+   563→// "Lundi de la 2e semaine du Temps ordinaire" / "de Carême" / "de l'Avent".
+   564→const SEASON_FRAGMENT_MAP: { fr: string; en: string; es: string }[] = [
+   565→  { fr: 'du Temps ordinaire', en: 'of Ordinary Time', es: 'del Tiempo ordinario' },
+   566→  { fr: "de l'Avent", en: 'of Advent', es: 'de Adviento' },
+   567→  { fr: 'de l’Avent', en: 'of Advent', es: 'de Adviento' },
+   568→  { fr: 'de Carême', en: 'of Lent', es: 'de Cuaresma' },
+   569→  { fr: 'de Pâques', en: 'of Easter', es: 'de Pascua' },
+   570→  { fr: 'de Noël', en: 'of Christmas', es: 'de Navidad' },
+   571→  { fr: 'des Cendres', en: 'of Ashes', es: 'de Ceniza' },
+   572→]
+   573→
+   574→// Map: specific solemnity / feast dayNames that are not derivable from
+   575→// weekday + season fragments.
+   576→const DAYNAME_EXACT_MAP: { fr: string; en: string; es: string }[] = [
+   577→  { fr: 'Mercredi des Cendres', en: 'Ash Wednesday', es: 'Miércoles de Ceniza' },
+   578→  {
+   579→    fr: 'Dimanche des Rameaux et de la Passion du Seigneur',
+   580→    en: "Palm Sunday of the Lord's Passion",
+   581→    es: 'Domingo de Ramos y de la Pasión del Señor',
+   582→  },
+   583→  { fr: 'Jeudi Saint', en: 'Holy Thursday', es: 'Jueves Santo' },
+   584→  { fr: 'Vendredi Saint', en: 'Good Friday', es: 'Viernes Santo' },
+   585→  { fr: 'Samedi Saint', en: 'Holy Saturday', es: 'Sábado Santo' },
+   586→  { fr: 'Dimanche de Pâques', en: 'Easter Sunday', es: 'Domingo de Pascua' },
+   587→  { fr: 'Dimanche de la Pentecôte', en: 'Pentecost Sunday', es: 'Domingo de Pentecostés' },
+   588→  { fr: 'Ascension du Seigneur', en: 'Ascension of the Lord', es: 'Ascensión del Señor' },
+   589→  { fr: 'Nativité du Seigneur', en: 'Nativity of the Lord', es: 'Natividad del Señor' },
+   590→  { fr: 'Baptême du Seigneur', en: 'Baptism of the Lord', es: 'Bautismo del Señor' },
+   591→  { fr: 'Sainte Trinité', en: 'Holy Trinity', es: 'Santísima Trinidad' },
+   592→  { fr: "Christ Roi de l'univers", en: 'Christ the King of the Universe', es: 'Cristo Rey del universo' },
+   593→  { fr: 'Christ Roi de l’univers', en: 'Christ the King of the Universe', es: 'Cristo Rey del universo' },
+   594→  {
+   595→    fr: 'Sainte Famille de Jésus, Marie et Joseph',
+   596→    en: 'Holy Family of Jesus, Mary and Joseph',
+   597→    es: 'Sagrada Familia de Jesús, María y José',
+   598→  },
+   599→  { fr: 'Sainte Famille', en: 'Holy Family', es: 'Sagrada Familia' },
+   600→  { fr: 'Sainte Marie, Mère de Dieu', en: 'Holy Mary, Mother of God', es: 'Santa María, Madre de Dios' },
+   601→  { fr: 'Férie', en: 'Weekday', es: 'Ferial' },
+   602→]
+   603→
+   604→// Map: feast-rank suffix appended by the calendar to feast names.
+   605→const RANK_SUFFIX_MAP: { fr: string; en: string; es: string }[] = [
+   606→  { fr: ' — solennité', en: ' — solemnity', es: ' — solemnidad' },
+   607→  { fr: ' — fête', en: ' — feast', es: ' — fiesta' },
+   608→  { fr: ' — mémoire facultative', en: ' — optional memorial', es: ' — memoria facultativa' },
+   609→  { fr: ' — mémoire', en: ' — memorial', es: ' — memoria' },
+   610→]
+   611→
+   612→// Ordinal map for French ordinals appearing in dayName ("1er", "2e", "3e"...).
+   613→// EN: 1st, 2nd, 3rd, 4th... ; ES: 1.º, 2.º, 3.º, 4.º...
+   614→function localizeOrdinal(s: string, locale: Locale): string {
+   615→  if (locale === 'fr') return s
+   616→  return s.replace(/(\d+)er/g, (m, digits: string) => {
+   617→    const n = Number(digits)
+   618→    if (locale === 'en') return `${n}st`
+   619→    return `${n}.º`
+   620→  }).replace(/(\d+)e\b/g, (m, digits: string) => {
+   621→    const n = Number(digits)
+   622→    if (locale === 'en') {
+   623→      if (n === 0) return '0th'
+   624→      const last = n % 10
+   625→      const lastTwo = n % 100
+   626→      if (lastTwo >= 11 && lastTwo <= 13) return `${n}th`
+   627→      if (last === 1) return `${n}st`
+   628→      if (last === 2) return `${n}nd`
+   629→      if (last === 3) return `${n}rd`
+   630→      return `${n}th`
+   631→    }
+   632→    return `${n}.º`
+   633→  })
+   634→}
+   635→
+   636→function replaceAll(input: string, find: string, replace: string): string {
+   637→  if (!find) return input
+   638→  return input.split(find).join(replace)
+   639→}
+   640→
+   641→function localizeSeason(s: string, locale: Locale): string {
+   642→  if (locale === 'fr' || !s) return s
+   643→  for (const entry of SEASON_MAP) {
+   644→    if (s === entry.fr) return entry[locale]
+   645→  }
+   646→  return s
+   647→}
+   648→
+   649→function localizeString(s: string, locale: Locale): string {
+   650→  if (locale === 'fr' || !s) return s
+   651→
+   652→  // 1. Exact-match dayName overrides.
+   653→  for (const entry of DAYNAME_EXACT_MAP) {
+   654→    if (s === entry.fr) return entry[locale]
+   655→  }
+   656→
+   657→  let out = s
+   658→
+   659→  // 2. Translate weekday names (capitalized).
+   660→  for (const [fr, localeMap] of Object.entries(WEEKDAY_MAP)) {
+   661→    out = replaceAll(out, fr, localeMap[locale])
+   662→  }
+   663→
+   664→  // 3. Translate season fragments inside dayName patterns.
+   665→  for (const entry of SEASON_FRAGMENT_MAP) {
+   666→    out = replaceAll(out, entry.fr, entry[locale])
+   667→  }
+   668→
+   669→  // 4. Translate ordinals ("1er dimanche" → "1st Sunday").
+   670→  out = localizeOrdinal(out, locale)
+   671→
+   672→  // 5. Translate the small connector words used in dayName templates:
+   673→  //    "semaine" (within "semaine du Temps ordinaire"), "dimanche", "du", "de la".
+   674→  if (locale === 'en') {
+   675→    out = replaceAll(out, 'semaine du', 'week of')
+   676→    out = replaceAll(out, 'semaine de', 'week of')
+   677→    out = replaceAll(out, 'semaine des Cendres', 'week of Ashes')
+   678→    out = replaceAll(out, 'semaine', 'week')
+   679→    out = replaceAll(out, 'dimanche', 'Sunday')
+   680→    out = replaceAll(out, 'octave de Pâques', 'Octave of Easter')
+   681→    out = replaceAll(out, 'octave de Noël', 'Octave of Christmas')
+   682→    out = replaceAll(out, 'jour avant l’Épiphanie', 'day before the Epiphany')
+   683→    out = replaceAll(out, "jour de l'octave de Noël", 'day of the Octave of Christmas')
+   684→    out = replaceAll(out, 'jour de l’octave de Noël', 'day of the Octave of Christmas')
+   685→  } else if (locale === 'es') {
+   686→    out = replaceAll(out, 'semaine du', 'semana del')
+   687→    out = replaceAll(out, 'semaine de', 'semana de')
+   688→    out = replaceAll(out, 'semaine des Cendres', 'semana de Ceniza')
+   689→    out = replaceAll(out, 'semaine', 'semana')
+   690→    out = replaceAll(out, 'dimanche', 'domingo')
+   691→    out = replaceAll(out, 'octave de Pâques', 'Octava de Pascua')
+   692→    out = replaceAll(out, 'octave de Noël', 'Octava de Navidad')
+   693→    out = replaceAll(out, 'jour avant l’Épiphanie', 'día antes de la Epifanía')
+   694→    out = replaceAll(out, "jour de l'octave de Noël", 'día de la Octava de Navidad')
+   695→    out = replaceAll(out, 'jour de l’octave de Noël', 'día de la Octava de Navidad')
+   696→  }
+   697→
+   698→  return out
+   699→}
+   700→
+   701→function localizePsalterWeek(s: string, locale: Locale): string {
+   702→  if (locale === 'fr' || !s) return s
+   703→  // "Semaine III du Psautier" → "Week III of the Psalter" / "Semana III del Salterio"
+   704→  if (locale === 'en') {
+   705→    return s.replace(/^Semaine/, 'Week').replace(/du Psautier$/, 'of the Psalter')
+   706→  }
+   707→  return s.replace(/^Semaine/, 'Semana').replace(/du Psautier$/, 'del Salterio')
+   708→}
+   709→
+   710→function localizeYear(s: string, locale: Locale): string {
+   711→  if (locale === 'fr' || !s) return s
+   712→  // "Année B" → "Year B" / "Año B"
+   713→  if (locale === 'en') return s.replace(/^Année/, 'Year')
+   714→  return s.replace(/^Année/, 'Año')
+   715→}
+   716→
+   717→function localizeFeast(s: string, locale: Locale): string {
+   718→  if (locale === 'fr' || !s) return s
+   719→  let out = s
+   720→  // 1. Replace rank suffixes (longest first to avoid partial matches).
+   721→  for (const entry of RANK_SUFFIX_MAP) {
+   722→    out = replaceAll(out, entry.fr, entry[locale])
+   723→  }
+   724→  // 2. Translate weekday + season fragments within feast names.
+   725→  out = localizeString(out, locale)
+   726→  return out
+   727→}
+   728→
+   729→/**
+   730→ * Returns a copy of `day` with localized strings for `liturgicalTime`,
+   731→ * `dayName`, `feast`, `psalterWeek`, and `year`. The `date`, `color`, and
+   732→ * `colorFilled` fields are preserved unchanged. Unknown strings fall back
+   733→ * to the French original.
+   734→ */
+   735→export function localizeDayInfo(day: DayInfo, locale: Locale): DayInfo {
+   736→  if (locale === 'fr') return day
+   737→  return {
+   738→    ...day,
+   739→    liturgicalTime: localizeSeason(day.liturgicalTime, locale),
+   740→    dayName: localizeString(day.dayName, locale),
+   741→    feast: day.feast ? localizeFeast(day.feast, locale) : day.feast,
+   742→    psalterWeek: localizePsalterWeek(day.psalterWeek, locale),
+   743→    year: localizeYear(day.year, locale),
+   744→  }
+   745→}
+   746→
+   747→// Convenience for callers that want a fully-localized month calendar.
+   748→export function getMonthCalendarLocalized(year: number, month: number, locale: Locale): DayInfo[] {
+   749→  return getMonthCalendar(year, month).map((d) => localizeDayInfo(d, locale))
+   750→}
+   751→

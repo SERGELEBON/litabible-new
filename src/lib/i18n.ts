@@ -23,7 +23,7 @@ type Dict = Record<string, string>
 
 const en: Dict = {
   // --- nav ---
-  'nav.messe': 'The mass',
+  'nav.messe': 'My network',
   'nav.heures': 'The hours',
   'nav.bible': 'The Bible',
   'nav.apropos': 'About',
@@ -33,6 +33,25 @@ const en: Dict = {
   'nav.calendrier': 'Calendar',
   'nav.contact': 'Contact',
   'nav.aria_label': 'Main navigation',
+
+  // --- Mon réseau (social/chat) page ---
+  'reseau.title': 'MY NETWORK',
+  'reseau.intro': 'Connect with the community in real time. Chat with other people currently online — like a shared conversation.',
+  'reseau.name_label': 'Your name',
+  'reseau.name_ph': 'Choose a display name…',
+  'reseau.join_btn': 'Join the network',
+  'reseau.connected': 'Connected',
+  'reseau.disconnected': 'Disconnected — reconnecting…',
+  'reseau.online': '{n} online',
+  'reseau.online_users': 'Online',
+  'reseau.chat': 'Conversation',
+  'reseau.message_ph': 'Type a message…',
+  'reseau.send': 'Send',
+  'reseau.no_messages': 'No messages yet. Say hello to the community!',
+  'reseau.typing': '{name} is typing…',
+  'reseau.join_error': 'Please enter a name to join.',
+  'reseau.you': 'You',
+  'reseau.leave': 'Leave',
 
   // --- header ---
   'header.tagline': 'The Bible and the daily readings',
@@ -86,7 +105,7 @@ const en: Dict = {
   'mass.next': 'tomorrow ›',
   'mass.next_sunday': 'Next Sunday',
   'mass.other_dates': 'Other dates',
-  'mass.roman_cal': 'Roman calendar',
+  'mass.roman_cal': 'Calendar',
   'mass.note_cal': 'Note on calendars',
   'mass.download_doc': 'Download the texts (.doc)',
   'mass.download_short': 'Download',
@@ -167,7 +186,7 @@ const en: Dict = {
   'bible.lang.es': 'Spanish',
   'bible.promo_title': 'The liturgical Bible',
   'bible.promo_desc':
-    'Official text of the Church for proclamation. Translation, notes and introductions for prayerful reading. Available in bookshops.',
+    'The shared text for proclamation. Translation, notes and introductions for prayerful reading. Available in bookshops.',
 
   // --- apropos page ---
   'apropos.missions': 'The missions of LitaBible',
@@ -186,9 +205,9 @@ const en: Dict = {
   'videos.podcasts': 'PODCASTS',
   'videos.listen': 'Listen',
   'videos.intro':
-    'Discover LitaBible’s activity in a few videos: continuous reading of the liturgical Bible, presentation of the Missal, the Book of Hours, the liturgical seasons, and much more.',
+    'Discover LitaBible’s activity in a few videos: continuous reading of the Bible, presentation of the daily readings, the Book of Hours, the seasons of the year, and much more.',
   'podcasts.intro':
-    'Listen to meditations, interviews and talks on the liturgy, the Bible and the seasons of the liturgical year, in partnership with LitaBible’s editors.',
+    'Listen to meditations, interviews and talks on the Bible, the daily readings and the seasons of the year, in partnership with LitaBible’s editors.',
   'videos.subnav_aria': 'Videos & Podcasts',
 
   // --- calendar page ---
@@ -231,7 +250,7 @@ const en: Dict = {
   'cal.days_in_month': '{n} days',
   'cal.prev_month': '‹ {month}',
   'cal.next_month': '{month} ›',
-  'cal.zone.romain': 'Roman calendar',
+  'cal.zone.romain': 'Calendar',
   'cal.zone.afrique-nord': 'North Africa',
   'cal.zone.belgique': 'Belgium',
   'cal.zone.canada': 'Canada',
@@ -305,7 +324,7 @@ const en: Dict = {
 }
 
 const fr: Dict = {
-  'nav.messe': 'La messe',
+  'nav.messe': 'Mon réseau',
   'nav.heures': 'Les heures',
   'nav.bible': 'La Bible',
   'nav.apropos': 'À PROPOS',
@@ -315,6 +334,25 @@ const fr: Dict = {
   'nav.calendrier': 'Calendrier',
   'nav.contact': 'Contact',
   'nav.aria_label': 'Navigation principale',
+
+  // --- Mon réseau (social/chat) page ---
+  'reseau.title': 'MON RÉSEAU',
+  'reseau.intro': "Connectez-vous à la communauté en temps réel. Discutez avec les autres personnes connectées — comme une conversation partagée.",
+  'reseau.name_label': 'Votre nom',
+  'reseau.name_ph': 'Choisissez un nom d’affichage…',
+  'reseau.join_btn': 'Rejoindre le réseau',
+  'reseau.connected': 'Connecté',
+  'reseau.disconnected': 'Déconnecté — reconnexion…',
+  'reseau.online': '{n} en ligne',
+  'reseau.online_users': 'En ligne',
+  'reseau.chat': 'Conversation',
+  'reseau.message_ph': 'Écrivez un message…',
+  'reseau.send': 'Envoyer',
+  'reseau.no_messages': 'Aucun message pour l’instant. Saluez la communauté !',
+  'reseau.typing': '{name} écrit…',
+  'reseau.join_error': 'Veuillez saisir un nom pour rejoindre.',
+  'reseau.you': 'Vous',
+  'reseau.leave': 'Quitter',
 
   'header.tagline': 'La Bible et les lectures du jour au quotidien',
   'header.subscribe_line1': 'Recevez gratuitement les lectures',
@@ -369,7 +407,7 @@ const fr: Dict = {
   'mass.next': 'demain ›',
   'mass.next_sunday': 'Dimanche prochain',
   'mass.other_dates': 'Autres dates',
-  'mass.roman_cal': 'Calendrier romain',
+  'mass.roman_cal': 'Calendrier',
   'mass.note_cal': 'Note sur les calendriers',
   'mass.download_doc': 'Télécharger les textes (.doc)',
   'mass.download_short': 'Télécharger',
@@ -446,7 +484,7 @@ const fr: Dict = {
   'bible.lang.es': 'Español',
   'bible.promo_title': 'La Bible liturgique',
   'bible.promo_desc':
-    'Texte officiel de l’Église pour la proclamation. Traduction, notes et introductions pour la lecture priée. Disponible en librairie.',
+    'Le texte partagé pour la proclamation. Traduction, notes et introductions pour la lecture priée. Disponible en librairie.',
 
   'apropos.missions': 'Les missions de LitaBible',
   'apropos.organisation': 'Organisation',
@@ -463,9 +501,9 @@ const fr: Dict = {
   'videos.podcasts': 'PODCASTS',
   'videos.listen': 'Écouter',
   'videos.intro':
-    "Découvrez en quelques vidéos l’activité de LitaBible : lecture suivie de la Bible liturgique, présentation du Missel, du Livre des heures, des temps liturgiques, et bien plus encore.",
+    "Découvrez en quelques vidéos l’activité de LitaBible : lecture suivie de la Bible, présentation des lectures du jour, du Livre des heures, des temps de l’année, et bien plus encore.",
   'podcasts.intro':
-    "Écoutez des méditations, des entretiens et des conférences sur la liturgie, la Bible et les temps de l’année liturgique, en partenariat avec les rédacteurs de LitaBible.",
+    "Écoutez des méditations, des entretiens et des conférences sur la Bible, les lectures du jour et les temps de l’année, en partenariat avec les rédacteurs de LitaBible.",
   'videos.subnav_aria': 'Vidéos & Podcasts',
 
   'cal.month.jan': 'janv.',
@@ -507,7 +545,7 @@ const fr: Dict = {
   'cal.days_in_month': '{n} jours',
   'cal.prev_month': '‹ {month}',
   'cal.next_month': '{month} ›',
-  'cal.zone.romain': 'Calendrier romain',
+  'cal.zone.romain': 'Calendrier',
   'cal.zone.afrique-nord': 'Afrique du Nord',
   'cal.zone.belgique': 'Belgique',
   'cal.zone.canada': 'Canada',
@@ -578,7 +616,7 @@ const fr: Dict = {
 }
 
 const es: Dict = {
-  'nav.messe': 'La misa',
+  'nav.messe': 'Mi red',
   'nav.heures': 'Las horas',
   'nav.bible': 'La Biblia',
   'nav.apropos': 'ACERCA DE',
@@ -588,6 +626,25 @@ const es: Dict = {
   'nav.calendrier': 'Calendario',
   'nav.contact': 'Contacto',
   'nav.aria_label': 'Navegación principal',
+
+  // --- Mi red (social/chat) page ---
+  'reseau.title': 'MI RED',
+  'reseau.intro': 'Conéctate con la comunidad en tiempo real. Chatea con otras personas conectadas — como una conversación compartida.',
+  'reseau.name_label': 'Tu nombre',
+  'reseau.name_ph': 'Elige un nombre para mostrar…',
+  'reseau.join_btn': 'Unirme a la red',
+  'reseau.connected': 'Conectado',
+  'reseau.disconnected': 'Desconectado — reconectando…',
+  'reseau.online': '{n} en línea',
+  'reseau.online_users': 'En línea',
+  'reseau.chat': 'Conversación',
+  'reseau.message_ph': 'Escribe un mensaje…',
+  'reseau.send': 'Enviar',
+  'reseau.no_messages': 'Sin mensajes aún. ¡Saluda a la comunidad!',
+  'reseau.typing': '{name} está escribiendo…',
+  'reseau.join_error': 'Introduce un nombre para unirte.',
+  'reseau.you': 'Tú',
+  'reseau.leave': 'Salir',
 
   'header.tagline': 'La Biblia y las lecturas del día',
   'header.subscribe_line1': 'Reciba gratis las lecturas',
@@ -642,7 +699,7 @@ const es: Dict = {
   'mass.next': 'mañana ›',
   'mass.next_sunday': 'Domingo próximo',
   'mass.other_dates': 'Otras fechas',
-  'mass.roman_cal': 'Calendario romano',
+  'mass.roman_cal': 'Calendario',
   'mass.note_cal': 'Nota sobre los calendarios',
   'mass.download_doc': 'Descargar los textos (.doc)',
   'mass.download_short': 'Descargar',
@@ -719,7 +776,7 @@ const es: Dict = {
   'bible.lang.es': 'Español',
   'bible.promo_title': 'La Biblia litúrgica',
   'bible.promo_desc':
-    'Texto oficial de la Iglesia para la proclamación. Traducción, notas e introducciones para la lectura orante. Disponible en librerías.',
+    'El texto compartido para la proclamación. Traducción, notas e introducciones para la lectura orante. Disponible en librerías.',
 
   'apropos.missions': 'Las misiones de LitaBible',
   'apropos.organisation': 'Organización',
@@ -736,9 +793,9 @@ const es: Dict = {
   'videos.podcasts': 'PODCASTS',
   'videos.listen': 'Escuchar',
   'videos.intro':
-    'Descubra en unos vídeos la actividad de LitaBible: lectura seguida de la Biblia litúrgica, presentación del Misal, del Libro de las Horas, de los tiempos litúrgicos, y mucho más.',
+    'Descubra en unos vídeos la actividad de LitaBible: lectura seguida de la Biblia, presentación de las lecturas del día, del Libro de las Horas, de los tiempos del año, y mucho más.',
   'podcasts.intro':
-    'Escuche meditaciones, entrevistas y conferencias sobre la liturgia, la Biblia y los tiempos del año litúrgico, en colaboración con los redactores de LitaBible.',
+    'Escuche meditaciones, entrevistas y conferencias sobre la Biblia, las lecturas del día y los tiempos del año, en colaboración con los redactores de LitaBible.',
   'videos.subnav_aria': 'Videos y Podcasts',
 
   'cal.month.jan': 'ene',
@@ -780,7 +837,7 @@ const es: Dict = {
   'cal.days_in_month': '{n} días',
   'cal.prev_month': '‹ {month}',
   'cal.next_month': '{month} ›',
-  'cal.zone.romain': 'Calendario romano',
+  'cal.zone.romain': 'Calendario',
   'cal.zone.afrique-nord': 'Norte de África',
   'cal.zone.belgique': 'Bélgica',
   'cal.zone.canada': 'Canadá',

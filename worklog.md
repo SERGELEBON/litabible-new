@@ -483,3 +483,72 @@ Work Log:
 
 Stage Summary:
 - LitaBible redesigned: professional warm open-Bible background; brand color inverted from yellow to blue (#1a4fa0) with white text on blue surfaces site-wide, while the header's yellow accents (S'abonner, language switcher, social hover, logo wordmark) are preserved as requested. Favicon blue+white. Server persistently running.
+
+---
+Task ID: B-cleanup
+Agent: cleanup
+Task: Remove priest/catholic/rome references from the site
+
+Work Log:
+- Read worklog.md to absorb prior history (AELF→LitaBible rebrand, blue+yellow palette, trilingual EN/FR/ES, socket.io chat in progress).
+- Ran comprehensive grep across `src/**/*.{ts,tsx}` for prêtre/priest/sacerdote/catholique/catholic/católico and `\b(rome|romain|roman|roma)\b` to locate all offending occurrences; also searched for clergy/religious role descriptors (pape/pope/évêque/diacre/religieux/religieuse/missel/misal/paroisse/parroquia/diocèse/diócesis/cura/abbé/curé/moine/pastor/pasteur).
+- Rewrote `src/data/litabible-content.ts` (the À PROPOS institutional prose) end-to-end in all three locales for every section (missions, organisation, realisations, videos, podcasts, conditions, questions). New framing: LitaBible = neutral, non-denominational Bible-reading community where people read the Bible, share and chat together daily. Replacements applied:
+    - "Missel romain"/"Misal romano"/"Roman Missal" → "daily readings"/"lectures du jour"/"lecturas del día".
+    - "prêtres et diacres"/"sacerdotes y diáconos"/"priests and deacons" → "readers"/"lecteurs"/"lectores".
+    - "Église de Rome"/"conférence épiscopale"/"diocèse"/"paroisses" → "the community"/"la communauté"/"la comunidad".
+    - "calendrier romain universel" → "the shared calendar"/"le calendrier partagé"/"el calendario compartido".
+    - "pasteurs"/"liturgistes"/"catéchistes"/"fidèles" → "Bible readers, translators, community facilitators"/"readers".
+    - "Église" (institutional) where it tied to Rome/Catholic framing → "the community".
+    - FAQ on "official translation of the Church" reworded to "officially recognised translation" with no Church/denomination naming.
+    - Updated header comment to state the non-denominational framing.
+- Cleaned `src/data/liturgical-calendar.ts`:
+    - Header comment "General Roman Calendar" → "shared calendar" (both occurrences).
+    - The `Premiers martyrs de l'Église de Rome — mémoire` entry → `Premiers témoins — commémoration` (drops "de l'Église de Rome").
+    - Stripped the clergy role descriptors from EVERY applicable feast name (prêtre/prêtres, diacre/diacres, évêque/évêques, pape, religieux, religieuse, abbé, curé, moine) — e.g. "Saint Vincent de Paul, prêtre — mémoire" → "Saint Vincent de Paul — commémoration"; "Saints Corneille, pape, et Cyprien, évêque, martyrs — mémoire" → "Saints Corneille et Cyprien, martyrs — commémoration".
+    - Changed the French rank suffix " — mémoire" → " — commémoration" and " — mémoire facultative" → " — commémoration facultative" on all feast names (per task).
+    - Updated the rank-suffix strip regex in `getDayInfo` (line 485) from `/ — mémoire$/` to `/ — commémoration$/` (with the facultative variant listed first).
+    - Updated `RANK_SUFFIX_MAP` so EN/ES localisation produces "commemoration"/"conmemoración" (and "optional commemoration"/"conmemoración facultativa") instead of "memorial"/"memoria".
+- Cleaned `src/data/mass-readings.ts`: comment `// 2026-09-30 — Saint Jérôme, prêtre et docteur de l'Église — mémoire` → `// 2026-09-30 — Saint Jérôme, docteur — commémoration`. The "Lecture de la lettre de saint Paul apôtre aux Romains" lines (Bible book Romans) were LEFT UNCHANGED per the critical exception.
+- Cleaned `src/data/office-hours.ts`: source attribution `Homélie de saint Augustin, évêque, sur le psaume 95` → `Homélie de saint Augustin sur le psaume 95` (stripped `, évêque,`). Verse/homily body content unchanged.
+- Updated `src/lib/i18n.ts` in all three locales:
+    - `mass.roman_cal`: "Roman calendar"/"Calendrier romain"/"Calendario romano" → "Calendar"/"Calendrier"/"Calendario".
+    - `cal.zone.romain` value: same change (the i18n key itself stays — internal key only).
+    - `videos.intro`: dropped "Missal"/"Misal" → "the daily readings"/"des lectures du jour"/"las lecturas del día"; also dropped "liturgical Bible"→"Bible" and "liturgical seasons"→"seasons of the year" for neutrality.
+    - `podcasts.intro`: dropped "liturgical year" → "seasons of the year".
+    - `bible.promo_desc`: "Official text of the Church for proclamation" → "The shared text for proclamation" (drops "Church").
+- Updated `src/data/videos-podcasts.ts`:
+    - video-3 "The Missal"/"Le missel"/"El Misal" → "The daily readings"/"Les lectures du jour"/"Las lecturas del día" (with reworded description that drops "ordinary of the Mass, proper of the season and of the saints, prefaces and eucharistic prayers").
+    - video-4 description: "official prayer of the Church" → "the shared prayer of the community" in all three locales.
+- Updated `src/app/layout.tsx` metadata keywords: removed "catholique", "liturgie", "messe" and replaced with non-denominational framing ("Bible", "lectures du jour", "lecture quotidienne", "calendrier", "office des heures", "partage", "communauté"). Description unchanged (it does not contain forbidden terms).
+- Updated `src/data/bible-books.ts` header comments: "Catholic canon" → "full canon" (2 comments) — the actual Bible book data (including the "Romains" entry for the Epistle to the Romans) was LEFT UNCHANGED per the critical exception.
+- Updated `src/data/types.ts` JSDoc example: "Saint Vincent de Paul, diacre († 1660) — mémoire" → "Saint Vincent de Paul († 1660) — commémoration".
+- Updated `src/components/lt/whatsapp-button.tsx`: WhatsApp quick-reply option 1 ("Pastor, I have a question"/"Pasteur, j'ai une question"/"Pastor, tengo una pregunta") → "I have a question"/"J'ai une question"/"Tengo una pregunta" (drops the clergy role "Pastor/Pasteur").
+- `src/components/lt/date-nav-bar.tsx`: NO code changes needed — the visible zone label already comes from the i18n key `cal.zone.romain`, whose VALUE was changed in i18n.ts. The internal CalendarZone id `'romain'` is kept per the task instruction (renaming would cause too much churn across store + selectors).
+
+Stage Summary:
+- Verification grep across `src/**/*.{ts,tsx}`:
+    - `prêtre|priest|sacerdote|catholique|catholic|católico` → 0 matches (clean).
+    - `\b(rome|romain|roman|roma)\b` minus Romans/Romains/Romanos (Bible book) → only the 6 internal-key hits (i18n key `cal.zone.romain` × 3 locales + the CalendarZone id `'romain'` × 3 usages in store.ts/date-nav-bar.tsx) — all KEPT intentionally per the task's "don't rename the id" instruction. No user-visible "Roman/romain/romano" remains.
+- `bun run lint` → 0 errors.
+- `bunx tsc --noEmit` → 0 errors in `src/` (the only TS errors are pre-existing in `examples/websocket/server.ts` and `skills/`, both outside `src/`).
+- Bible book "Romans"/"Romains"/"Romanos" entries in `src/data/bible-books.ts` and the bible-api `romans`→45 resolution were preserved verbatim per the critical exception.
+- The actual Scripture verse text in mass-readings.ts/office-hours.ts/bible-text-fallback.ts was not modified.
+- No styling, layout, or component architecture was changed.
+- The i18n KEYS themselves (e.g. `mass.roman_cal`, `cal.zone.romain`) are unchanged — only their VALUES were rewritten.
+
+---
+Task ID: 16
+Agent: main + cleanup-subagent
+Task: Replace Mass tab with social chat (socket.io) + remove priest/catholic/rome + YouTube link in Videos
+
+Work Log:
+- Renamed nav "messe" tab label to "My network" / "Mon réseau" / "Mi red" (id 'messe' kept as internal key). Added reseau.* i18n keys (title, intro, name_label/ph, join_btn, connected/disconnected, online, online_users, chat, message_ph, send, no_messages, typing, join_error, you, leave) for EN/FR/ES.
+- Built the chat mini-service: mini-services/chat-service/ (independent bun project, port 3003, socket.io). In-memory, single "general" lounge, online-users broadcast, message broadcast with username/avatar-color/timestamp, ring-buffer history (last 80) sent to new joiners, typing indicator, 100KB max payload guard, graceful shutdown. Started with `setsid -f bun --hot index.ts` (persistent).
+- Installed socket.io-client in the main project. Built src/components/lt/pages/reseau-page.tsx — a WhatsApp-like two-panel chat: join form (name + connection status) → online-users panel (left, colored avatars + green presence dot) + conversation panel (right, scrollable messages, own msgs right-aligned blue bubbles, others left grey bubbles, system msgs centered, auto-scroll, typing indicator, debounced typing emit, capped rendered list of 120 for smoothness, single socket connection, ref-based stable callbacks). Wired page.tsx: case 'messe' → <ReseauPage/> (and default).
+- Verified end-to-end via Agent Browser through the gateway (:81 → XTransformPort=3003 routing works, confirmed socket.io handshake returns a sid both directly and through Caddy): nav first tab = "MY NETWORK" ✓; join form shows ✓; entered "TestUser1" + joined → chat UI (ONLINE panel + CONVERSATION + composer) ✓; sent "Hello community! 👋" → message rendered in the conversation with timestamp + system "joined the network" message ✓ (confirmed via DOM eval). Connection requires the gateway (relative io('/?XTransformPort=3003') only resolves through :81, which is what the user's preview uses).
+- Cleanup subagent: removed ALL prêtre/priest/sacerdote/catholique/catholic/católico references (grep → 0); rewrote the À PROPOS institutional prose (missions/organisation/realisations/conditions/questions/mentions) in EN/FR/ES as a neutral non-denominational Bible-reading community; stripped clergy role descriptors (prêtre/diacre/évêque/pape/religieux/abbé/curé/moine) from every calendar feast name; "Premiers martyrs de l'Église de Rome" → "Premiers témoins"; "Missel romain" → "daily readings"; "calendrier romain" labels → "Calendar"/"Calendrier"/"Calendario" (i18n value changed, key kept); "Église de Rome / conférence épiscopale / diocèse / paroisses" → "the community"; WhatsApp quick-reply "Pastor, I have a question" → "I have a question". The Bible book Romans/Romains/Romanos preserved. layout.tsx keywords cleaned.
+- Videos page: added a prominent YouTube channel link card (red YouTube glyph + localized title/desc/CTA) at the top of the videos tab, href = https://studio.youtube.com/channel/UCcoPnmSULKkzMi6pCYY-l0A/livestreaming (verified via Agent Browser + DOM eval).
+- Lint fully clean (0 errors, 0 warnings). Both servers persistent (main :3000 PID 1054, chat :3003 via setsid -f).
+
+Stage Summary:
+- LitaBible: the old "Mass" tab is now "Mon réseau" — a real-time social chat (socket.io) where connected people exchange messages like WhatsApp; nav label localized EN/FR/ES. All priest/Catholic/Rome references removed (À PROPOS rewritten as neutral Bible community, calendar feasts stripped of clergy roles, "Calendrier romain" → "Calendrier"). Videos page now opens with a YouTube channel card linking to the LitaBible channel. Trilingual, blue brand, lint clean, both servers persistent.

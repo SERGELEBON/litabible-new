@@ -2,7 +2,7 @@ import type { BibleBook } from './types'
 import type { Locale } from '@/lib/store'
 
 // =============================================================================
-// Bible books — Catholic canon in French (with EN/ES localized names).
+// Bible books — full canon in French (with EN/ES localized names).
 //
 // The 46 Old Testament books (including the deuterocanonical books: Tobie,
 // Judith, additions to Esther, 1-2 Maccabées, Sagesse, Ecclésiastique/Siracide,
@@ -119,7 +119,7 @@ export function getBookName(book: BibleBook, locale: Locale): string {
 }
 
 // ---------------------------------------------------------------------------
-// Old Testament (46 books, Catholic canon).
+// Old Testament (46 books, full canon).
 // ---------------------------------------------------------------------------
 export const oldTestamentBooks: BibleBook[] = [
   { id: 'genesis', name: 'Genèse', abbreviation: 'Gn', chapters: 50, testament: 'AT', bollsBookId: 1 },

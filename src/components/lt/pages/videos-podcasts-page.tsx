@@ -1,7 +1,7 @@
 'use client'
 
 import { useMemo, useState } from 'react'
-import { Play } from 'lucide-react'
+import { Play, ExternalLink } from 'lucide-react'
 import { ChevronTab } from '../chevron-tab'
 import { useLitabibleStore } from '@/lib/store'
 import { useT } from '@/lib/i18n'
@@ -9,6 +9,16 @@ import { localizedVideos, localizedPodcasts } from '@/data/videos-podcasts'
 import { videos as videosSection, podcasts as podcastsSection } from '@/data/litabible-content'
 
 type Tab = 'videos' | 'podcasts'
+
+// YouTube channel link (shared with the footer social icon).
+const YOUTUBE_CHANNEL_URL =
+  'https://studio.youtube.com/channel/UCcoPnmSULKkzMi6pCYY-l0A/livestreaming'
+
+const YT_CARD: Record<'en' | 'fr' | 'es', { title: string; desc: string; cta: string }> = {
+  en: { title: 'Our YouTube channel', desc: 'Watch our videos and live streams directly on YouTube — subscribe to never miss a new one.', cta: 'Visit the channel' },
+  fr: { title: 'Notre chaîne YouTube', desc: 'Regardez nos vidéos et nos lives directement sur YouTube — abonnez-vous pour ne rien manquer.', cta: 'Visiter la chaîne' },
+  es: { title: 'Nuestro canal de YouTube', desc: 'Mira nuestros vídeos y directos en YouTube — suscríbete para no perderte ninguno.', cta: 'Visitar el canal' },
+}
 
 /** Standalone Vidéos & Podcasts page (main nav entry). */
 export function VideosPodcastsPage() {
@@ -63,6 +73,34 @@ export function VideosPodcastsPage() {
                   {videosSect.intro}
                 </p>
               )}
+
+              {/* YouTube channel link card */}
+              {(() => {
+                const yt = YT_CARD[locale]
+                return (
+                  <a
+                    href={YOUTUBE_CHANNEL_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group flex items-center gap-4 bg-white border-2 border-[#FF0000]/30 hover:border-[#FF0000] p-4 mb-6 transition-colors"
+                  >
+                    <span className="flex-shrink-0 w-12 h-12 rounded-full bg-[#FF0000] flex items-center justify-center text-white">
+                      <svg viewBox="0 0 24 24" width="26" height="26" fill="currentColor" aria-hidden="true">
+                        <path d="M23.5 6.2a3.02 3.02 0 0 0-2.12-2.14C19.5 3.55 12 3.55 12 3.55s-7.5 0-9.38.51A3.02 3.02 0 0 0 .5 6.2 31.6 31.6 0 0 0 0 12a31.6 31.6 0 0 0 .5 5.8 3.02 3.02 0 0 0 2.12 2.14c1.88.51 9.38.51 9.38.51s7.5 0 9.38-.51a3.02 3.02 0 0 0 2.12-2.14A31.6 31.6 0 0 0 24 12a31.6 31.6 0 0 0-.5-5.8zM9.6 15.6V8.4l6.3 3.6-6.3 3.6z"/>
+                      </svg>
+                    </span>
+                    <span className="min-w-0 flex-1">
+                      <span className="block text-[15px] font-bold text-[#1a4fa0]">{yt.title}</span>
+                      <span className="block text-[13px] text-[#2d2d2d]/80 leading-snug mt-0.5">{yt.desc}</span>
+                    </span>
+                    <span className="flex-shrink-0 inline-flex items-center gap-1.5 bg-[#FF0000] text-white text-[12px] font-bold uppercase px-3.5 py-2 group-hover:bg-[#cc0000] transition-colors">
+                      {yt.cta}
+                      <ExternalLink className="w-3.5 h-3.5" />
+                    </span>
+                  </a>
+                )
+              })()}
+
               <ol className="space-y-6">
                 {videoList.map((v) => (
                   <li

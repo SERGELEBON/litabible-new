@@ -18,7 +18,7 @@ export interface DayInfo {
   year: string
   /** e.g. "27e dimanche du Temps ordinaire" */
   dayName: string
-  /** Optional feast label, e.g. "Saint Vincent de Paul, diacre († 1660) — mémoire" */
+  /** Optional feast label, e.g. "Saint Vincent de Paul († 1660) — commémoration" */
   feast?: string
 }
 

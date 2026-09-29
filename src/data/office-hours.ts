@@ -34,7 +34,7 @@ function patristicReading(): Reading {
     type: 'lecture_patristique',
     label: 'Lecture patristique',
     title: 'Homélie de saint Augustin sur le psaume 95',
-    source: 'Homélie de saint Augustin, évêque, sur le psaume 95',
+    source: 'Homélie de saint Augustin sur le psaume 95',
     reference: 'Sermon 95, 4-5',
     citation: 'Chantez au Seigneur un cantique nouveau',
     patristicSource: 'Saint Augustin, Sermon sur les psaumes',

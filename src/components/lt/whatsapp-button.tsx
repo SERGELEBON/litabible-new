@@ -12,7 +12,7 @@ const STR: Record<Locale, { title: string; close: string; options: { n: number; 
     title: 'How can we help you?',
     close: 'Close',
     options: [
-      { n: 1, label: 'Pastor, I have a question' },
+      { n: 1, label: 'I have a question' },
       { n: 2, label: 'I really have a problem' },
       { n: 3, label: 'I want help reading the Bible' },
       { n: 4, label: 'Other need' },
@@ -22,7 +22,7 @@ const STR: Record<Locale, { title: string; close: string; options: { n: number; 
     title: 'Comment pouvons-nous vous aider ?',
     close: 'Fermer',
     options: [
-      { n: 1, label: "Pasteur, j'ai une question" },
+      { n: 1, label: "J'ai une question" },
       { n: 2, label: 'J\u2019ai v\u00e9ritablement un probl\u00e8me' },
       { n: 3, label: "Je veux de l'aide pour lire la Bible" },
       { n: 4, label: 'Autre besoin' },
@@ -32,7 +32,7 @@ const STR: Record<Locale, { title: string; close: string; options: { n: number; 
     title: '¿Cómo podemos ayudarle?',
     close: 'Cerrar',
     options: [
-      { n: 1, label: 'Pastor, tengo una pregunta' },
+      { n: 1, label: 'Tengo una pregunta' },
       { n: 2, label: 'Tengo realmente un problema' },
       { n: 3, label: 'Quiero ayuda para leer la Biblia' },
       { n: 4, label: 'Otra necesidad' },
