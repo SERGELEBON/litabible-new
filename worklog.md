@@ -467,3 +467,19 @@ Work Log:
 
 Stage Summary:
 - api.bible fully integrated as the smart primary Bible source: 9 versions across EN (7) / FR (1, Darby) / ES (1, Reina Valera 1909). Chapters + search work live for all three languages. Key kept server-side (type-only client import). Fallbacks (bolls/bible-api.com/local Louis Segond) preserved for resilience. Lint clean; server persistently running.
+
+---
+Task ID: 15
+Agent: main
+Task: New professional background + yellow→blue everywhere except header
+
+Work Log:
+- Generated a new professional background via image-gen: an open antique Bible on a dark wooden table with soft warm golden side light, shallow depth of field, subtle dust particles — replaced public/vitrail-bg.png (same filename so globals.css url() keeps working). The warm amber tones complement the blue brand as a complementary palette.
+- Color inversion per user (yellow→blue, header yellow kept): sed replaced #f5c400→#1a4fa0 and #d4a700→#143d7a across ALL files EXCEPT src/components/lt/site-header.tsx + public/litabible-logo.svg (those keep their yellow: S'abonner button, language-switcher active pill, social hover, logo "Bible" wordmark). Also replaced leftover hover yellow #ffd000→#143d7a in non-header files.
+- Fixed blue-on-blue text pairs (blue bg + blue text → invisible) → white text: chevron-tab active `color:'#1a4fa0'`→`'#ffffff'` (×2); reading-table active row `text-[#1a4fa0]`→`text-white`; bible-search-bar search button `text-[#1a4fa0]`→`text-white`; date-nav pill hover `hover:text-[#1a4fa0]`→`hover:text-white`; rdv-dimanche corner badges + join button `text-[#1a4fa0]`→`text-white`; lecture-quotidienne download button `!text-[#1a4fa0]`→`!text-white` + poster liturgical-time accent on the blue header band →`text-white/70`; globals.css .lt-badge color #1a4fa0→#ffffff.
+- Favicon: blue square + blue heart (invisible) → blue square + white heart.
+- Standalone blue text on white (headings, links, icons, verse numbers, date) UNCHANGED — readable.
+- Vision-verified final screenshot: (1) bg = professional open-Bible photo (not rosette) ✓; (2) header BLUE with YELLOW subscribe button (header yellow kept) ✓; (3) left nav active tab + ribbon now BLUE with WHITE text ✓; (4) yellow accent remains only in the header ✓. Lint 0 errors; server persists (PID 10300, code 200).
+
+Stage Summary:
+- LitaBible redesigned: professional warm open-Bible background; brand color inverted from yellow to blue (#1a4fa0) with white text on blue surfaces site-wide, while the header's yellow accents (S'abonner, language switcher, social hover, logo wordmark) are preserved as requested. Favicon blue+white. Server persistently running.

@@ -71,7 +71,7 @@ export function LectureQuotidiennePage() {
             </button>
             <button
               type="button"
-              className="lt-btn-black !bg-[#f5c400] !text-[#1a4fa0] text-[11px] px-3 py-2 inline-flex items-center gap-1.5 hover:!bg-[#ffd000]"
+              className="lt-btn-black !bg-[#1a4fa0] !text-white text-[11px] px-3 py-2 inline-flex items-center gap-1.5 hover:!bg-[#143d7a]"
             >
               <Download className="w-3.5 h-3.5" />
               {t('lec.download')}
@@ -118,7 +118,7 @@ export function LectureQuotidiennePage() {
             <div className="text-right">
               <p className="text-[15px] font-bold leading-tight">{dateStr}</p>
               {dayInfo.liturgicalTime && (
-                <p className="text-[10px] uppercase tracking-wide text-[#f5c400] leading-tight">
+                <p className="text-[10px] uppercase tracking-wide text-white/70 leading-tight">
                   {dayInfo.liturgicalTime}
                 </p>
               )}
@@ -126,7 +126,7 @@ export function LectureQuotidiennePage() {
           </header>
 
           {/* Day info band */}
-          <div className="flex items-center gap-3 px-5 py-3 bg-[#f5c400]/15 border-b border-[#e2e0dc]">
+          <div className="flex items-center gap-3 px-5 py-3 bg-[#1a4fa0]/15 border-b border-[#e2e0dc]">
             <LiturgicalBadge color={dayInfo.color} filled={dayInfo.colorFilled} size={18} />
             <div className="min-w-0">
               <p className="text-[15px] font-bold text-[#1a4fa0] leading-tight">
@@ -171,7 +171,7 @@ export function LectureQuotidiennePage() {
           </div>
 
           {/* Poster footer band (yellow) */}
-          <footer className="bg-[#f5c400] text-[#1a4fa0] px-5 py-2.5 flex items-center justify-between">
+          <footer className="bg-[#1a4fa0] text-white px-5 py-2.5 flex items-center justify-between">
             <span className="text-[11px] font-bold uppercase tracking-wide">
               LitaBible · {t('lec.title')}
             </span>
@@ -221,7 +221,7 @@ function ReadingBlock({
   // Alleluia: centered box
   if (type === 'alleluia') {
     return (
-      <div className="border-l-4 border-[#f5c400] bg-[#f5c400]/10 px-4 py-3 text-center">
+      <div className="border-l-4 border-[#1a4fa0] bg-[#1a4fa0]/10 px-4 py-3 text-center">
         {label && (
           <p className="text-[10px] font-bold uppercase text-[#1a4fa0] mb-1">{label}</p>
         )}

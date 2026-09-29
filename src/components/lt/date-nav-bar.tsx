@@ -91,7 +91,7 @@ export function MassDateControls({ onPrev, onNext }: { onPrev: () => void; onNex
     <div className="flex flex-wrap items-center gap-2">
       <button
         type="button"
-        className="inline-flex items-center bg-[#f0eeea] hover:bg-[#f5c400] hover:text-[#1a4fa0] text-[#333] text-[11px] font-semibold uppercase px-3 py-1.5 border border-[#ccc] rounded-full transition-colors"
+        className="inline-flex items-center bg-[#f0eeea] hover:bg-[#1a4fa0] hover:text-white text-[#333] text-[11px] font-semibold uppercase px-3 py-1.5 border border-[#ccc] rounded-full transition-colors"
         onClick={() => onNext()}
       >
         {t('mass.next_sunday')}

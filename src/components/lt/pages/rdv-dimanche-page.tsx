@@ -49,7 +49,7 @@ export function RdvDimanchePage() {
               <Church className="w-3 h-3" />
               LitaBible
             </span>
-            <span className="absolute top-3 right-3 inline-flex items-center gap-1.5 bg-[#f5c400] text-[#1a4fa0] text-[10px] font-bold uppercase px-2.5 py-1.5">
+            <span className="absolute top-3 right-3 inline-flex items-center gap-1.5 bg-[#1a4fa0] text-white text-[10px] font-bold uppercase px-2.5 py-1.5">
               <Video className="w-3 h-3" />
               Google Meet
             </span>
@@ -65,7 +65,7 @@ export function RdvDimanchePage() {
               </p>
             </div>
             {/* Join button (yellow) — the link lives "behind" the card */}
-            <span className="inline-flex items-center gap-2 bg-[#f5c400] text-[#1a4fa0] font-bold uppercase text-[13px] px-5 py-3 group-hover:bg-[#ffd000] transition-colors flex-shrink-0">
+            <span className="inline-flex items-center gap-2 bg-[#1a4fa0] text-white font-bold uppercase text-[13px] px-5 py-3 group-hover:bg-[#143d7a] transition-colors flex-shrink-0">
               <Video className="w-4 h-4" />
               {t('rdv.join_btn')}
               <ExternalLink className="w-3.5 h-3.5" />

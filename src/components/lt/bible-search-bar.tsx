@@ -49,7 +49,7 @@ export function BibleSearchBar({
       <button
         type="submit"
         aria-label={t('bible.search_btn')}
-        className="bg-[#f5c400] hover:bg-[#d4a700] text-[#1a4fa0] flex items-center justify-center w-[42px] h-[42px] flex-shrink-0 transition-colors"
+        className="bg-[#1a4fa0] hover:bg-[#143d7a] text-[#1a4fa0] flex items-center justify-center w-[42px] h-[42px] flex-shrink-0 transition-colors"
       >
         <Search className="w-5 h-5" />
       </button>

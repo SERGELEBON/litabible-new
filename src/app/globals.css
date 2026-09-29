@@ -43,14 +43,14 @@
   --radius-xl: calc(var(--radius) + 4px);
 
   /* LitaBible brand tokens (teal-emerald + warm gold) */
-  --color-lt-brand: #f5c400;       /* primary brand = YELLOW (backgrounds) */
-  --color-lt-brand-dark: #d4a700;  /* hover/active darker yellow */
+  --color-lt-brand: #1a4fa0;       /* primary brand = YELLOW (backgrounds) */
+  --color-lt-brand-dark: #143d7a;  /* hover/active darker yellow */
   --color-lt-ink: #1a4fa0;        /* brand ink = BLUE (text on yellow + links/labels) */
   --color-lt-ink-dark: #143d7a;   /* darker blue for hover text */
   --color-lt-black: #000000;
   --color-lt-inactive: #e2ded5;    /* warm light grey for inactive tabs */
   --color-lt-body: #2d2d2d;
-  --color-lt-gold: #f5c400;        /* yellow accent */
+  --color-lt-gold: #1a4fa0;        /* yellow accent */
   --color-lt-green: #1e883f;       /* liturgical green (kept) */
   --color-lt-violet: #7d4c9c;     /* liturgical violet (kept) */
   --color-lt-white: #f5f1e8;
@@ -65,7 +65,7 @@
   --card-foreground: #2d2d2d;
   --popover: #ffffff;
   --popover-foreground: #2d2d2d;
-  --primary: #f5c400;            /* yellow brand background */
+  --primary: #1a4fa0;            /* yellow brand background */
   --primary-foreground: #1a4fa0;  /* blue ink on yellow */
   --secondary: #e2ded5;
   --secondary-foreground: #2d2d2d;
@@ -79,12 +79,12 @@
   --ring: #1a4fa0;               /* blue ink */
   --chart-1: #1a4fa0;            /* blue ink */
   --chart-2: #1e883f;
-  --chart-3: #f5c400;
+  --chart-3: #1a4fa0;
   --chart-4: #7d4c9c;
   --chart-5: #d989a4;
   --sidebar: #ffffff;
   --sidebar-foreground: #2d2d2d;
-  --sidebar-primary: #f5c400;
+  --sidebar-primary: #1a4fa0;
   --sidebar-primary-foreground: #1a4fa0;
   --sidebar-accent: #f4f1ea;
   --sidebar-accent-foreground: #2d2d2d;
@@ -138,7 +138,7 @@
   .lt-ribbon {
     position: relative;
     width: 8px;
-    background: #f5c400;
+    background: #1a4fa0;
   }
   .lt-ribbon::after {
     content: '';
@@ -147,7 +147,7 @@
     left: 0;
     width: 8px;
     height: 14px;
-    background: #f5c400;
+    background: #1a4fa0;
     clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 60%, 0 100%);
   }
 
@@ -167,8 +167,8 @@
 
   /* Brand compact badge (yellow bg + blue ink) */
   .lt-badge {
-    background: #f5c400;
-    color: #1a4fa0;
+    background: #1a4fa0;
+    color: #ffffff;
     border-radius: 0;
     font-size: 10px;
     font-weight: 700;
@@ -196,7 +196,7 @@
   /* Custom scrollbar for inner panels */
   .lt-scroll {
     scrollbar-width: thin;
-    scrollbar-color: #f5c400 #f4f1ea;
+    scrollbar-color: #1a4fa0 #f4f1ea;
   }
   .lt-scroll::-webkit-scrollbar {
     width: 8px;
@@ -206,7 +206,7 @@
     background: #f4f1ea;
   }
   .lt-scroll::-webkit-scrollbar-thumb {
-    background: #f5c400;
+    background: #1a4fa0;
     border-radius: 0;
   }
   .lt-scroll::-webkit-scrollbar-thumb:hover {
