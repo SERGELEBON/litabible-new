@@ -1,14 +1,15 @@
 // =============================================================================
 // Contact information for the LitaBible app.
-// Sample institutional data (the address is a plausible LitaBible seat).
 // =============================================================================
 
 export const contactInfo = {
-  email: 'contact@litabible.org',
-  address: 'LitaBible',
-  addressLines: ['7, place Vauban', '75017 Paris', 'France'],
-  phone: '+33 1 44 61 12 00',
-  hours: 'Du lundi au vendredi, 9h - 12h30 / 14h - 17h',
+  location: 'Accra WestLand, Ghana',
+  address: 'Accra WestLand',
+  addressLines: ['Ghana'],
+  phones: ['+233 597102039', '+225 0778254286'],
+  email: 'contact@litabible.com',
+  // Tagline shown 24/7 — "Contact us 24/7" / "Nous contacter 24/7" / "Contáctenos 24/7"
+  taglineKey: 'contact.tagline_24_7',
 }
 
 export const contactSubjects = [

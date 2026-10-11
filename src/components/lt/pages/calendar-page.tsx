@@ -6,7 +6,7 @@ import { LiturgicalBadge } from '../liturgical-badge'
 import { useLitabibleStore } from '@/lib/store'
 import { useT } from '@/lib/i18n'
 import { getMonthCalendar, localizeDayInfo } from '@/data/liturgical-calendar'
-import type { DayInfo } from '@/data/types'
+import { getReadingForDate } from '@/data/reading-plan'
 
 const MONTH_SHORT_KEY = [
   'cal.month.jan', 'cal.month.feb', 'cal.month.mar', 'cal.month.apr',
@@ -29,15 +29,11 @@ function parseISO(iso: string): { year: number; month: number; day: number } {
   return { year: y, month: m || 1, day: d || 1 }
 }
 
-function describeDay(day: DayInfo, t: (k: string) => string): string {
-  // Compose a readable description for a calendar row.
-  const parts: string[] = [day.dayName]
-  if (day.liturgicalTime) parts.push(`— ${day.liturgicalTime}`)
-  if (day.feast && day.feast !== day.dayName) parts.push(`· ${day.feast}`)
-  return parts.join(' ')
-}
-
-/** Calendrier page — vertical list of all days of the viewed month. */
+/**
+ * Calendar page — a simple daily Bible reading program. Each day shows the
+ * date, a green liturgical badge, the reading title + reference, and a
+ * "Read" button that opens the Bible page.
+ */
 export function CalendarPage() {
   const selectedDate = useLitabibleStore((s) => s.selectedDate)
   const setSelectedDate = useLitabibleStore((s) => s.setSelectedDate)
@@ -55,6 +51,10 @@ export function CalendarPage() {
     () => getMonthCalendar(year, month).map((d) => localizeDayInfo(d, locale)),
     [year, month, locale],
   )
+
+  // Reading-day index lookup: maps the ISO date to its index in the plan so
+  // we can display "Day {n}" alongside the reading.
+  const readingDayIndex = (iso: string) => getReadingForDate(iso).dayIndex + 1
 
   function prevMonth() {
     setView((v) => {
@@ -93,15 +93,25 @@ export function CalendarPage() {
   const monthNameShort = t(MONTH_SHORT_KEY[month - 1]).toUpperCase().replace('.', '')
   const headerTitle = t('cal.header', { month: monthNameShort, year })
 
-  function openDay(dateIso: string, target: 'messe' | 'heures') {
+  function openBible(dateIso: string) {
     setSelectedDate(dateIso)
-    setPage(target)
+    setPage('bible')
   }
 
   return (
     <div className="w-full max-w-5xl mx-auto px-4 sm:px-6 py-4 sm:py-6">
       {/* Decorative dark grey bar */}
       <div className="bg-[#3a3a3a] h-1.5 w-full" aria-hidden="true" />
+
+      {/* Plan title + intro (yellow header accent strip) */}
+      <div className="bg-[#1a4fa0] text-white px-4 sm:px-6 py-3 sm:py-4 border-b border-[#143d7a]">
+        <h1 className="text-[18px] sm:text-[22px] font-bold uppercase tracking-wide leading-tight">
+          {t('cal.plan_title')}
+        </h1>
+        <p className="text-[12px] sm:text-[13px] text-white/80 leading-snug mt-0.5">
+          {t('cal.plan_intro')}
+        </p>
+      </div>
 
       {/* Month navigation bar */}
       <div className="bg-white border border-b-0 border-[#e2e0dc] p-3 sm:p-4 flex flex-wrap items-center justify-between gap-3">
@@ -155,30 +165,29 @@ export function CalendarPage() {
                         <span className="text-[#333333]">{dateLabel}</span>
                       </p>
                       <p className="text-[14px] leading-[1.5] text-[#333333] mt-0.5">
-                        {describeDay(day, t)}
+                        <span className="font-semibold text-[#1a4fa0]">
+                          {day.dayName}
+                        </span>
+                        {day.feast && day.feast !== day.dayName && (
+                          <>
+                            {' — '}
+                            <span className="text-[#333333]">{day.feast}</span>
+                          </>
+                        )}
                       </p>
-                      {day.year && (
-                        <p className="text-[12px] text-[#6b6b6b] mt-0.5 uppercase tracking-wide">
-                          {day.year} · {day.psalterWeek}
-                        </p>
-                      )}
+                      <p className="text-[11px] text-[#6b6b6b] uppercase tracking-wide mt-0.5">
+                        {t('cal.day_n', { n: readingDayIndex(day.date) })}
+                      </p>
                     </div>
                   </div>
 
                   <div className="flex sm:flex-col gap-3 sm:gap-1 sm:items-end flex-shrink-0 pl-5 sm:pl-0">
                     <button
                       type="button"
-                      onClick={() => openDay(day.date, 'messe')}
-                      className="text-[13px] text-[#1a4fa0] hover:underline uppercase font-semibold whitespace-nowrap"
+                      onClick={() => openBible(day.date)}
+                      className="lt-btn-black !bg-[#1a4fa0] !text-white text-[12px] px-3 py-1.5 inline-flex items-center hover:!bg-[#143d7a] whitespace-nowrap"
                     >
-                      {t('cal.la_messe')}
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => openDay(day.date, 'heures')}
-                      className="text-[13px] text-[#1a4fa0] hover:underline uppercase font-semibold whitespace-nowrap"
-                    >
-                      {t('cal.les_heures')}
+                      {t('cal.read_btn')}
                     </button>
                   </div>
                 </li>

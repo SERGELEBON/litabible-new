@@ -4,22 +4,37 @@
 
 export type LiturgicalColor = 'green' | 'violet' | 'red' | 'white' | 'rose' | 'gold'
 
+export interface ReadingInfo {
+  /** Bolls book id (1..66 protocanon), used by the bolls/api.bible resolver. */
+  bookId: number
+  /** First chapter to read (inclusive). */
+  chapterFrom: number
+  /** Last chapter to read (inclusive). */
+  chapterTo: number
+  /** Localized book name. */
+  bookName: { en: string; fr: string; es: string }
+  /** Short localized title for the reading, e.g. "The Creation". */
+  title: { en: string; fr: string; es: string }
+}
+
 export interface DayInfo {
   /** ISO date, e.g. "2026-09-27" */
   date: string
   color: LiturgicalColor
   /** false = optional memorial (rendered as outline badge); true = filled badge */
   colorFilled: boolean
-  /** e.g. "Temps ordinaire", "Temps de l'Avent" */
+  /** e.g. "Temps ordinaire", "Temps de l'Avent" — or "Bible reading plan" for the reading program. */
   liturgicalTime: string
-  /** e.g. "Semaine III du Psautier" */
+  /** e.g. "Semaine III du Psautier" — empty for the Bible reading plan. */
   psalterWeek: string
-  /** e.g. "Année B" (liturgical year A/B/C) */
+  /** e.g. "Année B" (liturgical year A/B/C) — empty for the Bible reading plan. */
   year: string
-  /** e.g. "27e dimanche du Temps ordinaire" */
+  /** e.g. "27e dimanche du Temps ordinaire" — or the reading title for the Bible reading plan. */
   dayName: string
-  /** Optional feast label, e.g. "Saint Vincent de Paul († 1660) — commémoration" */
+  /** Optional feast label, e.g. "Saint Vincent de Paul († 1660) — commémoration" — or the reading reference for the Bible reading plan. */
   feast?: string
+  /** Reading-program metadata (bookId, chapter range, localized names). */
+  reading?: ReadingInfo
 }
 
 export type ReadingType =

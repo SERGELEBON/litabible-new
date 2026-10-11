@@ -552,3 +552,107 @@ Work Log:
 
 Stage Summary:
 - LitaBible: the old "Mass" tab is now "Mon réseau" — a real-time social chat (socket.io) where connected people exchange messages like WhatsApp; nav label localized EN/FR/ES. All priest/Catholic/Rome references removed (À PROPOS rewritten as neutral Bible community, calendar feasts stripped of clergy roles, "Calendrier romain" → "Calendrier"). Videos page now opens with a YouTube channel card linking to the LitaBible channel. Trilingual, blue brand, lint clean, both servers persistent.
+
+---
+Task ID: C-cal
+Agent: calendar
+Task: Calendar → simple Bible reading program (remove mass/saints/liturgy)
+
+Work Log:
+- Read worklog.md to learn the AELF→LitaBible rebrand, blue brand #1a4fa0,
+  yellow header accents, trilingual EN/FR/ES, and the Mon réseau social-chat tab
+  that already replaced the Mass tab.
+- Inventoried the calendar data flow: `src/data/liturgical-calendar.ts`
+  computed Easter/Advent/Lent, ~100 fixed-date saints, ranks and the
+  psautier/Année A/B/C labels; `getDayInfo` / `getMonthCalendar` /
+  `localizeDayInfo` fed calendar-page, lecture-quotidienne-page, mass-page
+  and hours-page via the `DayInfo` shape.
+- Created `src/data/reading-plan.ts` — a curated, deterministic list of 217
+  Bible readings (Genesis → Revelation with Psalms/Proverbs sprinkled in).
+  Exports `ReadingPlanItem`, `readingPlan`, `getReadingForDate(dateISO)` and a
+  `readingReference(item, locale)` helper. Each item carries `bookId` (1..66
+  for the bolls/api.bible resolver), `chapterFrom`/`chapterTo` (1-3 chapters),
+  and localized `bookName`/`title` (EN/FR/ES). `bookName` is derived from
+  `bibleBooks` + `bookNames` of `@/data/bible-books` (one source of truth).
+  The date→reading map uses the Unix-epoch day number modulo the plan length,
+  so it is fully deterministic across clients.
+- Added `ReadingInfo` type and `reading?` optional field to `DayInfo` in
+  `src/data/types.ts`, preserving the existing field names so all importers
+  still compile.
+- Rewrote `src/data/liturgical-calendar.ts`: deleted the entire Catholic
+  computus (easterDate / ashWednesday / palmSunday / pentecostDate /
+  firstSundayOfAdvent / liturgicalYearLabel / fixedFeasts with ~100 saints /
+  determineSeason / psalterWeekFor / ordinal / SEASON_MAP / WEEKDAY_MAP / etc.)
+  and replaced `getDayInfo` with a simple call to `getReadingForDate`.
+  Now every day returns `{ color: 'green', colorFilled: true,
+  liturgicalTime: 'Bible reading plan', psalterWeek: '', year: '',
+  dayName: <reading title EN>, feast: <reading ref EN>, reading: {...} }`.
+  `getMonthCalendar` populates every day of the month from the plan.
+  `localizeDayInfo` maps the EN plan title to FR/ES and pulls the localized
+  title/reference from `day.reading`.
+- Rewrote `src/components/lt/pages/calendar-page.tsx`: removed the
+  `cal.la_messe` / `cal.les_heures` red-link buttons per day, removed the
+  `psalterWeek`/`year` line, added a yellow/blue plan-title + intro strip at
+  the top, added a "Day N" badge, and added a single blue "Read / Lire / Leer"
+  button per row that calls `setSelectedDate(date)` + `setPage('bible')`.
+  Kept MonthNavBar + the month H2 header + the scrollable day list.
+- Updated `src/components/lt/date-nav-bar.tsx`: stripped the calendar-zone
+  dropdown and the "Note sur les calendriers" button out of `MonthNavBar`,
+  leaving a clean prev/next month bar. `DateNavBar` and `MassDateControls`
+  (used by Mass/Hours pages) were left untouched.
+- Updated `src/components/lt/pages/lecture-quotidienne-page.tsx`: the dayInfo
+  is now localized via `localizeDayInfo`, and the day-info band shows the
+  reading title (dayName) prominently + reading reference (feast), with the
+  "Bible reading plan" liturgicalTime as a small subtitle. The
+  psalterWeek/year line was dropped (already guarded for empty values).
+- Updated `src/lib/i18n.ts` for all three locales: removed `cal.la_messe`,
+  `cal.les_heures`, `cal.note_cal`; added `cal.reading`, `cal.read_btn`,
+  `cal.plan_title`, `cal.plan_intro`, `cal.day_n`. Kept `cal.month.*`,
+  `cal.month_full.*`, `cal.weekday.*`, `cal.header`, `cal.subhead`,
+  `cal.days_in_month`, `cal.prev_month`, `cal.next_month`, `cal.zone.*`.
+- Verified: `bun run lint` → 0 errors. `bunx tsc --noEmit` → 0 errors in any
+  file I touched (the remaining src/ errors live in the orphaned `aelf/`
+  component tree and `contact-page.tsx`, pre-existing and out of scope).
+- Smoke-tested the data flow with a throwaway bun script: 217 readings, the
+  date→reading map is deterministic, and FR/ES localization produces
+  "Genèse 1-2" / "Génesis 1-2" correctly.
+
+Stage Summary:
+- The Calendar page is now a Bible reading program. Each day shows the
+  weekday + date, a single green liturgical badge, the localized reading
+  title + reference (e.g. "The Creation — Genesis 1-2" / "La Création —
+  Genèse 1-2" / "La Creación — Génesis 1-2"), a "Day N" counter, and a blue
+  "Read / Lire / Leer" button that opens the Bible page.
+- All Catholic-liturgy content has been removed from the calendar path:
+  no "La messe" / "Les heures" links, no saints' names, no
+  mémoire/commémoration/fête/solennité ranks, no Ordinary Time / Avent /
+  Carême / Pâques / Psautier / Année A-B-C labels. The only remaining
+  occurrences of those tokens in src/ are (a) documentation comments in
+  `liturgical-calendar.ts` explaining what was removed, (b) legitimate
+  biblical phrases in the reading-plan titles ("Be Holy / Soyez saints /
+  Sed santos", "Priestly Blessing", "You Are a Priest" Ps 110, "High
+  Priestly Prayer" John 17), and (c) untouched modules (mass-readings,
+  office-hours, videos, apropos) which are outside this task's scope.
+- Files created / changed: src/data/reading-plan.ts (new),
+  src/data/liturgical-calendar.ts (rewritten), src/data/types.ts (added
+  ReadingInfo + reading?), src/components/lt/pages/calendar-page.tsx
+  (rewritten), src/components/lt/pages/lecture-quotidienne-page.tsx
+  (band + localization updated), src/components/lt/date-nav-bar.tsx
+  (MonthNavBar simplified), src/lib/i18n.ts (cal.* keys refreshed).
+- Colors preserved: blue #1a4fa0 brand, blue plan-title strip on the
+  calendar page (matches the existing blue header pattern), green
+  liturgical badge on every day.
+
+---
+Task ID: 17
+Agent: main + calendar-subagent
+Task: Calendar→Bible reading program + contact update + Bible popup maximize/minimize
+
+Work Log:
+- MOD 1 (calendar → Bible reading program): calendar-subagent created src/data/reading-plan.ts (217-entry curated plan, Gen→Rev, localized EN/FR/ES titles, deterministic date→reading via Unix-day modulo). Rewrote src/data/liturgical-calendar.ts — deleted the entire Catholic computus (Easter/Advent/Lent, ~100 fixed saints, ranks, psautier, Année A/B/C); getDayInfo now returns a reading-plan DayInfo (color green, dayName=reading title, feast=reading ref, liturgicalTime="Bible reading plan", reading field). Rewrote calendar-page.tsx — removed "La messe"/"Les heures" links, removed psalterWeek/year line, added blue plan-title strip + intro + "Day N" badge + a single blue "Read/Lire/Leer" button per row → setSelectedDate + setPage('bible'). lecture-quotidienne-page.tsx poster band updated to show reading title+ref. date-nav-bar MonthNavBar stripped of zone dropdown + note button. i18n: removed cal.la_messe/les_heures/note_cal; added cal.reading/read_btn/plan_title/plan_intro/day_n. Agent-Browser verified: Calendar H1 "BIBLE READING PLAN" + "A simple plan to read through the Bible, one passage each day." + READ buttons, no mass/saints/hours. Added ReadingInfo type to types.ts.
+- MOD 2 (contact): updated src/data/contact.ts — location "Accra WestLand, Ghana", phones array ['+233 597102039','+225 0778254286'], email contact@litabible.com, taglineKey. Rewrote contact-page.tsx INFORMATIONS card — MapPin location + both phones (map) + email + Clock "Contact us 24/7" tagline (removed secretariat). Added i18n contact.tagline_24_7 = "Contact us 24/7"/"Nous contacter 24/7"/"Contáctenos 24/7". Agent-Browser + vision verified: "Accra WestLand, Ghana" + "+233 597102039" + "+225 0778254286" + "contact@litabible.com" + "Contact us 24/7".
+- MOD 3 (Bible popup maximize/minimize/close): added Maximize2,Minimize2 imports + maximized state to bible-page.tsx. DialogContent className conditional: maximized → w-screen h-[100dvh] max-w-none max-h-none !top-0 !left-0 !translate-x-0 !translate-y-0 (fullscreen). DialogHeader now flex-row with title left + a Maximize/Restore button (icon toggles Maximize2↔Minimize2) right of it (default X close stays absolute top-right). Chapter content container max-h conditional (max-h-[calc(100dvh-72px)] when maximized). Verse text responsive: maximized → text-[20px] sm:text-[24px] leading-[1.8]; else text-[16px] leading-[1.7] (text adapts to display size — for Meet screen-share readability). closeDialog resets maximized=false. Added i18n bible.maximize/bible.restore (Maximize/Agrandir/Maximizar, Restore/Restaurer/Restaurar). Agent-Browser verified: Maximize button present; clicking → dialog fills viewport (top:0 left:0 full w/h); Restore returns to normal.
+- NOTE: a sed corruption during editing mangled the maximized state line + DialogContent ternary ("aximized"/missing condition); fixed via atomic temp-file replace with the dev server stopped, then restarted. Lint clean (0 errors). Servers: main :3000 = 200, chat :3003 up.
+
+Stage Summary:
+- Calendar is now a simple Bible reading program (no mass/saints/liturgy); Contact shows Accra WestLand Ghana + 2 phones + contact@litabible.com + "Contact us 24/7"; Bible chapter popup has professional Maximize/Restore/Close controls with fullscreen + responsive text scaling for Meet screen-sharing. Trilingual EN/FR/ES, lint clean, both servers persistent.

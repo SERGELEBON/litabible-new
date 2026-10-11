@@ -258,31 +258,31 @@ export function ContactPage() {
               {t('contact.info_title')}
             </h3>
             <div className="space-y-3 text-[13px] text-[#333]">
-              <div>
-                <p className="font-semibold">{contactInfo.address}</p>
-                {contactInfo.addressLines.map((line, i) => (
-                  <p key={i} className="leading-snug">{line}</p>
-                ))}
-              </div>
+              {/* Location */}
               <div className="flex items-start gap-2">
-                <Phone className="w-3.5 h-3.5 mt-0.5 flex-shrink-0 text-[#1a4fa0]" />
-                <a href={`tel:${contactInfo.phone.replace(/\s/g, '')}`} className="hover:underline">
-                  {contactInfo.phone}
-                </a>
+                <MapPin className="w-3.5 h-3.5 mt-0.5 flex-shrink-0 text-[#1a4fa0]" />
+                <p className="leading-snug font-semibold">{contactInfo.location}</p>
               </div>
+              {/* Phones */}
+              {contactInfo.phones.map((phone) => (
+                <div key={phone} className="flex items-start gap-2">
+                  <Phone className="w-3.5 h-3.5 mt-0.5 flex-shrink-0 text-[#1a4fa0]" />
+                  <a href={`tel:${phone.replace(/\s/g, '')}`} className="hover:underline">
+                    {phone}
+                  </a>
+                </div>
+              ))}
+              {/* Email */}
               <div className="flex items-start gap-2">
                 <Mail className="w-3.5 h-3.5 mt-0.5 flex-shrink-0 text-[#1a4fa0]" />
                 <a href={`mailto:${contactInfo.email}`} className="text-[#1a4fa0] hover:underline break-all">
                   {contactInfo.email}
                 </a>
               </div>
+              {/* 24/7 tagline */}
               <div className="flex items-start gap-2">
                 <Clock className="w-3.5 h-3.5 mt-0.5 flex-shrink-0 text-[#1a4fa0]" />
-                <p className="leading-snug">{contactInfo.hours}</p>
-              </div>
-              <div className="flex items-start gap-2">
-                <MapPin className="w-3.5 h-3.5 mt-0.5 flex-shrink-0 text-[#1a4fa0]" />
-                <p className="leading-snug">{t('contact.secretariat')}</p>
+                <p className="leading-snug font-semibold">{t('contact.tagline_24_7')}</p>
               </div>
             </div>
           </aside>

@@ -5,7 +5,7 @@ import { Printer, Download, ChevronLeft, ChevronRight } from 'lucide-react'
 import { useT, localizedReadingLabel, localizedConclusion } from '@/lib/i18n'
 import { useLitabibleStore } from '@/lib/store'
 import { getMassData } from '@/data/mass-readings'
-import { getDayInfo } from '@/data/liturgical-calendar'
+import { getDayInfo, localizeDayInfo } from '@/data/liturgical-calendar'
 import { LiturgicalBadge } from '../liturgical-badge'
 
 const WEEKDAYS = {
@@ -43,8 +43,8 @@ export function LectureQuotidiennePage() {
 
   const mass = useMemo(() => getMassData(selectedDate), [selectedDate])
   const dayInfo = useMemo(
-    () => mass?.dayInfo ?? getDayInfo(selectedDate),
-    [mass, selectedDate],
+    () => localizeDayInfo(mass?.dayInfo ?? getDayInfo(selectedDate), locale),
+    [mass, selectedDate, locale],
   )
 
   const dateStr = formatLongDate(selectedDate, locale)
@@ -125,20 +125,20 @@ export function LectureQuotidiennePage() {
             </div>
           </header>
 
-          {/* Day info band */}
+          {/* Day info band — reading title + reference */}
           <div className="flex items-center gap-3 px-5 py-3 bg-[#1a4fa0]/15 border-b border-[#e2e0dc]">
             <LiturgicalBadge color={dayInfo.color} filled={dayInfo.colorFilled} size={18} />
             <div className="min-w-0">
+              {dayInfo.liturgicalTime && (
+                <p className="text-[10px] uppercase tracking-wide text-[#6b6b6b] leading-tight mb-0.5">
+                  {dayInfo.liturgicalTime}
+                </p>
+              )}
               <p className="text-[15px] font-bold text-[#1a4fa0] leading-tight">
                 {dayInfo.dayName}
               </p>
-              {(dayInfo.psalterWeek || dayInfo.year) && (
-                <p className="text-[11px] text-[#6b6b6b] leading-tight">
-                  {[dayInfo.psalterWeek, dayInfo.year].filter(Boolean).join(' · ')}
-                </p>
-              )}
-              {dayInfo.feast && (
-                <p className="text-[12px] text-[#2d2d2d] italic leading-tight mt-0.5">
+              {dayInfo.feast && dayInfo.feast !== dayInfo.dayName && (
+                <p className="text-[12px] text-[#2d2d2d] font-semibold leading-tight mt-0.5">
                   {dayInfo.feast}
                 </p>
               )}

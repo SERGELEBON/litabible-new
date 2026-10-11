@@ -36,7 +36,7 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { Skeleton } from '@/components/ui/skeleton'
-import { AlertCircle, ChevronLeft, ChevronRight } from 'lucide-react'
+import { AlertCircle, ChevronLeft, ChevronRight, Maximize2, Minimize2 } from 'lucide-react'
 
 const DEFAULT_VERSION_ID = 'BSB'
 
@@ -105,6 +105,7 @@ export function BiblePage() {
   const [chapterData, setChapterData] = useState<ChapterResult | null>(null)
   const [chapterLoading, setChapterLoading] = useState(false)
   const [chapterError, setChapterError] = useState<string | null>(null)
+  const [maximized, setMaximized] = useState(false)
   const chapterAbortRef = useRef<AbortController | null>(null)
 
   // Load the version list on mount.
@@ -234,6 +235,7 @@ export function BiblePage() {
   )
 
   const closeDialog = useCallback(() => {
+    setMaximized(false)
     chapterAbortRef.current?.abort()
     setDialogBook(null)
     setDialogChapter(null)
@@ -375,21 +377,41 @@ export function BiblePage() {
           if (!open) closeDialog()
         }}
       >
-        <DialogContent className="max-w-3xl rounded-none p-0 overflow-hidden">
+        <DialogContent
+          className={
+            maximized
+              ? 'w-screen h-[100dvh] max-w-none max-h-none !top-0 !left-0 !translate-x-0 !translate-y-0 rounded-none p-0 overflow-hidden'
+              : 'max-w-3xl rounded-none p-0 overflow-hidden'
+          }
+        >
           {currentBook && (
             <>
-              <DialogHeader className="px-5 pt-5 pb-3 border-b border-[#e2e0dc]">
-                <DialogTitle className="text-[16px] font-bold uppercase text-[#333]">
-                  {getBookName(currentBook, locale)}
-                </DialogTitle>
-                <DialogDescription className="text-[12px] text-[#6b6b6b]">
-                  {currentChapter
-                    ? `${t('bible.chapter')} ${currentChapter} · ${t('bible.chapters_total', { n: currentBook.chapters })}`
-                    : t('bible.choose_chapter', { n: currentBook.chapters })}
-                </DialogDescription>
+              <DialogHeader className="px-5 pt-4 pb-3 border-b border-[#e2e0dc] flex flex-row items-center justify-between gap-3 pr-14">
+                <div className="min-w-0">
+                  <DialogTitle className="text-[16px] font-bold uppercase text-[#333] truncate">
+                    {getBookName(currentBook, locale)}
+                  </DialogTitle>
+                  <DialogDescription className="text-[12px] text-[#6b6b6b]">
+                    {currentChapter
+                      ? `${t('bible.chapter')} ${currentChapter} · ${t('bible.chapters_total', { n: currentBook.chapters })}`
+                      : t('bible.choose_chapter', { n: currentBook.chapters })}
+                  </DialogDescription>
+                </div>
+                {/* Window controls: maximize / restore (default X close stays absolute top-right) */}
+                <div className="flex items-center gap-1 flex-shrink-0">
+                  <button
+                    type="button"
+                    onClick={() => setMaximized((m) => !m)}
+                    aria-label={maximized ? t('bible.restore') : t('bible.maximize')}
+                    title={maximized ? t('bible.restore') : t('bible.maximize')}
+                    className="inline-flex items-center justify-center w-8 h-8 text-[#6b6b6b] hover:text-[#1a4fa0] hover:bg-[#f4f1ea] rounded transition-colors"
+                  >
+                    {maximized ? <Minimize2 className="w-4 h-4" /> : <Maximize2 className="w-4 h-4" />}
+                  </button>
+                </div>
               </DialogHeader>
 
-              <div className="flex flex-col max-h-[60vh] min-h-0">
+              <div className={maximized ? 'flex flex-col max-h-[calc(100dvh-72px)] min-h-0' : 'flex flex-col max-h-[60vh] min-h-0'}>
                 {currentChapter === null ? (
                   // Chapter picker grid
                   <div className="flex-1 overflow-y-auto lt-scroll p-5">
@@ -492,7 +514,7 @@ export function BiblePage() {
                     )}
                     <article className="lt-reading-text">
                       {chapterData.verses.map((v) => (
-                        <p key={v.verse} className="mb-2 text-[16px] text-[#333] leading-[1.7]">
+                        <p key={v.verse} className={maximized ? "mb-3 text-[20px] sm:text-[24px] text-[#333] leading-[1.8]" : "mb-2 text-[16px] text-[#333] leading-[1.7]"}>
                           <sup className="font-bold text-[#1a4fa0] mr-1.5 text-[11px]">
                             {v.verse}
                           </sup>
@@ -625,3 +647,4 @@ function SearchResultsView({
 }
 
 export default BiblePage
+
