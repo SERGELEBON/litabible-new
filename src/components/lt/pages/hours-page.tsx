@@ -284,6 +284,7 @@ export function HoursPage() {
               title={office.title.toUpperCase()}
               readings={officeReadings}
               showBadges
+              highlightKeyPrefix={`office:${selectedDate}:${officeHour}`}
             />
             {locale !== 'fr' && (
               <p className="text-[11px] text-[#9a9a9a] mt-3 italic">

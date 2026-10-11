@@ -669,3 +669,21 @@ Work Log:
 
 Stage Summary:
 - Bible chapter popup Maximize now fills the ENTIRE screen (100vw × 100dvh, top:0 left:0, no gaps) — perfect for Meet screen-sharing where you want to see only the text. "The liturgical Bible" replaced with "The Simple Bible / La Bible simple / La Biblia simple" everywhere (promo title, contact subject, cover decoration).
+
+---
+Task ID: 19
+Agent: main
+Task: Color markers on selected text + version switcher inside Bible popup
+
+Work Log:
+- COLOR HIGHLIGHTS:
+  - src/lib/highlights.ts: localStorage-backed store (getHighlights/addHighlight/removeHighlight/clearHighlights/clearAllHighlights) + a React `useHighlights(key)` hook via useSyncExternalStore (re-renders on change) + `buildSegments(text, highlights)` that splits text into colored runs (exact substring match, case-sensitive, overlap resolved by insertion order).
+  - src/components/lt/highlighted-text.tsx: <HighlightedText text highlightKey> renders the text with saved highlights wrapped in colored <mark> (fast path when no highlights). Carries `data-highlight-key` for the toolbar to find.
+  - src/components/lt/highlight-toolbar.tsx: floating color-marker toolbar (fixed position) that appears when the user selects text inside any [data-highlightable] container. 6 color swatches (yellow/orange/red/green/blue/purple) + eraser (remove highlight by text) + clear-all. Finds the highlight key via range.intersectsNode (robust to selections starting in the verse-number <sup>). Closes on Escape / outside click / after applying.
+  - globals.css: `[data-highlightable] sup { user-select: none }` so verse numbers aren't selected → the saved text matches the verse text exactly.
+  - Integration: Bible popup verses wrapped in <HighlightedText highlightKey="bible:{version}:{bookId}:{chapter}:{verse}"> with `data-highlightable` on the <article> + <HighlightToolbar> mounted in the popup. reading-panel.tsx gained a `highlightKeyPrefix` prop → mass-page passes `mass:${selectedDate}`, hours-page passes `office:${selectedDate}:${officeHour}`; every reading paragraph/strophe wrapped in <HighlightedText> + the panel mounts a <HighlightToolbar>.
+- VERSION SWITCHER IN POPUP: bible-page loadChapter now accepts a `versionOverride` param; the chapter-display toolbar (next to ‹ CHAPTERS + prev/next) now includes a compact <Select> listing all versions grouped by language. onValueChange → setVersion(v) + loadChapter(currentBook, currentChapter, v) → re-fetches the chapter with the new version WITHOUT closing the popup.
+- Verified via Agent Browser: (1) version selector present in popup (combobox "Berean Standard Bible"); switching to KJV re-fetched → first verse became "In the beginning God created the heaven" (KJV "heaven" vs BSB "heavens") without closing. (2) Selecting verse text → floating toolbar appeared (8 buttons); clicking the orange swatch → <mark style="background:#ff9d3c"> wrapped "In the beginning God created the heavens"; persisted to localStorage under key "bible:BSB:genesis:1:1"; SURVIVED close+reopen of the chapter (mark re-applied from localStorage on reload). Lint 0 errors; main :3000 = 200; chat :3003 up.
+
+Stage Summary:
+- Users can now select any text in the Bible chapter popup (and in the mass/hours reading panels) and apply a color marker (yellow/orange/red/green/blue/purple) from a floating toolbar — highlights persist in localStorage and survive reloads. The Bible chapter popup also has an inline version switcher (BSB/KJV/WEB/.../JND/RVR09) next to the chapter navigation, so users can compare translations without closing the popup. Trilingual, lint clean, both servers persistent.

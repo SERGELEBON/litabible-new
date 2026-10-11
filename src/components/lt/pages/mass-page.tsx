@@ -190,6 +190,7 @@ export function MassPage() {
               title={t('mass.title')}
               readings={mass.readings}
               showBadges
+              highlightKeyPrefix={`mass:${selectedDate}`}
             />
             {locale !== 'fr' && (
               <p className="text-[11px] text-[#9a9a9a] mt-3 italic">

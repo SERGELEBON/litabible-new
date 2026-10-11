@@ -19,6 +19,8 @@ import { BibleSearchBar } from '@/components/lt/bible-search-bar'
 import { ChevronTab } from '@/components/lt/chevron-tab'
 import { BlackButton } from '@/components/lt/black-button'
 import { PromoCard } from '@/components/lt/promo-card'
+import { HighlightedText } from '@/components/lt/highlighted-text'
+import { HighlightToolbar } from '@/components/lt/highlight-toolbar'
 import {
   Dialog,
   DialogContent,
@@ -176,7 +178,7 @@ export function BiblePage() {
   )
 
   const loadChapter = useCallback(
-    (book: BibleBook, chapter: number) => {
+    (book: BibleBook, chapter: number, versionOverride?: string) => {
       // Abort any previous in-flight chapter fetch.
       chapterAbortRef.current?.abort()
       const ctrl = new AbortController()
@@ -187,8 +189,9 @@ export function BiblePage() {
       setChapterError(null)
       setChapterData(null)
 
+      const ver = versionOverride ?? version
       const url =
-        `/api/bible/chapter?version=${encodeURIComponent(version)}` +
+        `/api/bible/chapter?version=${encodeURIComponent(ver)}` +
         `&book=${encodeURIComponent(book.name)}` +
         `&chapter=${String(chapter)}`
 
@@ -466,7 +469,7 @@ export function BiblePage() {
                 ) : chapterData ? (
                   // Chapter display
                   <div className="flex-1 overflow-y-auto lt-scroll p-5">
-                    <div className="flex items-center justify-between gap-2 mb-4">
+                    <div className="flex items-center justify-between gap-2 mb-4 flex-wrap">
                       <button
                         type="button"
                         onClick={backToChapterPicker}
@@ -474,7 +477,31 @@ export function BiblePage() {
                       >
                         {t('bible.back_chapters')}
                       </button>
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-2 flex-wrap">
+                        {/* Version switcher inside the popup — change version without closing */}
+                        <Select
+                          value={version}
+                          onValueChange={(v) => {
+                            setVersion(v)
+                            if (currentBook && currentChapter) loadChapter(currentBook, currentChapter, v)
+                          }}
+                        >
+                          <SelectTrigger size="sm" className="h-7 rounded-none border-[#ccc] text-[11px] min-w-[130px] max-w-[180px]">
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent className="rounded-none max-h-[280px]">
+                            {groupedVersions.map((g) => (
+                              <SelectGroup key={g.lang}>
+                                <SelectLabel>{t(`bible.lang.${g.lang}`)}</SelectLabel>
+                                {g.items.map((vv) => (
+                                  <SelectItem key={vv.id} value={vv.id}>
+                                    {vv.name}
+                                  </SelectItem>
+                                ))}
+                              </SelectGroup>
+                            ))}
+                          </SelectContent>
+                        </Select>
                         <button
                           type="button"
                           disabled={!canPrevChapter}
@@ -512,13 +539,16 @@ export function BiblePage() {
                         {t('bible.source_label')} {chapterData.source} · {chapterData.translation}
                       </p>
                     )}
-                    <article className="lt-reading-text">
+                    <article className="lt-reading-text" data-highlightable>
                       {chapterData.verses.map((v) => (
                         <p key={v.verse} className={maximized ? "mb-3 text-[20px] sm:text-[24px] text-[#333] leading-[1.8]" : "mb-2 text-[16px] text-[#333] leading-[1.7]"}>
                           <sup className="font-bold text-[#1a4fa0] mr-1.5 text-[11px]">
                             {v.verse}
                           </sup>
-                          {v.text}
+                          <HighlightedText
+                            text={v.text}
+                            highlightKey={`bible:${version}:${currentBook.id}:${currentChapter}:${v.verse}`}
+                          />
                         </p>
                       ))}
                     </article>
@@ -527,6 +557,8 @@ export function BiblePage() {
               </div>
             </>
           )}
+          {/* Floating color-marker toolbar (appears on text selection) */}
+          <HighlightToolbar containerSelector="[data-highlightable]" />
         </DialogContent>
       </Dialog>
     </section>

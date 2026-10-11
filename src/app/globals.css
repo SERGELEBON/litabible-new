@@ -138,6 +138,13 @@
   --tw-translate-y: 0 !important;
 }
 
+
+/* Verse numbers are not selectable so text highlights stay within verse text. */
+[data-highlightable] sup {
+  user-select: none;
+  -webkit-user-select: none;
+}
+
 /* LitaBible component utilities */
 @layer components {
   /* Chevron / pointed active tab — signature motif */
