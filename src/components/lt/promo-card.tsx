@@ -14,7 +14,7 @@ interface PromoCardProps {
 /** Black promo card (Bible paper edition) — packshot left, white descriptive text right. */
 export function PromoCard({
   title = 'Découvrez l\'édition papier',
-  description = 'La Bible liturgique est disponible en librairie. Texte officiel de l\'Église, traduction pour la proclamation, notes et introductions pour la lecture priée.',
+  description = 'La Bible simple est disponible en librairie. Texte officiel de l\'Église, traduction pour la proclamation, notes et introductions pour la lecture priée.',
   className,
 }: PromoCardProps) {
   return (
@@ -28,7 +28,7 @@ export function PromoCard({
       <div className="flex-shrink-0 w-24 h-32 bg-gradient-to-br from-[#3a2a1a] to-[#1a1208] border border-[#1a4fa0]/40 flex items-center justify-center relative overflow-hidden">
         <Book className="w-10 h-10 text-[#1a4fa0]" />
         <span className="absolute bottom-1 left-0 right-0 text-center text-[8px] uppercase tracking-widest text-[#1a4fa0]/80 font-bold">
-          Bible liturgique
+          Bible simple
         </span>
       </div>
       <div className="text-center sm:text-left">

@@ -380,7 +380,7 @@ export function BiblePage() {
         <DialogContent
           className={
             maximized
-              ? 'w-screen h-[100dvh] max-w-none max-h-none !top-0 !left-0 !translate-x-0 !translate-y-0 rounded-none p-0 overflow-hidden'
+              ? 'lt-dialog-fullscreen rounded-none p-0 overflow-hidden'
               : 'max-w-3xl rounded-none p-0 overflow-hidden'
           }
         >

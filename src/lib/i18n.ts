@@ -186,9 +186,9 @@ const en: Dict = {
   'bible.lang.fr': 'French',
   'bible.lang.en': 'English',
   'bible.lang.es': 'Spanish',
-  'bible.promo_title': 'The liturgical Bible',
+  'bible.promo_title': 'The Simple Bible',
   'bible.promo_desc':
-    'The shared text for proclamation. Translation, notes and introductions for prayerful reading. Available in bookshops.',
+    'The Simple Bible — a clear text for daily reading, with notes and introductions. Available in bookshops.',
 
   // --- apropos page ---
   'apropos.missions': 'The missions of LitaBible',
@@ -316,7 +316,7 @@ const en: Dict = {
   'contact.subjects.general': 'General question',
   'contact.subjects.subscription': 'Subscription to the readings',
   'contact.subjects.rights': 'Rights and permissions',
-  'contact.subjects.bible': 'Liturgical Bible',
+  'contact.subjects.bible': 'Simple Bible',
   'contact.subjects.calendar': 'Liturgical calendar',
   'contact.subjects.bug': 'Technical bug / website',
   'contact.subjects.other': 'Other',
@@ -489,9 +489,9 @@ const fr: Dict = {
   'bible.lang.fr': 'Français',
   'bible.lang.en': 'English',
   'bible.lang.es': 'Español',
-  'bible.promo_title': 'La Bible liturgique',
+  'bible.promo_title': 'La Bible simple',
   'bible.promo_desc':
-    'Le texte partagé pour la proclamation. Traduction, notes et introductions pour la lecture priée. Disponible en librairie.',
+    'La Bible simple — un texte clair pour la lecture quotidienne, avec notes et introductions. Disponible en librairie.',
 
   'apropos.missions': 'Les missions de LitaBible',
   'apropos.organisation': 'Organisation',
@@ -614,7 +614,7 @@ const fr: Dict = {
   'contact.subjects.general': 'Question générale',
   'contact.subjects.subscription': 'Abonnement aux lectures',
   'contact.subjects.rights': 'Droits et autorisations',
-  'contact.subjects.bible': 'Bible liturgique',
+  'contact.subjects.bible': 'Bible simple',
   'contact.subjects.calendar': 'Calendrier liturgique',
   'contact.subjects.bug': 'Bug technique / site web',
   'contact.subjects.other': 'Autre',
@@ -786,9 +786,9 @@ const es: Dict = {
   'bible.lang.fr': 'Français',
   'bible.lang.en': 'English',
   'bible.lang.es': 'Español',
-  'bible.promo_title': 'La Biblia litúrgica',
+  'bible.promo_title': 'La Biblia simple',
   'bible.promo_desc':
-    'El texto compartido para la proclamación. Traducción, notas e introducciones para la lectura orante. Disponible en librerías.',
+    'La Biblia simple — un texto claro para la lectura diaria, con notas e introducciones. Disponible en librerías.',
 
   'apropos.missions': 'Las misiones de LitaBible',
   'apropos.organisation': 'Organización',
@@ -911,7 +911,7 @@ const es: Dict = {
   'contact.subjects.general': 'Pregunta general',
   'contact.subjects.subscription': 'Suscripción a las lecturas',
   'contact.subjects.rights': 'Derechos y permisos',
-  'contact.subjects.bible': 'Biblia litúrgica',
+  'contact.subjects.bible': 'Biblia simple',
   'contact.subjects.calendar': 'Calendario litúrgico',
   'contact.subjects.bug': 'Error técnico / sitio web',
   'contact.subjects.other': 'Otro',

@@ -656,3 +656,16 @@ Work Log:
 
 Stage Summary:
 - Calendar is now a simple Bible reading program (no mass/saints/liturgy); Contact shows Accra WestLand Ghana + 2 phones + contact@litabible.com + "Contact us 24/7"; Bible chapter popup has professional Maximize/Restore/Close controls with fullscreen + responsive text scaling for Meet screen-sharing. Trilingual EN/FR/ES, lint clean, both servers persistent.
+
+---
+Task ID: 18
+Agent: main
+Task: Bible popup truly fullscreen + replace "liturgical Bible" with "Bible simple"
+
+Work Log:
+- Fullscreen fix: the previous maximize used inline `transform:'none'` which Tailwind v4's layered `translate-x-[-50%] translate-y-[-50%]` utilities overrode (cascade layers: layered utilities beat inline for the transform composition; result was 100vw×100vh but offset to left:-640/top:-288). Root cause confirmed via computed-style debug: transform:none applied but width/top/max-width lost to `sm:max-w-lg`/`top-[50%]`. Fix: added an UNLAYERED CSS rule `.lt-dialog-fullscreen { width:100vw !important; height:100dvh !important; max-width:100vw !important; max-height:100dvh !important; top/left/right/bottom/inset:0 !important; transform:none !important; translate:none !important; --tw-translate-x/y:0 !important; border-radius:0 !important; margin:0 !important; }` in globals.css OUTSIDE any @layer (unlayered !important beats Tailwind's layered utilities). bible-page.tsx DialogContent className now `lt-dialog-fullscreen rounded-none p-0 overflow-hidden` when maximized. Agent-Browser verified: top:0, left:0, width:1280=100vw, height:577=100vh, maxW:1280px, transform:none — truly fullscreen, fills the entire screen.
+- Text replacement ("The liturgical Bible" → "Bible simple"): i18n `bible.promo_title` EN "The liturgical Bible"→"The Simple Bible", FR "La Bible liturgique"→"La Bible simple", ES "La Biblia litúrgica"→"La Biblia simple"; `contact.subjects.bible` EN→"Simple Bible", FR→"Bible simple", ES→"Biblia simple"; promo_desc neutralized (removed "proclamation/Église" → "a clear text for daily reading"); promo-card.tsx hardcoded cover decoration "Bible liturgique"→"Bible simple" + default description cleaned. Orphaned aelf-content.ts "Bible liturgique"→"Bible simple" (tidy, not user-visible). Vision-verified the promo card title shows "THE SIMPLE BIBLE".
+- Lint 0 errors; main server :3000 = 200; chat :3003 up.
+
+Stage Summary:
+- Bible chapter popup Maximize now fills the ENTIRE screen (100vw × 100dvh, top:0 left:0, no gaps) — perfect for Meet screen-sharing where you want to see only the text. "The liturgical Bible" replaced with "The Simple Bible / La Bible simple / La Biblia simple" everywhere (promo title, contact subject, cover decoration).
