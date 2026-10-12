@@ -1,12 +1,19 @@
 import type { Metadata, Viewport } from "next";
-import { Open_Sans } from "next/font/google";
+import { Playfair_Display, Source_Sans_3 } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 
-const openSans = Open_Sans({
+const bodyFont = Source_Sans_3({
   variable: "--font-open-sans",
   subsets: ["latin", "latin-ext"],
-  weight: ["300", "400", "500", "600", "700"],
+  weight: ["400", "500", "600", "700", "800"],
+  display: "swap",
+});
+
+const displayFont = Playfair_Display({
+  variable: "--font-display",
+  subsets: ["latin", "latin-ext"],
+  weight: ["600", "700", "800"],
   display: "swap",
 });
 
@@ -96,8 +103,12 @@ export const metadata: Metadata = {
     },
   },
   icons: {
-    icon: "/favicon.svg",
-    apple: "/favicon.svg",
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/icon-192.png", type: "image/png", sizes: "192x192" },
+      { url: "/icon-512.png", type: "image/png", sizes: "512x512" },
+    ],
+    apple: "/apple-touch-icon.png",
   },
   formatDetection: { telephone: false },
 };
@@ -127,7 +138,7 @@ const JSON_LD = {
       "@id": `${SITE_URL}/#organization`,
       name: "LitaBible",
       url: SITE_URL,
-      logo: `${SITE_URL}/litabible-logo.svg`,
+      logo: `${SITE_URL}/icon-512.png`,
       areaServed: ["CI", "GH", "SN", "BF", "ML", "TG", "BJ", "NG"],
     },
     {
@@ -163,8 +174,7 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${openSans.variable} font-open antialiased`}
-        style={{ fontFamily: "'Open Sans', sans-serif" }}
+        className={`${bodyFont.variable} ${displayFont.variable} font-open antialiased`}
       >
         {children}
         <Toaster />
