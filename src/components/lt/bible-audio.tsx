@@ -126,7 +126,8 @@ export function AudioPlayerView({
     setShowText(readBool('lt.bible.readalong', true))
   }, [])
 
-  // Resolve the MP3 URL.
+  // Resolve the MP3 URL. (Error is stored as a code and translated at render
+  // time, so `t` — a new function on every render — is not an effect dep.)
   useEffect(() => {
     const ctrl = new AbortController()
     setLoading(true)
@@ -138,20 +139,21 @@ export function AudioPlayerView({
     )
       .then(async (r) => {
         const body = (await r.json().catch(() => ({}))) as { url?: string; error?: string }
+        if (ctrl.signal.aborted) return
         if (!r.ok || !body.url) {
-          throw new Error(body.error === 'nt_only' ? t('bible.nt_only') : t('bible.audio_unavailable'))
+          setError(body.error === 'nt_only' ? 'nt_only' : 'unavailable')
+          return
         }
         setSrc(body.url)
       })
-      .catch((e: unknown) => {
-        if (ctrl.signal.aborted) return
-        setError(e instanceof Error ? e.message : t('bible.audio_unavailable'))
+      .catch(() => {
+        if (!ctrl.signal.aborted) setError('unavailable')
       })
       .finally(() => {
         if (!ctrl.signal.aborted) setLoading(false)
       })
     return () => ctrl.abort()
-  }, [audio.id, book.name, chapter, t])
+  }, [audio.id, book.name, chapter])
 
   // Read-along text (same translation as the recording, when we have it).
   useEffect(() => {
@@ -276,7 +278,9 @@ export function AudioPlayerView({
         ) : error ? (
           <div className="text-center py-4">
             <AlertCircle className="w-8 h-8 text-[#1a4fa0] mx-auto mb-2" />
-            <p className="text-[13px] text-[#333] mb-3">{error}</p>
+            <p className="text-[13px] text-[#333] mb-3">
+              {error === 'nt_only' ? t('bible.nt_only') : t('bible.audio_unavailable')}
+            </p>
             {onNext && (
               <BlackButton size="sm" onClick={onNext}>
                 {t('bible.next_chapter')}
@@ -300,7 +304,7 @@ export function AudioPlayerView({
                 setPlaying(false)
                 if (autoNext && onNext) onNext()
               }}
-              onError={() => setError(t('bible.audio_unavailable'))}
+              onError={() => setError('unavailable')}
               className="hidden"
             />
             {/* Seek bar */}
