@@ -72,7 +72,7 @@ function addDays(dateStr: string, n: number): string {
 }
 
 export const useLitabibleStore = create<LitabibleState>((set) => ({
-  page: 'messe',
+  page: 'bible',
   aproposSub: 'missions',
   officeHour: 'lectures',
   calendarZone: 'romain',
