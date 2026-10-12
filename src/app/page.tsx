@@ -38,7 +38,7 @@ function PageSwitch() {
     case 'contact':
       return <ContactPage />
     default:
-      return <ReseauPage />
+      return <BiblePage />
   }
 }
 
