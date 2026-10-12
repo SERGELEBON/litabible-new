@@ -32,11 +32,11 @@ export function PromoCard({
         </span>
       </div>
       <div className="text-center sm:text-left">
-        <h3 className="text-[14px] font-bold uppercase tracking-wide mb-2 text-white">{title}</h3>
-        <p className="text-[13px] text-white/80 leading-relaxed">{description}</p>
+        <h3 className="text-[16px] font-bold uppercase tracking-wide mb-2 text-white">{title}</h3>
+        <p className="text-[15px] text-white/80 leading-relaxed">{description}</p>
         <a
           href="#"
-          className="inline-block mt-3 text-[11px] font-bold uppercase text-[#1a4fa0] hover:text-white transition-colors"
+          className="inline-block mt-3 text-[13px] font-bold uppercase text-[#1a4fa0] hover:text-white transition-colors"
         >
           En librairie →
         </a>

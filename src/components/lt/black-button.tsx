@@ -26,9 +26,9 @@ export function BlackButton({
         'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black',
         'disabled:opacity-50 disabled:cursor-not-allowed',
         variant === 'pill' && 'rounded-full px-4',
-        size === 'sm' && 'px-2.5 py-1 text-[11px]',
-        size === 'md' && 'px-3.5 py-2 text-[13px]',
-        size === 'lg' && 'px-5 py-2.5 text-[13px]',
+        size === 'sm' && 'px-2.5 py-1 text-[13px]',
+        size === 'md' && 'px-3.5 py-2 text-[15px]',
+        size === 'lg' && 'px-5 py-2.5 text-[15px]',
         className,
       )}
       {...rest}

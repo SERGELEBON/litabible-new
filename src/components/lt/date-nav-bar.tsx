@@ -59,7 +59,7 @@ export function DateNavBar({
         <DropdownMenuTrigger asChild>
           <button
             type="button"
-            className="inline-flex items-center gap-1.5 bg-[#f0eeea] hover:bg-[#e2e0dc] text-[#333] text-[12px] px-3 py-2 border border-[#ccc] cursor-pointer"
+            className="inline-flex items-center gap-1.5 bg-[#f0eeea] hover:bg-[#e2e0dc] text-[#333] text-[14px] px-3 py-2 border border-[#ccc] cursor-pointer"
           >
             {currentLabel} <ChevronDown className="w-3.5 h-3.5" />
           </button>
@@ -91,14 +91,14 @@ export function MassDateControls({ onPrev, onNext }: { onPrev: () => void; onNex
     <div className="flex flex-wrap items-center gap-2">
       <button
         type="button"
-        className="inline-flex items-center bg-[#f0eeea] hover:bg-[#1a4fa0] hover:text-white text-[#333] text-[11px] font-semibold uppercase px-3 py-1.5 border border-[#ccc] rounded-full transition-colors"
+        className="inline-flex items-center bg-[#f0eeea] hover:bg-[#1a4fa0] hover:text-white text-[#333] text-[13px] font-semibold uppercase px-3 py-1.5 border border-[#ccc] rounded-full transition-colors"
         onClick={() => onNext()}
       >
         {t('mass.next_sunday')}
       </button>
       <button
         type="button"
-        className="text-[12px] text-[#1a4fa0] hover:underline uppercase font-semibold"
+        className="text-[14px] text-[#1a4fa0] hover:underline uppercase font-semibold"
       >
         {t('mass.other_dates')}
       </button>
@@ -106,7 +106,7 @@ export function MassDateControls({ onPrev, onNext }: { onPrev: () => void; onNex
       <button
         type="button"
         onClick={() => setPage('apropos')}
-        className="text-[12px] text-[#1a4fa0] hover:underline"
+        className="text-[14px] text-[#1a4fa0] hover:underline"
       >
         {t('mass.note_cal')}
       </button>

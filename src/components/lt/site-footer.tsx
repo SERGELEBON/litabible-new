@@ -41,7 +41,7 @@ export function SiteFooter() {
         <RedRibbon className="!h-[44px]" />
         <div className="flex-1 px-4 sm:px-6 py-3 flex flex-col sm:flex-row items-center justify-between gap-3 max-w-[1400px] mx-auto">
           <div className="flex items-center gap-3">
-            <p className="text-[11px] text-[#6b6b6b]">
+            <p className="text-[13px] text-[#6b6b6b]">
               {t('footer.copyright', { year: new Date().getFullYear() })}
             </p>
             {/* Social: YouTube + Facebook */}
@@ -64,7 +64,7 @@ export function SiteFooter() {
               ))}
             </div>
           </div>
-          <nav className="flex items-center gap-3 text-[11px] text-[#6b6b6b]">
+          <nav className="flex items-center gap-3 text-[13px] text-[#6b6b6b]">
             <button
               type="button"
               onClick={() => setPage('apropos')}

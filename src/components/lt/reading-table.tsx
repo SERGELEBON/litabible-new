@@ -34,19 +34,19 @@ export function ReadingTable({ readings, activeIndex, onSelect, className }: Rea
           >
             <span
               className={cn(
-                'flex-1 min-w-0 text-[13px] leading-tight',
+                'flex-1 min-w-0 text-[15px] leading-tight',
               )}
             >
               <span className={cn('block font-bold uppercase tracking-tight', active ? 'text-white' : 'text-[#333]')}>
                 {label}
               </span>
               {r.citation && (
-                <span className={cn('block truncate text-[12px] mt-0.5', active ? 'text-white/90' : 'text-[#6b6b6b]')}>
+                <span className={cn('block truncate text-[14px] mt-0.5', active ? 'text-white/90' : 'text-[#6b6b6b]')}>
                   {r.citation}
                 </span>
               )}
               {r.reference && (
-                <span className={cn('block text-[11px] mt-0.5', active ? 'text-white/80' : 'text-[#9a9a9a]')}>
+                <span className={cn('block text-[13px] mt-0.5', active ? 'text-white/80' : 'text-[#9a9a9a]')}>
                   {r.reference}
                 </span>
               )}

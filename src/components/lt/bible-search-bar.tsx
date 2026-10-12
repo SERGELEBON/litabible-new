@@ -44,7 +44,7 @@ export function BibleSearchBar({
         onChange={(e) => setValue(e.target.value)}
         placeholder={placeholder ?? t('bible.search_ph')}
         aria-label={t('bible.search_btn')}
-        className="flex-1 rounded-none border border-[#ccc] bg-white text-[14px] h-[42px] focus-visible:ring-[#1a4fa0]"
+        className="flex-1 rounded-none border border-[#ccc] bg-white text-[16px] h-[42px] focus-visible:ring-[#1a4fa0]"
       />
       <button
         type="submit"

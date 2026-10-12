@@ -40,7 +40,7 @@ function LanguageSwitcher() {
             aria-label={l.name}
             title={l.name}
             className={cn(
-              'px-2.5 py-1 text-[11px] font-bold tracking-wide transition-colors',
+              'px-2.5 py-1 text-[13px] font-bold tracking-wide transition-colors',
               active
                 ? 'bg-[#f5c400] text-[#1a4fa0]'
                 : 'bg-transparent text-white/80 hover:bg-white/15',
@@ -84,8 +84,13 @@ export function SiteHeader() {
       <div className="flex items-center justify-between gap-4 px-4 sm:px-6 py-3 max-w-[1400px] mx-auto">
         {/* Logo + tagline */}
         <div className="flex items-center gap-3 min-w-0">
-          <img src="/litabible-logo.svg" alt="LitaBible" className="h-9 sm:h-10 w-auto flex-shrink-0" />
-          <p className="hidden sm:block text-[11px] leading-tight text-white/80 max-w-[230px] border-l border-white/30 pl-3">
+          <a href="/" className="flex items-center gap-2.5 flex-shrink-0" aria-label="LitaBible — accueil">
+            <img src="/logo-white.png" alt="LitaBible — Je Lis la Parole de Dieu" className="h-12 sm:h-14 w-auto" />
+            <span className="font-display text-[26px] sm:text-[30px] font-bold text-white leading-none tracking-tight">
+              Lita<span className="text-[#f5c400]">Bible</span>
+            </span>
+          </a>
+          <p className="hidden sm:block text-[13px] leading-tight text-white/80 max-w-[230px] border-l border-white/30 pl-3">
             {t('header.tagline')}
           </p>
         </div>
@@ -94,10 +99,10 @@ export function SiteHeader() {
         <div className="flex items-center gap-3">
           <LanguageSwitcher />
           <div className="hidden md:block text-right">
-            <p className="text-[13px] font-bold text-white leading-tight">
+            <p className="text-[15px] font-bold text-white leading-tight">
               {t('header.subscribe_line1')}
             </p>
-            <p className="text-[13px] font-bold text-white leading-tight">
+            <p className="text-[15px] font-bold text-white leading-tight">
               {t('header.subscribe_line2')}
             </p>
           </div>
@@ -154,7 +159,7 @@ export function SiteHeader() {
           </DialogHeader>
           <form onSubmit={handleSubscribe} className="flex flex-col gap-3">
             <div className="flex flex-col gap-1.5">
-              <Label htmlFor="sub-email" className="text-[13px] font-bold text-[#333]">
+              <Label htmlFor="sub-email" className="text-[15px] font-bold text-[#333]">
                 {t('header.sub_email_label')}
               </Label>
               <Input

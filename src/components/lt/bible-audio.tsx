@@ -191,7 +191,7 @@ export function AudioPlayerView({
         title: `${bookLabel} ${chapter}`,
         artist: audio.narrator ? `${audio.name} — ${audio.narrator}` : audio.name,
         album: 'LitaBible',
-        artwork: [{ src: '/litabible-logo.svg', sizes: '512x512', type: 'image/svg+xml' }],
+        artwork: [{ src: '/icon-512.png', sizes: '512x512', type: 'image/png' }],
       })
       navigator.mediaSession.setActionHandler('previoustrack', onPrev ?? null)
       navigator.mediaSession.setActionHandler('nexttrack', onNext ?? null)
@@ -244,11 +244,11 @@ export function AudioPlayerView({
         <button
           type="button"
           onClick={onBack}
-          className="text-[12px] text-[#1a4fa0] hover:underline uppercase font-semibold"
+          className="text-[14px] text-[#1a4fa0] hover:underline uppercase font-semibold"
         >
           {t('bible.back_chapters')}
         </button>
-        <span className="text-[11px] text-[#9a9a9a] uppercase tracking-wide">
+        <span className="text-[13px] text-[#9a9a9a] uppercase tracking-wide">
           {LANGUAGE_NAMES[audio.language] ?? audio.language}
         </span>
       </div>
@@ -263,7 +263,7 @@ export function AudioPlayerView({
             <h2 className="text-[17px] font-bold uppercase text-[#1a4fa0] truncate">
               {bookLabel} {chapter}
             </h2>
-            <p className="text-[12px] text-[#6b6b6b] truncate">
+            <p className="text-[14px] text-[#6b6b6b] truncate">
               {audio.name}
               {audio.narrator ? ` · ${audio.narrator}` : ''}
             </p>
@@ -278,7 +278,7 @@ export function AudioPlayerView({
         ) : error ? (
           <div className="text-center py-4">
             <AlertCircle className="w-8 h-8 text-[#1a4fa0] mx-auto mb-2" />
-            <p className="text-[13px] text-[#333] mb-3">
+            <p className="text-[15px] text-[#333] mb-3">
               {error === 'nt_only' ? t('bible.nt_only') : t('bible.audio_unavailable')}
             </p>
             {onNext && (
@@ -309,7 +309,7 @@ export function AudioPlayerView({
             />
             {/* Seek bar */}
             <div className="flex items-center gap-2 mb-3">
-              <span className="text-[11px] tabular-nums text-[#6b6b6b] w-10 text-right">
+              <span className="text-[13px] tabular-nums text-[#6b6b6b] w-10 text-right">
                 {formatTime(current)}
               </span>
               <input
@@ -325,7 +325,7 @@ export function AudioPlayerView({
                 aria-label={t('bible.audio_seek')}
                 className="flex-1 accent-[#1a4fa0] h-1.5 cursor-pointer"
               />
-              <span className="text-[11px] tabular-nums text-[#6b6b6b] w-10">
+              <span className="text-[13px] tabular-nums text-[#6b6b6b] w-10">
                 {formatTime(duration)}
               </span>
             </div>
@@ -357,7 +357,7 @@ export function AudioPlayerView({
               <button
                 type="button"
                 onClick={changeSpeed}
-                className="px-3 py-1 text-[11px] font-bold border border-[#c9d6ea] text-[#1a4fa0] hover:bg-[#eef3fb]"
+                className="px-3 py-1 text-[13px] font-bold border border-[#c9d6ea] text-[#1a4fa0] hover:bg-[#eef3fb]"
                 aria-label={t('bible.audio_speed')}
               >
                 {speed}×
@@ -367,7 +367,7 @@ export function AudioPlayerView({
                 onClick={toggleAutoNext}
                 aria-pressed={autoNext}
                 className={
-                  'inline-flex items-center gap-1.5 px-3 py-1 text-[11px] font-bold border transition-colors ' +
+                  'inline-flex items-center gap-1.5 px-3 py-1 text-[13px] font-bold border transition-colors ' +
                   (autoNext ? 'bg-[#1a4fa0] border-[#1a4fa0] text-white' : 'border-[#c9d6ea] text-[#1a4fa0] hover:bg-[#eef3fb]')
                 }
               >
@@ -380,7 +380,7 @@ export function AudioPlayerView({
                   onClick={toggleText}
                   aria-pressed={showText}
                   className={
-                    'inline-flex items-center gap-1.5 px-3 py-1 text-[11px] font-bold border transition-colors ' +
+                    'inline-flex items-center gap-1.5 px-3 py-1 text-[13px] font-bold border transition-colors ' +
                     (showText ? 'bg-[#1a4fa0] border-[#1a4fa0] text-white' : 'border-[#c9d6ea] text-[#1a4fa0] hover:bg-[#eef3fb]')
                   }
                 >
@@ -407,7 +407,7 @@ export function AudioPlayerView({
                       : 'mb-2 text-[15px] text-[#333] leading-[1.7]'
                   }
                 >
-                  <sup className="font-bold text-[#1a4fa0] mr-1.5 text-[11px]">{v.verse}</sup>
+                  <sup className="font-bold text-[#1a4fa0] mr-1.5 text-[13px]">{v.verse}</sup>
                   {v.text}
                 </p>
               ))}
@@ -448,54 +448,81 @@ export function LanguagesPanel({
   })).filter((r) => r.texts.length > 0 || r.audio.length > 0)
 
   return (
-    <section aria-labelledby="lt-langs-title" className="bg-white border border-[#e2e0dc] mt-4 p-4 sm:p-5">
-      <h2 id="lt-langs-title" className="text-[15px] font-bold uppercase text-[#333] mb-1">
-        {t('bible.languages_title')}
-      </h2>
-      <p className="text-[12px] text-[#6b6b6b] mb-4">{t('bible.languages_intro')}</p>
-      <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+    <section
+      aria-labelledby="lt-langs-title"
+      className="bg-white border border-[#e2e0dc] shadow-sm mt-5 p-5 sm:p-7"
+    >
+      <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-2 mb-5">
+        <div>
+          <h2 id="lt-langs-title" className="text-[26px] sm:text-[30px] font-bold text-[#1a2b4a] leading-tight">
+            {t('bible.languages_title')}
+          </h2>
+          <p className="mt-1 text-[16px] text-[#555]">{t('bible.languages_intro')}</p>
+        </div>
+        <div className="flex items-center gap-4 text-[14px] text-[#555]">
+          <span className="inline-flex items-center gap-1.5"><BookOpen className="w-4 h-4 text-[#1a4fa0]" aria-hidden />{t('bible.lang_text')}</span>
+          <span className="inline-flex items-center gap-1.5"><Headphones className="w-4 h-4 text-[#1a4fa0]" aria-hidden />{t('bible.lang_audio')}</span>
+        </div>
+      </div>
+
+      <ul className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3">
         {rows.map((r) => (
-          <li key={r.lang} className="flex items-center justify-between gap-2 border border-[#eceae6] px-3 py-2">
-            <span className="text-[13px] font-semibold text-[#333]">{LANGUAGE_NAMES[r.lang] ?? r.lang}</span>
-            <span className="flex items-center gap-1.5">
+          <li
+            key={r.lang}
+            className="flex flex-col justify-between gap-3 border border-[#e3eaf6] bg-gradient-to-br from-white to-[#f7f9fd] p-4 hover:border-[#1a4fa0] hover:shadow-md transition-all"
+          >
+            <div>
+              <p className="font-display text-[20px] font-bold text-[#1a2b4a] leading-tight">
+                {LANGUAGE_NAMES[r.lang] ?? r.lang}
+              </p>
+              <p className="mt-0.5 text-[14px] text-[#6b7280]">
+                {r.texts.length > 0 && t('bible.n_versions', { n: r.texts.length })}
+                {r.texts.length > 0 && r.audio.length > 0 && ' · '}
+                {r.audio.length > 0 && t('bible.n_recordings', { n: r.audio.length })}
+              </p>
+            </div>
+            <div className="flex flex-wrap gap-2">
               {r.texts.length > 0 && (
                 <button
                   type="button"
                   onClick={() => onPickText(r.texts[0].id)}
-                  className="inline-flex items-center gap-1 px-2 py-0.5 text-[10px] font-bold uppercase bg-[#eef3fb] text-[#1a4fa0] hover:bg-[#dce7f7]"
+                  className="inline-flex items-center gap-2 h-10 px-4 text-[15px] font-semibold border border-[#1a4fa0] text-[#1a4fa0] bg-white hover:bg-[#eef3fb] transition-colors"
                   title={r.texts.map((v) => v.name).join(' · ')}
                 >
-                  <BookOpen className="w-3 h-3" aria-hidden />
-                  {t('bible.lang_text')}
-                  {r.texts.length > 1 ? ` ×${r.texts.length}` : ''}
+                  <BookOpen className="w-4 h-4" aria-hidden />
+                  {t('bible.read')}
                 </button>
               )}
               {r.audio.length > 0 ? (
                 <button
                   type="button"
                   onClick={() => onPickAudio(r.audio[0].id)}
-                  className="inline-flex items-center gap-1 px-2 py-0.5 text-[10px] font-bold uppercase bg-[#1a4fa0] text-white hover:bg-[#153f80]"
+                  className="inline-flex items-center gap-2 h-10 px-4 text-[15px] font-semibold bg-[#1a4fa0] text-white hover:bg-[#153f80] transition-colors"
                   title={r.audio.map((a) => `${a.name}${a.narrator ? ' — ' + a.narrator : ''}`).join(' · ')}
                 >
-                  <Headphones className="w-3 h-3" aria-hidden />
-                  {t('bible.lang_audio')}
-                  {r.audio.length > 1 ? ` ×${r.audio.length}` : ''}
+                  <Headphones className="w-4 h-4" aria-hidden />
+                  {t('bible.listen')}
                 </button>
               ) : (
-                <span className="px-2 py-0.5 text-[10px] font-bold uppercase text-[#9a9a9a] border border-dashed border-[#d5d3cf]">
+                <span className="inline-flex items-center h-10 px-3 text-[14px] text-[#8a8f99] border border-dashed border-[#d5d3cf]">
                   {t('bible.audio_soon')}
                 </span>
               )}
-            </span>
+            </div>
           </li>
         ))}
       </ul>
-      <div className="mt-4 border-t border-[#eceae6] pt-3">
-        <p className="text-[12px] text-[#333]">
-          <span className="font-bold uppercase text-[11px] text-[#1a4fa0] mr-2">{t('bible.coming_soon')}</span>
-          {COMING_SOON.join(' · ')}
-        </p>
-        <p className="text-[11px] text-[#9a9a9a] mt-1">{t('bible.coming_soon_desc')}</p>
+
+      <div className="mt-6 border-t border-[#eceae6] pt-5">
+        <p className="text-[16px] font-bold text-[#1a2b4a] mb-3">{t('bible.coming_soon')}</p>
+        <div className="flex flex-wrap gap-2">
+          {COMING_SOON.map((l) => (
+            <span key={l} className="px-4 py-1.5 text-[15px] font-semibold text-[#6b7280] bg-[#f4f4f2] border border-[#e6e4e0]">
+              {l}
+            </span>
+          ))}
+        </div>
+        <p className="text-[14px] text-[#8a8f99] mt-3">{t('bible.coming_soon_desc')}</p>
       </div>
     </section>
   )

@@ -47,7 +47,7 @@ export function ReadingPanel({ title, readings, className, showBadges = true, hi
             title={t('mass.confort')}
           >
             <Type className="w-3 h-3" />
-            <span className="leading-tight text-[12px]">
+            <span className="leading-tight text-[14px]">
               <span className="block">A+</span>
               <span className="block">{t('mass.confort_short')}</span>
             </span>
@@ -101,7 +101,7 @@ function ReadingBlock({
   if (r.type === 'alleluia') {
     return (
       <div className="border border-[#e2e0dc] bg-[#f8f7f4] p-5 text-center" data-highlightable={canHighlight || undefined}>
-        <p className="text-[10px] font-bold uppercase text-[#1a4fa0] mb-2">{localizedLabel}</p>
+        <p className="text-[12px] font-bold uppercase text-[#1a4fa0] mb-2">{localizedLabel}</p>
         {r.content?.map((p, idx) => (
           <p key={idx} className="text-[16px] font-semibold text-[#333] italic">
             {hl(`a${idx}`) ? <HighlightedText text={p} highlightKey={hl(`a${idx}`)!} /> : p}
@@ -117,7 +117,7 @@ function ReadingBlock({
       <article className="lt-reading-text" data-highlightable={canHighlight || undefined}>
         <h4 className="text-[17px] font-bold uppercase text-[#1a4fa0] mb-1">{localizedLabel}</h4>
         {r.reference && (
-          <h5 className="text-[14px] font-bold text-[#333] mb-3">{r.reference}</h5>
+          <h5 className="text-[16px] font-bold text-[#333] mb-3">{r.reference}</h5>
         )}
         {r.refrain && (
           <p className="font-bold text-[#333] mb-3 text-[16px]">{r.refrain}</p>
@@ -144,7 +144,7 @@ function ReadingBlock({
       <article className="lt-reading-text" data-highlightable={canHighlight || undefined}>
         <h4 className="text-[17px] font-bold uppercase text-[#1a4fa0] mb-1">{localizedLabel}</h4>
         {r.reference && (
-          <h5 className="text-[14px] font-bold text-[#333] mb-3">{r.reference}</h5>
+          <h5 className="text-[16px] font-bold text-[#333] mb-3">{r.reference}</h5>
         )}
         {r.author && <p className="lt-source mb-3">{r.author}</p>}
         {r.content?.map((p, idx) => (
@@ -161,10 +161,10 @@ function ReadingBlock({
     <article className="lt-reading-text" data-highlightable={canHighlight || undefined}>
       <h4 className="text-[17px] font-bold uppercase text-[#1a4fa0] mb-1">{localizedLabel}</h4>
       {r.citation && (
-        <h5 className="text-[14px] font-bold text-[#333] mb-2">{r.citation}</h5>
+        <h5 className="text-[16px] font-bold text-[#333] mb-2">{r.citation}</h5>
       )}
       {r.reference && !r.citation && (
-        <h5 className="text-[14px] font-bold text-[#333] mb-2">{r.reference}</h5>
+        <h5 className="text-[16px] font-bold text-[#333] mb-2">{r.reference}</h5>
       )}
       {r.source && <p className="lt-source mb-3">{r.source}</p>}
       {!r.source && r.title && <p className="lt-source mb-3">{r.title}</p>}

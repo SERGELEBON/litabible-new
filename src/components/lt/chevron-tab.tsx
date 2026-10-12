@@ -68,7 +68,7 @@ export function ChevronTab({
         'cursor-pointer select-none transition-colors duration-150',
         orientation === 'vertical'
           ? 'w-full px-3.5 py-3 text-[15px] leading-tight'
-          : 'px-4 py-2.5 text-[13px] leading-tight whitespace-nowrap',
+          : 'px-4 py-2.5 text-[15px] leading-tight whitespace-nowrap',
         indent && (orientation === 'vertical' ? 'pl-6' : 'mt-1'),
         active ? 'bg-lt-brand' : 'bg-lt-inactive',
         className,
