@@ -47,7 +47,34 @@ export async function GET(req: NextRequest) {
     );
   }
 
+  if (version.ntOnly && bookId < 40) {
+    return NextResponse.json(
+      {
+        error: "nt_only",
+        reference: `${bookParam} ${chapterNum}`,
+        translation: version.id,
+        source: "none",
+      },
+      { status: 404 }
+    );
+  }
+
   const result = await getChapter(version, bookParam, chapterNum);
+
+  // The embedded Louis Segond fallback only makes sense for French versions.
+  if ((result.source === "none" || result.verses.length === 0) && version.language !== "fr") {
+    return NextResponse.json(
+      {
+        error: "unavailable",
+        reference: result.reference,
+        book: result.book,
+        chapter: result.chapter,
+        translation: result.translation,
+        source: result.source,
+      },
+      { status: 502 }
+    );
+  }
 
   if (result.source === "none" || result.verses.length === 0) {
     // Try the local public-domain fallback (Louis Segond 1910) for chapters we
