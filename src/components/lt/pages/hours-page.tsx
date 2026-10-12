@@ -183,27 +183,27 @@ export function HoursPage() {
                   <h4 className="text-[19px] font-semibold text-[#333] leading-tight">
                     {formatLocalizedDate(selectedDate, locale, t)}
                   </h4>
-                  <p className="text-[11px] uppercase tracking-wide text-[#6b6b6b] mt-0.5">
+                  <p className="text-[13px] uppercase tracking-wide text-[#6b6b6b] mt-0.5">
                     {localizedWeekday(selectedDate, t)}
                   </p>
                 </div>
               </div>
-              <p className="text-[14px] text-[#333] font-medium leading-snug mb-1">
+              <p className="text-[16px] text-[#333] font-medium leading-snug mb-1">
                 {dayInfo.dayName}
               </p>
               {dayInfo.feast ? (
-                <p className="text-[12px] text-[#6b6b6b] leading-snug mb-2">
+                <p className="text-[14px] text-[#6b6b6b] leading-snug mb-2">
                   {dayInfo.feast}
                 </p>
               ) : null}
-              <p className="text-[11px] text-[#6b6b6b] leading-snug mb-3">
+              <p className="text-[13px] text-[#6b6b6b] leading-snug mb-3">
                 {dayInfo.liturgicalTime}
                 {' · '}
                 {dayInfo.psalterWeek}
                 {' · '}
                 {dayInfo.year}
               </p>
-              <p className="text-[13px] text-[#1a4fa0] font-semibold leading-snug mb-3 uppercase tracking-tight">
+              <p className="text-[15px] text-[#1a4fa0] font-semibold leading-snug mb-3 uppercase tracking-tight">
                 {office.title}
               </p>
               <DateNavBar onPrev={goPrevDay} onNext={goNextDay} />
@@ -239,7 +239,7 @@ export function HoursPage() {
                 <button
                   type="button"
                   aria-expanded={listOpen}
-                  className="w-full flex items-center justify-between bg-black text-white px-3.5 py-2.5 text-[12px] font-bold uppercase tracking-tight cursor-pointer transition-colors hover:bg-[#222]"
+                  className="w-full flex items-center justify-between bg-black text-white px-3.5 py-2.5 text-[14px] font-bold uppercase tracking-tight cursor-pointer transition-colors hover:bg-[#222]"
                 >
                   <span>{t('hours.lectures_bar')}</span>
                   <ChevronDown
@@ -287,11 +287,11 @@ export function HoursPage() {
               highlightKeyPrefix={`office:${selectedDate}:${officeHour}`}
             />
             {locale !== 'fr' && (
-              <p className="text-[11px] text-[#9a9a9a] mt-3 italic">
+              <p className="text-[13px] text-[#9a9a9a] mt-3 italic">
                 {t('hours.french_note')}
               </p>
             )}
-            <p className="text-[11px] text-[#9a9a9a] mt-6 pt-3 border-t border-[#e2e0dc]">
+            <p className="text-[13px] text-[#9a9a9a] mt-6 pt-3 border-t border-[#e2e0dc]">
               {t('mass.source')}
             </p>
           </>

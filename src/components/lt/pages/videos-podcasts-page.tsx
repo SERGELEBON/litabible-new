@@ -91,9 +91,9 @@ export function VideosPodcastsPage() {
                     </span>
                     <span className="min-w-0 flex-1">
                       <span className="block text-[15px] font-bold text-[#1a4fa0]">{yt.title}</span>
-                      <span className="block text-[13px] text-[#2d2d2d]/80 leading-snug mt-0.5">{yt.desc}</span>
+                      <span className="block text-[15px] text-[#2d2d2d]/80 leading-snug mt-0.5">{yt.desc}</span>
                     </span>
-                    <span className="flex-shrink-0 inline-flex items-center gap-1.5 bg-[#FF0000] text-white text-[12px] font-bold uppercase px-3.5 py-2 group-hover:bg-[#cc0000] transition-colors">
+                    <span className="flex-shrink-0 inline-flex items-center gap-1.5 bg-[#FF0000] text-white text-[14px] font-bold uppercase px-3.5 py-2 group-hover:bg-[#cc0000] transition-colors">
                       {yt.cta}
                       <ExternalLink className="w-3.5 h-3.5" />
                     </span>
@@ -108,14 +108,14 @@ export function VideosPodcastsPage() {
                     className="border-t border-[#e2e0dc] pt-5 first:border-t-0 first:pt-0"
                   >
                     <div className="flex items-baseline gap-3 mb-2">
-                      <span className="text-[13px] font-bold text-[#1a4fa0] uppercase tracking-wide flex-shrink-0">
+                      <span className="text-[15px] font-bold text-[#1a4fa0] uppercase tracking-wide flex-shrink-0">
                         {v.number}
                       </span>
                       <h2 className="text-[16px] font-semibold text-[#333333]">
                         {v.title}
                       </h2>
                       {v.duration && (
-                        <span className="text-[12px] text-[#6b6b6b] ml-auto">
+                        <span className="text-[14px] text-[#6b6b6b] ml-auto">
                           {v.duration}
                         </span>
                       )}
@@ -154,28 +154,28 @@ export function VideosPodcastsPage() {
                     className="flex flex-col sm:flex-row sm:items-center gap-4 border border-[#e2e0dc] p-4"
                   >
                     <div className="flex items-center gap-3 flex-1 min-w-0">
-                      <span className="text-[13px] font-bold text-[#1a4fa0] uppercase tracking-wide flex-shrink-0">
+                      <span className="text-[15px] font-bold text-[#1a4fa0] uppercase tracking-wide flex-shrink-0">
                         {p.number}
                       </span>
                       <div className="min-w-0">
                         <h2 className="text-[16px] font-semibold text-[#333333]">
                           {p.title}
                         </h2>
-                        <p className="text-[14px] leading-[1.6] text-[#333333] mt-1">
+                        <p className="text-[16px] leading-[1.6] text-[#333333] mt-1">
                           {p.description}
                         </p>
                       </div>
                     </div>
                     <div className="flex items-center gap-3 flex-shrink-0">
                       {p.duration && (
-                        <span className="text-[12px] text-[#6b6b6b]">
+                        <span className="text-[14px] text-[#6b6b6b]">
                           {p.duration}
                         </span>
                       )}
                       {p.audioUrl && (
                         <a
                           href={p.audioUrl}
-                          className="inline-flex items-center gap-1.5 bg-[#000000] hover:bg-[#333333] text-white text-[12px] uppercase font-semibold px-3 py-2 !normal-case"
+                          className="inline-flex items-center gap-1.5 bg-[#000000] hover:bg-[#333333] text-white text-[14px] uppercase font-semibold px-3 py-2 !normal-case"
                         >
                           <Play className="w-3 h-3" /> {t('videos.listen')}
                         </a>

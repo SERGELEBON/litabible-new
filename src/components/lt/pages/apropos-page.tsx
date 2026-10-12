@@ -137,14 +137,14 @@ export function AproposPage() {
                     {videoList.map((v) => (
                       <li key={v.id} className="border-t border-[#e2e0dc] pt-5 first:border-t-0 first:pt-0">
                         <div className="flex items-baseline gap-3 mb-2">
-                          <span className="text-[13px] font-bold text-[#1a4fa0] uppercase tracking-wide flex-shrink-0">
+                          <span className="text-[15px] font-bold text-[#1a4fa0] uppercase tracking-wide flex-shrink-0">
                             {v.number}
                           </span>
                           <h3 className="text-[16px] font-semibold text-[#333333]">
                             {v.title}
                           </h3>
                           {v.duration && (
-                            <span className="text-[12px] text-[#6b6b6b] ml-auto">
+                            <span className="text-[14px] text-[#6b6b6b] ml-auto">
                               {v.duration}
                             </span>
                           )}
@@ -182,28 +182,28 @@ export function AproposPage() {
                         className="flex flex-col sm:flex-row sm:items-center gap-4 border border-[#e2e0dc] p-4"
                       >
                         <div className="flex items-center gap-3 flex-1 min-w-0">
-                          <span className="text-[13px] font-bold text-[#1a4fa0] uppercase tracking-wide flex-shrink-0">
+                          <span className="text-[15px] font-bold text-[#1a4fa0] uppercase tracking-wide flex-shrink-0">
                             {p.number}
                           </span>
                           <div className="min-w-0">
                             <h3 className="text-[16px] font-semibold text-[#333333]">
                               {p.title}
                             </h3>
-                            <p className="text-[14px] leading-[1.6] text-[#333333] mt-1">
+                            <p className="text-[16px] leading-[1.6] text-[#333333] mt-1">
                               {p.description}
                             </p>
                           </div>
                         </div>
                         <div className="flex items-center gap-3 flex-shrink-0">
                           {p.duration && (
-                            <span className="text-[12px] text-[#6b6b6b]">
+                            <span className="text-[14px] text-[#6b6b6b]">
                               {p.duration}
                             </span>
                           )}
                           {p.audioUrl && (
                             <a
                               href={p.audioUrl}
-                              className="inline-flex items-center gap-1.5 bg-[#000000] hover:bg-[#333333] text-white text-[12px] uppercase font-semibold px-3 py-2 !normal-case"
+                              className="inline-flex items-center gap-1.5 bg-[#000000] hover:bg-[#333333] text-white text-[14px] uppercase font-semibold px-3 py-2 !normal-case"
                             >
                               <Play className="w-3 h-3" /> {t('videos.listen')}
                             </a>
@@ -222,7 +222,7 @@ export function AproposPage() {
       </section>
 
       {/* Small footer note about the month/year context (purely decorative, matches the brand rhythm) */}
-      <p className="text-[11px] text-[#6b6b6b] mt-3 text-right uppercase tracking-wide">
+      <p className="text-[13px] text-[#6b6b6b] mt-3 text-right uppercase tracking-wide">
         {new Date().getFullYear()} · {t(MONTH_FULL_KEY[new Date().getMonth()])}
       </p>
     </div>

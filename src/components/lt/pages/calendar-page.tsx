@@ -108,7 +108,7 @@ export function CalendarPage() {
         <h1 className="text-[18px] sm:text-[22px] font-bold uppercase tracking-wide leading-tight">
           {t('cal.plan_title')}
         </h1>
-        <p className="text-[12px] sm:text-[13px] text-white/80 leading-snug mt-0.5">
+        <p className="text-[14px] sm:text-[15px] text-white/80 leading-snug mt-0.5">
           {t('cal.plan_intro')}
         </p>
       </div>
@@ -128,7 +128,7 @@ export function CalendarPage() {
         <h2 className="uppercase text-[24px] sm:text-[28px] font-semibold text-[#333333] tracking-wide mb-1">
           {headerTitle}
         </h2>
-        <p className="text-[13px] text-[#6b6b6b] uppercase tracking-wide mb-5">
+        <p className="text-[15px] text-[#6b6b6b] uppercase tracking-wide mb-5">
           {t('cal.subhead', {
             month: t(MONTH_FULL_KEY[month - 1]),
             year,
@@ -164,7 +164,7 @@ export function CalendarPage() {
                         <span className="text-[#1a4fa0]">{wd}</span>{' '}
                         <span className="text-[#333333]">{dateLabel}</span>
                       </p>
-                      <p className="text-[14px] leading-[1.5] text-[#333333] mt-0.5">
+                      <p className="text-[16px] leading-[1.5] text-[#333333] mt-0.5">
                         <span className="font-semibold text-[#1a4fa0]">
                           {day.dayName}
                         </span>
@@ -175,7 +175,7 @@ export function CalendarPage() {
                           </>
                         )}
                       </p>
-                      <p className="text-[11px] text-[#6b6b6b] uppercase tracking-wide mt-0.5">
+                      <p className="text-[13px] text-[#6b6b6b] uppercase tracking-wide mt-0.5">
                         {t('cal.day_n', { n: readingDayIndex(day.date) })}
                       </p>
                     </div>
@@ -185,7 +185,7 @@ export function CalendarPage() {
                     <button
                       type="button"
                       onClick={() => openBible(day.date)}
-                      className="lt-btn-black !bg-[#1a4fa0] !text-white text-[12px] px-3 py-1.5 inline-flex items-center hover:!bg-[#143d7a] whitespace-nowrap"
+                      className="lt-btn-black !bg-[#1a4fa0] !text-white text-[14px] px-3 py-1.5 inline-flex items-center hover:!bg-[#143d7a] whitespace-nowrap"
                     >
                       {t('cal.read_btn')}
                     </button>

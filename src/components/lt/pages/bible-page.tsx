@@ -17,7 +17,6 @@ import type {
 import { BibleSearchBar } from '@/components/lt/bible-search-bar'
 import { ChevronTab } from '@/components/lt/chevron-tab'
 import { BlackButton } from '@/components/lt/black-button'
-import { PromoCard } from '@/components/lt/promo-card'
 import { HighlightedText } from '@/components/lt/highlighted-text'
 import { HighlightToolbar } from '@/components/lt/highlight-toolbar'
 import {
@@ -369,15 +368,21 @@ export function BiblePage() {
 
   return (
     <section aria-label={t('bible.title')} className="w-full">
-      <div className="bg-white border border-[#e2e0dc] p-4 sm:p-6 mb-4">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-3">
-          <h1 className="text-[21px] font-semibold uppercase text-[#333] tracking-tight">
-            {t('bible.title')}
-          </h1>
+      {/* Hero / header card */}
+      <div className="bg-white border border-[#e2e0dc] shadow-sm p-5 sm:p-7 mb-5">
+        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-5">
+          <div className="min-w-0">
+            <h1 className="text-[32px] sm:text-[40px] font-bold text-[#1a2b4a] leading-[1.1]">
+              {t('bible.title')}
+            </h1>
+            <p className="mt-2 text-[17px] text-[#555] leading-relaxed max-w-[640px]">
+              {mode === 'text' ? t('bible.text_intro') : t('bible.audio_intro')}
+            </p>
+          </div>
           <div
             role="tablist"
             aria-label={t('bible.mode_label')}
-            className="inline-flex border border-[#1a4fa0] self-start"
+            className="inline-flex p-1 bg-[#eef3fb] self-start md:self-auto flex-shrink-0"
           >
             {([
               { id: 'text', label: t('bible.mode_text'), Icon: BookOpen },
@@ -390,72 +395,79 @@ export function BiblePage() {
                 aria-selected={mode === id}
                 onClick={() => setMode(id)}
                 className={
-                  'inline-flex items-center gap-2 px-4 py-2 text-[12px] font-bold uppercase tracking-wide transition-colors ' +
+                  'inline-flex items-center gap-2.5 px-5 sm:px-6 h-12 text-[16px] font-bold transition-all ' +
                   (mode === id
-                    ? 'bg-[#1a4fa0] text-white'
-                    : 'bg-white text-[#1a4fa0] hover:bg-[#eef3fb]')
+                    ? 'bg-[#1a4fa0] text-white shadow'
+                    : 'text-[#1a4fa0] hover:bg-white')
                 }
               >
-                <Icon className="w-4 h-4" aria-hidden />
+                <Icon className="w-5 h-5" aria-hidden />
                 {label}
               </button>
             ))}
           </div>
         </div>
-        {mode === 'text' ? (
-          <BibleSearchBar onSearch={runSearch} />
-        ) : (
-          <p className="text-[13px] text-[#555] leading-relaxed">
-            {t('bible.audio_intro')}
-          </p>
+        {mode === 'text' && (
+          <div className="mt-5">
+            <BibleSearchBar onSearch={runSearch} />
+          </div>
         )}
+        {/* 3-step guide so first-time visitors know what to do */}
+        <ol className="mt-5 grid grid-cols-1 sm:grid-cols-3 gap-2">
+          {[
+            mode === 'text' ? t('bible.step_version') : t('bible.step_recording'),
+            t('bible.step_book'),
+            mode === 'text' ? t('bible.step_read') : t('bible.step_listen'),
+          ].map((label, i) => (
+            <li key={i} className="flex items-center gap-3 bg-[#f7f9fd] border border-[#e3eaf6] px-3 py-2.5">
+              <span className="flex-shrink-0 w-8 h-8 rounded-full bg-[#1a4fa0] text-white font-bold text-[15px] flex items-center justify-center">
+                {i + 1}
+              </span>
+              <span className="text-[15px] font-semibold text-[#1a2b4a]">{label}</span>
+            </li>
+          ))}
+        </ol>
       </div>
 
-      <div className="flex flex-col lg:flex-row gap-4">
-        {/* Main column */}
-        <div className="flex-1 min-w-0">
-          <div className="bg-white border border-[#e2e0dc]">
-            {/* Tabs + version selector */}
-            <div className="flex flex-col sm:flex-row sm:items-stretch sm:justify-between gap-2 border-b border-[#e2e0dc]">
-              <nav
-                aria-label={t('bible.title')}
-                className="flex overflow-x-auto lt-scroll"
+      {/* Main reading card — full width */}
+      <div className="bg-white border border-[#e2e0dc] shadow-sm">
+        {/* Toolbar: testament tabs + version / recording selector */}
+        <div className="flex flex-col lg:flex-row lg:items-stretch lg:justify-between border-b border-[#e2e0dc]">
+          <nav aria-label={t('bible.title')} className="flex overflow-x-auto lt-scroll">
+            {TABS.map((tab) => (
+              <ChevronTab
+                key={tab.id}
+                orientation="horizontal"
+                active={tab.id === bibleTab}
+                onClick={() => setBibleTab(tab.id)}
+                className="flex-1 !text-[15px] !px-6 !py-4"
               >
-                {TABS.map((tab) => (
-                  <ChevronTab
-                    key={tab.id}
-                    orientation="horizontal"
-                    active={tab.id === bibleTab}
-                    onClick={() => setBibleTab(tab.id)}
-                    className="flex-1"
-                  >
-                    {t(tab.labelKey)}
-                  </ChevronTab>
-                ))}
-              </nav>
-              <div className="flex items-center gap-2 px-3 py-2 sm:py-1.5 border-t sm:border-t-0 sm:border-l border-[#e2e0dc]">
-                {mode === 'text' ? (
-                  <>
+                {t(tab.labelKey)}
+              </ChevronTab>
+            ))}
+          </nav>
+          <div className="flex flex-col sm:flex-row sm:items-center gap-2 px-4 py-3 border-t lg:border-t-0 lg:border-l border-[#e2e0dc] bg-[#fafbfd]">
+            {mode === 'text' ? (
+              <>
                 <label
                   htmlFor="bible-version-select"
-                  className="text-[11px] uppercase tracking-wide text-[#6b6b6b] font-semibold"
+                  className="text-[14px] font-bold text-[#1a2b4a] whitespace-nowrap"
                 >
                   {t('bible.version')}
                 </label>
                 <Select value={version} onValueChange={setVersion}>
                   <SelectTrigger
                     id="bible-version-select"
-                    size="sm"
-                    className="h-8 rounded-none border-[#ccc] text-[12px] min-w-[160px]"
+                    className="h-11 rounded-none border-[#c9d6ea] bg-white text-[15px] w-full sm:w-[300px]"
                   >
                     <SelectValue placeholder={t('bible.version')} />
                   </SelectTrigger>
-                  <SelectContent className="rounded-none">
+                  <SelectContent className="rounded-none max-h-[360px]">
                     {groupedVersions.map((g) => (
                       <SelectGroup key={g.lang}>
-                        <SelectLabel>{LANGUAGE_NAMES[g.lang] ?? g.lang}</SelectLabel>
+                        <SelectLabel className="text-[13px] font-bold text-[#1a4fa0]">{LANGUAGE_NAMES[g.lang] ?? g.lang}</SelectLabel>
                         {g.items.map((v) => (
-                          <SelectItem key={v.id} value={v.id}>
+                          <SelectItem key={v.id} value={v.id} className="text-[15px]">
                             {v.name}
                           </SelectItem>
                         ))}
@@ -463,29 +475,28 @@ export function BiblePage() {
                     ))}
                   </SelectContent>
                 </Select>
-                  </>
-                ) : (
-                  <>
+              </>
+            ) : (
+              <>
                 <label
                   htmlFor="bible-audio-select"
-                  className="text-[11px] uppercase tracking-wide text-[#6b6b6b] font-semibold"
+                  className="text-[14px] font-bold text-[#1a2b4a] whitespace-nowrap"
                 >
                   {t('bible.audio_version')}
                 </label>
                 <Select value={audioId} onValueChange={setAudioId}>
                   <SelectTrigger
                     id="bible-audio-select"
-                    size="sm"
-                    className="h-8 rounded-none border-[#ccc] text-[12px] min-w-[200px]"
+                    className="h-11 rounded-none border-[#c9d6ea] bg-white text-[15px] w-full sm:w-[340px]"
                   >
                     <SelectValue placeholder={t('bible.audio_version')} />
                   </SelectTrigger>
-                  <SelectContent className="rounded-none max-h-[320px]">
+                  <SelectContent className="rounded-none max-h-[360px]">
                     {groupedAudios.map((g) => (
                       <SelectGroup key={g.lang}>
-                        <SelectLabel>{LANGUAGE_NAMES[g.lang] ?? g.lang}</SelectLabel>
+                        <SelectLabel className="text-[13px] font-bold text-[#1a4fa0]">{LANGUAGE_NAMES[g.lang] ?? g.lang}</SelectLabel>
                         {g.items.map((a) => (
-                          <SelectItem key={a.id} value={a.id}>
+                          <SelectItem key={a.id} value={a.id} className="text-[15px]">
                             {a.name}{a.narrator ? ` — ${a.narrator}` : ''}
                           </SelectItem>
                         ))}
@@ -493,45 +504,36 @@ export function BiblePage() {
                     ))}
                   </SelectContent>
                 </Select>
-                  </>
-                )}
-              </div>
-            </div>
-
-            {/* Content area */}
-            <div className="p-4 sm:p-5">
-              {mode === 'text' && searchQuery !== null ? (
-                <SearchResultsView
-                  query={searchQuery}
-                  results={searchResults}
-                  loading={searchLoading}
-                  error={searchError}
-                  onBack={backToBookList}
-                />
-              ) : (
-                <BookListView
-                  books={booksForTab(bibleTab)}
-                  onBookClick={handleBookClick}
-                />
-              )}
-            </div>
+              </>
+            )}
           </div>
-          <LanguagesPanel
-            versions={versions}
-            audios={audios}
-            onPickText={(id) => { setMode('text'); setVersion(id) }}
-            onPickAudio={(id) => { setMode('audio'); setAudioId(id) }}
-          />
         </div>
 
-        {/* Right promo column */}
-        <aside className="lg:w-[320px] flex-shrink-0">
-          <PromoCard
-            title={t('bible.promo_title')}
-            description={t('bible.promo_desc')}
-          />
-        </aside>
+        {/* Content area */}
+        <div className="p-4 sm:p-6">
+          {mode === 'text' && searchQuery !== null ? (
+            <SearchResultsView
+              query={searchQuery}
+              results={searchResults}
+              loading={searchLoading}
+              error={searchError}
+              onBack={backToBookList}
+            />
+          ) : (
+            <BookListView
+              books={booksForTab(bibleTab)}
+              onBookClick={handleBookClick}
+            />
+          )}
+        </div>
       </div>
+
+      <LanguagesPanel
+        versions={versions}
+        audios={audios}
+        onPickText={(id) => { setMode('text'); setVersion(id); window.scrollTo({ top: 0, behavior: 'smooth' }) }}
+        onPickAudio={(id) => { setMode('audio'); setAudioId(id); window.scrollTo({ top: 0, behavior: 'smooth' }) }}
+      />
 
       {/* Chapter dialog */}
       <Dialog
@@ -554,7 +556,7 @@ export function BiblePage() {
                   <DialogTitle className="text-[16px] font-bold uppercase text-[#333] truncate">
                     {getBookName(currentBook, locale)}
                   </DialogTitle>
-                  <DialogDescription className="text-[12px] text-[#6b6b6b]">
+                  <DialogDescription className="text-[14px] text-[#6b6b6b]">
                     {currentChapter
                       ? `${t('bible.chapter')} ${currentChapter} · ${t('bible.chapters_total', { n: currentBook.chapters })}`
                       : t('bible.choose_chapter', { n: currentBook.chapters })}
@@ -585,7 +587,7 @@ export function BiblePage() {
                             key={n}
                             size="sm"
                             onClick={() => loadChapter(currentBook, n)}
-                            className="!text-[13px]"
+                            className="!text-[15px]"
                           >
                             {n}
                           </BlackButton>
@@ -621,10 +623,10 @@ export function BiblePage() {
                   <div className="flex-1 flex items-center justify-center p-5">
                     <div className="text-center max-w-md">
                       <AlertCircle className="w-10 h-10 text-[#1a4fa0] mx-auto mb-3" />
-                      <p className="text-[14px] font-semibold text-[#333] mb-1">
+                      <p className="text-[16px] font-semibold text-[#333] mb-1">
                         {t('bible.load_failed')}
                       </p>
-                      <p className="text-[12px] text-[#6b6b6b] mb-4">
+                      <p className="text-[14px] text-[#6b6b6b] mb-4">
                         {chapterError}
                       </p>
                       <BlackButton
@@ -644,7 +646,7 @@ export function BiblePage() {
                       <button
                         type="button"
                         onClick={backToChapterPicker}
-                        className="text-[12px] text-[#1a4fa0] hover:underline uppercase font-semibold"
+                        className="text-[14px] text-[#1a4fa0] hover:underline uppercase font-semibold"
                       >
                         {t('bible.back_chapters')}
                       </button>
@@ -657,7 +659,7 @@ export function BiblePage() {
                             if (currentBook && currentChapter) loadChapter(currentBook, currentChapter, v)
                           }}
                         >
-                          <SelectTrigger size="sm" className="h-7 rounded-none border-[#ccc] text-[11px] min-w-[130px] max-w-[180px]">
+                          <SelectTrigger size="sm" className="h-7 rounded-none border-[#ccc] text-[13px] min-w-[130px] max-w-[180px]">
                             <SelectValue />
                           </SelectTrigger>
                           <SelectContent className="rounded-none max-h-[280px]">
@@ -685,7 +687,7 @@ export function BiblePage() {
                         >
                           <ChevronLeft className="w-4 h-4" />
                         </button>
-                        <span className="text-[12px] font-semibold text-[#333]">
+                        <span className="text-[14px] font-semibold text-[#333]">
                           {currentChapter} / {currentBook.chapters}
                         </span>
                         <button
@@ -706,14 +708,14 @@ export function BiblePage() {
                       {chapterData.reference}
                     </h2>
                     {chapterData.source && (
-                      <p className="text-[11px] text-[#9a9a9a] mb-4">
+                      <p className="text-[13px] text-[#9a9a9a] mb-4">
                         {t('bible.source_label')} {chapterData.source} · {chapterData.translation}
                       </p>
                     )}
                     <article className="lt-reading-text" data-highlightable>
                       {chapterData.verses.map((v) => (
                         <p key={v.verse} className={maximized ? "mb-3 text-[20px] sm:text-[24px] text-[#333] leading-[1.8]" : "mb-2 text-[16px] text-[#333] leading-[1.7]"}>
-                          <sup className="font-bold text-[#1a4fa0] mr-1.5 text-[11px]">
+                          <sup className="font-bold text-[#1a4fa0] mr-1.5 text-[13px]">
                             {v.verse}
                           </sup>
                           <HighlightedText
@@ -751,17 +753,17 @@ function BookListView({
   return (
     <div>
       <h2 className="sr-only">{t('bible.book_list')}</h2>
-      <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-0">
+      <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-1">
         {books.map((book) => (
           <li key={book.id}>
             <button
               type="button"
               onClick={() => onBookClick(book)}
-              className="w-full text-left py-1.5 text-[14px] text-[#333] hover:text-[#1a4fa0] transition-colors"
+              className="group w-full flex items-baseline justify-between gap-2 text-left px-3 py-2.5 text-[17px] font-semibold text-[#1a2b4a] border-b border-[#f0eeea] hover:bg-[#eef3fb] hover:text-[#1a4fa0] transition-colors"
             >
               {getBookName(book, locale)}
-              <span className="ml-2 text-[11px] text-[#9a9a9a]">
-                ({book.chapters} {t('bible.chapters_label')})
+              <span className="flex-shrink-0 text-[14px] font-normal text-[#8a8f99] group-hover:text-[#1a4fa0]">
+                {book.chapters} {t('bible.chapters_label')}
               </span>
             </button>
           </li>
@@ -791,7 +793,7 @@ function SearchResultsView({
   return (
     <div>
       <div className="flex items-center justify-between gap-2 mb-4">
-        <h2 className="text-[14px] font-semibold text-[#333]">
+        <h2 className="text-[16px] font-semibold text-[#333]">
           {loading
             ? t('bible.searching')
             : t('bible.search_results_for', { n: results.length, query })}
@@ -799,7 +801,7 @@ function SearchResultsView({
         <button
           type="button"
           onClick={onBack}
-          className="text-[12px] text-[#1a4fa0] hover:underline uppercase font-semibold"
+          className="text-[14px] text-[#1a4fa0] hover:underline uppercase font-semibold"
         >
           {t('bible.back_list')}
         </button>
@@ -818,26 +820,26 @@ function SearchResultsView({
       ) : error ? (
         <div className="text-center py-8">
           <AlertCircle className="w-10 h-10 text-[#1a4fa0] mx-auto mb-3" />
-          <p className="text-[14px] font-semibold text-[#333] mb-1">
+          <p className="text-[16px] font-semibold text-[#333] mb-1">
             {t('bible.search_failed')}
           </p>
-          <p className="text-[12px] text-[#6b6b6b]">{error}</p>
+          <p className="text-[14px] text-[#6b6b6b]">{error}</p>
         </div>
       ) : results.length === 0 ? (
         <div className="text-center py-8">
-          <p className="text-[14px] text-[#333] mb-1">{t('bible.no_results')}</p>
-          <p className="text-[12px] text-[#6b6b6b]">{t('bible.no_results_desc')}</p>
+          <p className="text-[16px] text-[#333] mb-1">{t('bible.no_results')}</p>
+          <p className="text-[14px] text-[#6b6b6b]">{t('bible.no_results_desc')}</p>
         </div>
       ) : (
         <ul className="space-y-4">
           {results.map((r, i) => (
             <li key={`${r.reference}-${i}`} className="border-b border-[#e8e6e2] pb-3">
-              <p className="text-[14px] font-bold text-[#1a4fa0] mb-1">
+              <p className="text-[16px] font-bold text-[#1a4fa0] mb-1">
                 {r.reference}
               </p>
-              <p className="text-[14px] text-[#333] leading-relaxed">{r.text}</p>
+              <p className="text-[16px] text-[#333] leading-relaxed">{r.text}</p>
               {r.translation && (
-                <p className="text-[11px] text-[#9a9a9a] mt-1">
+                <p className="text-[13px] text-[#9a9a9a] mt-1">
                   {r.translation}
                 </p>
               )}

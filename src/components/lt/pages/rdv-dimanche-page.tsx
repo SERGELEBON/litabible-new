@@ -22,10 +22,10 @@ export function RdvDimanchePage() {
           <h1 id="rdv-title" className="text-[24px] sm:text-[28px] font-bold uppercase text-[#1a4fa0] tracking-tight">
             {t('rdv.title')}
           </h1>
-          <p className="mt-2 text-[14px] text-[#2d2d2d]/80 max-w-2xl mx-auto leading-relaxed">
+          <p className="mt-2 text-[16px] text-[#2d2d2d]/80 max-w-2xl mx-auto leading-relaxed">
             {t('rdv.intro')}
           </p>
-          <p className="mt-2 inline-flex items-center gap-1.5 text-[12px] font-semibold uppercase text-[#1a4fa0]">
+          <p className="mt-2 inline-flex items-center gap-1.5 text-[14px] font-semibold uppercase text-[#1a4fa0]">
             <CalendarClock className="w-4 h-4" />
             {t('rdv.time')}
           </p>
@@ -45,11 +45,11 @@ export function RdvDimanchePage() {
               alt={t('rdv.card_title')}
               className="w-full max-h-[520px] object-cover"
             />
-            <span className="absolute top-3 left-3 inline-flex items-center gap-1.5 bg-[#1a4fa0] text-white text-[10px] font-bold uppercase px-2.5 py-1.5">
+            <span className="absolute top-3 left-3 inline-flex items-center gap-1.5 bg-[#1a4fa0] text-white text-[12px] font-bold uppercase px-2.5 py-1.5">
               <Church className="w-3 h-3" />
               LitaBible
             </span>
-            <span className="absolute top-3 right-3 inline-flex items-center gap-1.5 bg-[#1a4fa0] text-white text-[10px] font-bold uppercase px-2.5 py-1.5">
+            <span className="absolute top-3 right-3 inline-flex items-center gap-1.5 bg-[#1a4fa0] text-white text-[12px] font-bold uppercase px-2.5 py-1.5">
               <Video className="w-3 h-3" />
               Google Meet
             </span>
@@ -59,13 +59,13 @@ export function RdvDimanchePage() {
           <div className="p-5 sm:p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div className="min-w-0">
               <h2 className="text-[18px] font-bold text-[#1a4fa0] mb-1">{t('rdv.card_title')}</h2>
-              <p className="text-[13px] text-[#2d2d2d]/80 leading-relaxed">{t('rdv.card_desc')}</p>
-              <p className="mt-2 text-[11px] uppercase tracking-wide text-[#6b6b6b] font-semibold">
+              <p className="text-[15px] text-[#2d2d2d]/80 leading-relaxed">{t('rdv.card_desc')}</p>
+              <p className="mt-2 text-[13px] uppercase tracking-wide text-[#6b6b6b] font-semibold">
                 {t('rdv.meet_label')}: <span className="text-[#1a4fa0] break-all">{MEET_URL}</span>
               </p>
             </div>
             {/* Join button (yellow) — the link lives "behind" the card */}
-            <span className="inline-flex items-center gap-2 bg-[#1a4fa0] text-white font-bold uppercase text-[13px] px-5 py-3 group-hover:bg-[#143d7a] transition-colors flex-shrink-0">
+            <span className="inline-flex items-center gap-2 bg-[#1a4fa0] text-white font-bold uppercase text-[15px] px-5 py-3 group-hover:bg-[#143d7a] transition-colors flex-shrink-0">
               <Video className="w-4 h-4" />
               {t('rdv.join_btn')}
               <ExternalLink className="w-3.5 h-3.5" />
@@ -78,14 +78,14 @@ export function RdvDimanchePage() {
           <button
             type="button"
             onClick={goPrevDay}
-            className="lt-btn-black !bg-black !text-white text-[11px] px-3 py-1.5"
+            className="lt-btn-black !bg-black !text-white text-[13px] px-3 py-1.5"
           >
             {t('lec.move_prev')}
           </button>
           <button
             type="button"
             onClick={goNextDay}
-            className="lt-btn-black !bg-black !text-white text-[11px] px-3 py-1.5"
+            className="lt-btn-black !bg-black !text-white text-[13px] px-3 py-1.5"
           >
             {t('lec.move_next')}
           </button>

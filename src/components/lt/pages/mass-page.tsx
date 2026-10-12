@@ -109,20 +109,20 @@ export function MassPage() {
                   <h4 className="text-[19px] font-semibold text-[#333] leading-tight">
                     {formatLocalizedDate(selectedDate, locale, t)}
                   </h4>
-                  <p className="text-[11px] uppercase tracking-wide text-[#6b6b6b] mt-0.5">
+                  <p className="text-[13px] uppercase tracking-wide text-[#6b6b6b] mt-0.5">
                     {localizedWeekday(selectedDate, t)}
                   </p>
                 </div>
               </div>
-              <p className="text-[14px] text-[#333] leading-snug font-medium mb-1">
+              <p className="text-[16px] text-[#333] leading-snug font-medium mb-1">
                 {dayInfo.dayName}
               </p>
               {dayInfo.feast ? (
-                <p className="text-[12px] text-[#6b6b6b] leading-snug mb-2">
+                <p className="text-[14px] text-[#6b6b6b] leading-snug mb-2">
                   {dayInfo.feast}
                 </p>
               ) : null}
-              <p className="text-[11px] text-[#6b6b6b] leading-snug mb-3">
+              <p className="text-[13px] text-[#6b6b6b] leading-snug mb-3">
                 {dayInfo.liturgicalTime}
                 {' · '}
                 {dayInfo.psalterWeek}
@@ -145,7 +145,7 @@ export function MassPage() {
                 <button
                   type="button"
                   aria-expanded={listOpen}
-                  className="w-full flex items-center justify-between bg-black text-white px-3.5 py-2.5 text-[12px] font-bold uppercase tracking-tight cursor-pointer transition-colors hover:bg-[#222]"
+                  className="w-full flex items-center justify-between bg-black text-white px-3.5 py-2.5 text-[14px] font-bold uppercase tracking-tight cursor-pointer transition-colors hover:bg-[#222]"
                 >
                   <span>{t('mass.lectures_bar')}</span>
                   <ChevronDown
@@ -193,11 +193,11 @@ export function MassPage() {
               highlightKeyPrefix={`mass:${selectedDate}`}
             />
             {locale !== 'fr' && (
-              <p className="text-[11px] text-[#9a9a9a] mt-3 italic">
+              <p className="text-[13px] text-[#9a9a9a] mt-3 italic">
                 {t('mass.french_note')}
               </p>
             )}
-            <p className="text-[11px] text-[#9a9a9a] mt-6 pt-3 border-t border-[#e2e0dc]">
+            <p className="text-[13px] text-[#9a9a9a] mt-6 pt-3 border-t border-[#e2e0dc]">
               {t('mass.source')}
             </p>
           </>

@@ -153,7 +153,7 @@ export function ContactPage() {
           {/* Form column */}
           <form onSubmit={handleSubmit} className="flex flex-col gap-4" noValidate>
             <div className="flex flex-col gap-1.5">
-              <Label htmlFor="contact-name" className="text-[13px] font-bold text-[#333] uppercase tracking-wide">
+              <Label htmlFor="contact-name" className="text-[15px] font-bold text-[#333] uppercase tracking-wide">
                 {t('contact.name')}
               </Label>
               <Input
@@ -169,7 +169,7 @@ export function ContactPage() {
             </div>
 
             <div className="flex flex-col gap-1.5">
-              <Label htmlFor="contact-email" className="text-[13px] font-bold text-[#333] uppercase tracking-wide">
+              <Label htmlFor="contact-email" className="text-[15px] font-bold text-[#333] uppercase tracking-wide">
                 {t('contact.email')}
               </Label>
               <Input
@@ -185,7 +185,7 @@ export function ContactPage() {
             </div>
 
             <div className="flex flex-col gap-1.5">
-              <Label htmlFor="contact-subject" className="text-[13px] font-bold text-[#333] uppercase tracking-wide">
+              <Label htmlFor="contact-subject" className="text-[15px] font-bold text-[#333] uppercase tracking-wide">
                 {t('contact.subject')}
               </Label>
               <Select
@@ -210,7 +210,7 @@ export function ContactPage() {
             </div>
 
             <div className="flex flex-col gap-1.5">
-              <Label htmlFor="contact-message" className="text-[13px] font-bold text-[#333] uppercase tracking-wide">
+              <Label htmlFor="contact-message" className="text-[15px] font-bold text-[#333] uppercase tracking-wide">
                 {t('contact.message')}
               </Label>
               <Textarea
@@ -227,7 +227,7 @@ export function ContactPage() {
             {/* Captcha placeholder — in production this would integrate Cloudflare Turnstile.
                 Without API keys, we render a decorative labelled box. */}
             <div
-              className="flex items-center gap-2 bg-[#f0eeea] border border-[#ccc] px-3 py-2.5 text-[12px] text-[#6b6b6b]"
+              className="flex items-center gap-2 bg-[#f0eeea] border border-[#ccc] px-3 py-2.5 text-[14px] text-[#6b6b6b]"
               aria-label={t('contact.captcha')}
             >
               <span className="w-4 h-4 inline-flex items-center justify-center bg-[#1e883f] text-white flex-shrink-0">
@@ -254,10 +254,10 @@ export function ContactPage() {
 
           {/* INFORMATIONS card column */}
           <aside className="bg-[#f0eeea] border border-[#e2e0dc] p-4 self-start">
-            <h3 className="text-[12px] font-bold text-[#333] uppercase tracking-wide mb-3">
+            <h3 className="text-[14px] font-bold text-[#333] uppercase tracking-wide mb-3">
               {t('contact.info_title')}
             </h3>
-            <div className="space-y-3 text-[13px] text-[#333]">
+            <div className="space-y-3 text-[15px] text-[#333]">
               {/* Location */}
               <div className="flex items-start gap-2">
                 <MapPin className="w-3.5 h-3.5 mt-0.5 flex-shrink-0 text-[#1a4fa0]" />

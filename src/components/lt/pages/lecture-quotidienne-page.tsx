@@ -58,20 +58,20 @@ export function LectureQuotidiennePage() {
             <h1 id="lec-title" className="text-[24px] sm:text-[28px] font-bold uppercase text-[#1a4fa0] tracking-tight">
               {t('lec.title')}
             </h1>
-            <p className="text-[13px] text-[#2d2d2d]/70 mt-0.5">{t('lec.intro')}</p>
+            <p className="text-[15px] text-[#2d2d2d]/70 mt-0.5">{t('lec.intro')}</p>
           </div>
           <div className="flex items-center gap-2">
             <button
               type="button"
               onClick={() => window.print()}
-              className="lt-btn-black !bg-[#1a4fa0] !text-white text-[11px] px-3 py-2 inline-flex items-center gap-1.5 hover:!bg-[#143d7a]"
+              className="lt-btn-black !bg-[#1a4fa0] !text-white text-[13px] px-3 py-2 inline-flex items-center gap-1.5 hover:!bg-[#143d7a]"
             >
               <Printer className="w-3.5 h-3.5" />
               {t('lec.print')}
             </button>
             <button
               type="button"
-              className="lt-btn-black !bg-[#1a4fa0] !text-white text-[11px] px-3 py-2 inline-flex items-center gap-1.5 hover:!bg-[#143d7a]"
+              className="lt-btn-black !bg-[#1a4fa0] !text-white text-[13px] px-3 py-2 inline-flex items-center gap-1.5 hover:!bg-[#143d7a]"
             >
               <Download className="w-3.5 h-3.5" />
               {t('lec.download')}
@@ -84,18 +84,18 @@ export function LectureQuotidiennePage() {
           <button
             type="button"
             onClick={goPrevDay}
-            className="inline-flex items-center gap-1 text-[12px] uppercase font-semibold text-[#1a4fa0] hover:text-[#143d7a]"
+            className="inline-flex items-center gap-1 text-[14px] uppercase font-semibold text-[#1a4fa0] hover:text-[#143d7a]"
           >
             <ChevronLeft className="w-4 h-4" />
             {t('lec.move_prev')}
           </button>
-          <span className="text-[12px] uppercase tracking-wide text-[#6b6b6b] font-semibold">
+          <span className="text-[14px] uppercase tracking-wide text-[#6b6b6b] font-semibold">
             {t('lec.date_label')}: <span className="text-[#1a4fa0]">{dateStr}</span>
           </span>
           <button
             type="button"
             onClick={goNextDay}
-            className="inline-flex items-center gap-1 text-[12px] uppercase font-semibold text-[#1a4fa0] hover:text-[#143d7a]"
+            className="inline-flex items-center gap-1 text-[14px] uppercase font-semibold text-[#1a4fa0] hover:text-[#143d7a]"
           >
             {t('lec.move_next')}
             <ChevronRight className="w-4 h-4" />
@@ -107,10 +107,10 @@ export function LectureQuotidiennePage() {
           {/* Poster header band (blue) */}
           <header className="bg-[#1a4fa0] text-white px-5 py-4 flex items-center justify-between gap-3">
             <div className="flex items-center gap-2.5">
-              <img src="/favicon.svg" alt="LitaBible" className="h-7 w-7" />
+              <img src="/logo-blue.png" alt="LitaBible" className="h-9 w-auto" />
               <div>
                 <p className="text-[16px] font-bold leading-tight">LitaBible</p>
-                <p className="text-[10px] uppercase tracking-wide text-white/70 leading-tight">
+                <p className="text-[12px] uppercase tracking-wide text-white/70 leading-tight">
                   {t('lec.title')}
                 </p>
               </div>
@@ -118,7 +118,7 @@ export function LectureQuotidiennePage() {
             <div className="text-right">
               <p className="text-[15px] font-bold leading-tight">{dateStr}</p>
               {dayInfo.liturgicalTime && (
-                <p className="text-[10px] uppercase tracking-wide text-white/70 leading-tight">
+                <p className="text-[12px] uppercase tracking-wide text-white/70 leading-tight">
                   {dayInfo.liturgicalTime}
                 </p>
               )}
@@ -130,7 +130,7 @@ export function LectureQuotidiennePage() {
             <LiturgicalBadge color={dayInfo.color} filled={dayInfo.colorFilled} size={18} />
             <div className="min-w-0">
               {dayInfo.liturgicalTime && (
-                <p className="text-[10px] uppercase tracking-wide text-[#6b6b6b] leading-tight mb-0.5">
+                <p className="text-[12px] uppercase tracking-wide text-[#6b6b6b] leading-tight mb-0.5">
                   {dayInfo.liturgicalTime}
                 </p>
               )}
@@ -138,7 +138,7 @@ export function LectureQuotidiennePage() {
                 {dayInfo.dayName}
               </p>
               {dayInfo.feast && dayInfo.feast !== dayInfo.dayName && (
-                <p className="text-[12px] text-[#2d2d2d] font-semibold leading-tight mt-0.5">
+                <p className="text-[14px] text-[#2d2d2d] font-semibold leading-tight mt-0.5">
                   {dayInfo.feast}
                 </p>
               )}
@@ -164,7 +164,7 @@ export function LectureQuotidiennePage() {
                 />
               ))
             ) : (
-              <p className="text-center text-[14px] text-[#6b6b6b] italic">
+              <p className="text-center text-[16px] text-[#6b6b6b] italic">
                 {t('lec.no_reading')}
               </p>
             )}
@@ -172,17 +172,17 @@ export function LectureQuotidiennePage() {
 
           {/* Poster footer band (yellow) */}
           <footer className="bg-[#1a4fa0] text-white px-5 py-2.5 flex items-center justify-between">
-            <span className="text-[11px] font-bold uppercase tracking-wide">
+            <span className="text-[13px] font-bold uppercase tracking-wide">
               LitaBible · {t('lec.title')}
             </span>
-            <span className="text-[10px] uppercase tracking-wide opacity-70">
+            <span className="text-[12px] uppercase tracking-wide opacity-70">
               {dateStr}
             </span>
           </footer>
         </article>
 
         {locale !== 'fr' && (
-          <p className="text-[11px] italic text-[#6b6b6b] text-center">
+          <p className="text-[13px] italic text-[#6b6b6b] text-center">
             {t('mass.french_note')}
           </p>
         )}
@@ -223,10 +223,10 @@ function ReadingBlock({
     return (
       <div className="border-l-4 border-[#1a4fa0] bg-[#1a4fa0]/10 px-4 py-3 text-center">
         {label && (
-          <p className="text-[10px] font-bold uppercase text-[#1a4fa0] mb-1">{label}</p>
+          <p className="text-[12px] font-bold uppercase text-[#1a4fa0] mb-1">{label}</p>
         )}
         {content?.map((p, i) => (
-          <p key={i} className="text-[14px] font-semibold italic text-[#1a4fa0]">
+          <p key={i} className="text-[16px] font-semibold italic text-[#1a4fa0]">
             {p}
           </p>
         ))}
@@ -238,18 +238,18 @@ function ReadingBlock({
   if (type === 'psaume') {
     return (
       <article>
-        <h4 className="text-[14px] font-bold uppercase text-[#1a4fa0] mb-0.5">{label}</h4>
-        {reference && <p className="text-[12px] font-bold text-[#2d2d2d] mb-2">{reference}</p>}
+        <h4 className="text-[16px] font-bold uppercase text-[#1a4fa0] mb-0.5">{label}</h4>
+        {reference && <p className="text-[14px] font-bold text-[#2d2d2d] mb-2">{reference}</p>}
         {refrain && (
-          <p className="font-bold text-[#2d2d2d] mb-2 text-[14px]">{refrain}</p>
+          <p className="font-bold text-[#2d2d2d] mb-2 text-[16px]">{refrain}</p>
         )}
         {strophes?.map((s, i) => (
-          <p key={i} className="mb-1.5 text-[14px] text-[#2d2d2d] leading-snug">
+          <p key={i} className="mb-1.5 text-[16px] text-[#2d2d2d] leading-snug">
             {s.number && <span className="font-bold mr-2 text-[#1a4fa0]">{s.number}</span>}
             {s.text}
           </p>
         ))}
-        {refrain && <p className="font-bold text-[#2d2d2d] mt-2 text-[14px]">{refrain}</p>}
+        {refrain && <p className="font-bold text-[#2d2d2d] mt-2 text-[16px]">{refrain}</p>}
       </article>
     )
   }
@@ -257,18 +257,18 @@ function ReadingBlock({
   // Standard reading / gospel
   return (
     <article>
-      <h4 className="text-[14px] font-bold uppercase text-[#1a4fa0] mb-0.5">{label}</h4>
+      <h4 className="text-[16px] font-bold uppercase text-[#1a4fa0] mb-0.5">{label}</h4>
       {(citation || reference) && (
-        <p className="text-[12px] font-bold text-[#2d2d2d] mb-1">{citation ?? reference}</p>
+        <p className="text-[14px] font-bold text-[#2d2d2d] mb-1">{citation ?? reference}</p>
       )}
-      {source && <p className="text-[12px] italic text-[#6b6b6b] mb-1.5">{source}</p>}
+      {source && <p className="text-[14px] italic text-[#6b6b6b] mb-1.5">{source}</p>}
       {content?.map((p, i) => (
-        <p key={i} className="mb-1.5 text-[14px] text-[#2d2d2d] leading-relaxed">
+        <p key={i} className="mb-1.5 text-[16px] text-[#2d2d2d] leading-relaxed">
           {p}
         </p>
       ))}
       {conclusion && (
-        <p className="font-semibold text-[#1a4fa0] mt-1 text-[14px]">
+        <p className="font-semibold text-[#1a4fa0] mt-1 text-[16px]">
           {localizedConclusion(conclusion, locale)}
         </p>
       )}
