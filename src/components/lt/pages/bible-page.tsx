@@ -11,7 +11,6 @@ import {
 } from '@/data/bible-books'
 import type { BibleBook } from '@/data/types'
 import type {
-  BibleVersion,
   ChapterResult,
   SearchResult,
 } from '@/lib/bible-api'
@@ -38,9 +37,36 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { Skeleton } from '@/components/ui/skeleton'
-import { AlertCircle, ChevronLeft, ChevronRight, Maximize2, Minimize2 } from 'lucide-react'
+import { AlertCircle, BookOpen, ChevronLeft, ChevronRight, Headphones, Maximize2, Minimize2 } from 'lucide-react'
+import { AudioPlayerView, LanguagesPanel, LANGUAGE_NAMES, LANGUAGE_ORDER, type AudioInfo } from '@/components/lt/bible-audio'
 
-const DEFAULT_VERSION_ID = 'BSB'
+const DEFAULT_VERSION_ID = 'LSG'
+const DEFAULT_AUDIO_ID = 'BSB-SOUER'
+
+/** Public shape of a text version (provider ids stay server-side). */
+interface VersionInfo {
+  id: string
+  name: string
+  language: string
+  ntOnly?: boolean
+}
+
+type BibleMode = 'text' | 'audio'
+
+function readPref(key: string, fallback: string): string {
+  try {
+    return window.localStorage.getItem(key) || fallback
+  } catch {
+    return fallback
+  }
+}
+function writePref(key: string, value: string) {
+  try {
+    window.localStorage.setItem(key, value)
+  } catch {
+    /* storage unavailable — ignore */
+  }
+}
 
 const TABS: { id: 'at' | 'nt' | 'psaumes'; labelKey: string }[] = [
   { id: 'at', labelKey: 'bible.at' },
@@ -55,8 +81,11 @@ function booksForTab(tab: 'at' | 'nt' | 'psaumes'): BibleBook[] {
 }
 
 interface VersionListResponse {
-  versions: BibleVersion[]
-  languages: Record<BibleVersion['language'], BibleVersion[]>
+  versions: VersionInfo[]
+}
+
+interface AudioListResponse {
+  audios: AudioInfo[]
 }
 
 interface SearchResponse {
@@ -90,9 +119,36 @@ export function BiblePage() {
   const locale = useLitabibleStore((s) => s.locale)
   const { t } = useT()
 
+  // Mode: text reading or audio listening
+  const [mode, setModeState] = useState<BibleMode>('text')
+
   // Version selector state
-  const [versions, setVersions] = useState<BibleVersion[]>([])
-  const [version, setVersion] = useState<string>(DEFAULT_VERSION_ID)
+  const [versions, setVersions] = useState<VersionInfo[]>([])
+  const [version, setVersionState] = useState<string>(DEFAULT_VERSION_ID)
+
+  // Audio selector state
+  const [audios, setAudios] = useState<AudioInfo[]>([])
+  const [audioId, setAudioIdState] = useState<string>(DEFAULT_AUDIO_ID)
+
+  // Restore saved preferences (client only).
+  useEffect(() => {
+    setModeState(readPref('lt.bible.mode', 'text') === 'audio' ? 'audio' : 'text')
+    setVersionState(readPref('lt.bible.version', DEFAULT_VERSION_ID))
+    setAudioIdState(readPref('lt.bible.audio', DEFAULT_AUDIO_ID))
+  }, [])
+
+  const setMode = useCallback((m: BibleMode) => {
+    setModeState(m)
+    writePref('lt.bible.mode', m)
+  }, [])
+  const setVersion = useCallback((v: string) => {
+    setVersionState(v)
+    writePref('lt.bible.version', v)
+  }, [])
+  const setAudioId = useCallback((a: string) => {
+    setAudioIdState(a)
+    writePref('lt.bible.audio', a)
+  }, [])
 
   // Search state — `null` means "show the book list" mode
   const [searchQuery, setSearchQuery] = useState<string | null>(null)
@@ -124,6 +180,15 @@ export function BiblePage() {
       })
       .catch(() => {
         // Silent fallback — keep the default version selector.
+      })
+    fetch('/api/bible/audio/versions', { signal: ctrl.signal })
+      .then((r) => r.json() as Promise<AudioListResponse>)
+      .then((data) => {
+        if (cancelled) return
+        if (Array.isArray(data.audios) && data.audios.length > 0) setAudios(data.audios)
+      })
+      .catch(() => {
+        /* audio list unavailable */
       })
     return () => {
       cancelled = true
@@ -181,6 +246,14 @@ export function BiblePage() {
     (book: BibleBook, chapter: number, versionOverride?: string) => {
       // Abort any previous in-flight chapter fetch.
       chapterAbortRef.current?.abort()
+      if (mode === 'audio') {
+        // The audio view loads its own data.
+        setDialogChapter(chapter)
+        setChapterLoading(false)
+        setChapterError(null)
+        setChapterData(null)
+        return
+      }
       const ctrl = new AbortController()
       chapterAbortRef.current = ctrl
 
@@ -199,8 +272,13 @@ export function BiblePage() {
         .then(async (r) => {
           if (!r.ok) {
             const body = (await r.json().catch(() => null)) as ChapterErrorBody | null
+            const code = body?.error
             throw new Error(
-              body?.error ?? t('bible.error_fetch'),
+              code === 'nt_only'
+                ? t('bible.nt_only')
+                : code === 'unavailable'
+                  ? t('bible.chapter_unavailable')
+                  : code ?? t('bible.error_fetch'),
             )
           }
           return (await r.json()) as ChapterResult
@@ -219,7 +297,7 @@ export function BiblePage() {
           if (!ctrl.signal.aborted) setChapterLoading(false)
         })
     },
-    [version, t],
+    [version, t, mode],
   )
 
   const handleBookClick = useCallback(
@@ -265,13 +343,20 @@ export function BiblePage() {
 
   // Group versions by language for the Select dropdown.
   const groupedVersions = versions.length
-    ? (['fr', 'en', 'es'] as const)
+    ? LANGUAGE_ORDER
         .map((lang) => ({
           lang,
           items: versions.filter((v) => v.language === lang),
         }))
         .filter((g) => g.items.length > 0)
-    : [{ lang: 'en' as const, items: [{ id: DEFAULT_VERSION_ID, name: 'Berean Standard Bible', language: 'en' as const, apiBibleId: 'bba9f40183526463-01' }] }]
+    : [{ lang: 'fr', items: [{ id: DEFAULT_VERSION_ID, name: 'Louis Segond 1910', language: 'fr' }] }]
+
+  const groupedAudios = audios.length
+    ? LANGUAGE_ORDER
+        .map((lang) => ({ lang, items: audios.filter((a) => a.language === lang) }))
+        .filter((g) => g.items.length > 0)
+    : [{ lang: 'en', items: [{ id: DEFAULT_AUDIO_ID, name: 'Berean Standard Bible', narrator: 'Souer', language: 'en' }] as AudioInfo[] }]
+  const currentAudio = audios.find((a) => a.id === audioId)
 
   const currentBook = dialogBook
   const currentChapter = dialogChapter
@@ -285,10 +370,45 @@ export function BiblePage() {
   return (
     <section aria-label={t('bible.title')} className="w-full">
       <div className="bg-white border border-[#e2e0dc] p-4 sm:p-6 mb-4">
-        <h1 className="text-[21px] font-semibold uppercase text-[#333] mb-3 tracking-tight">
-          {t('bible.title')}
-        </h1>
-        <BibleSearchBar onSearch={runSearch} />
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-3">
+          <h1 className="text-[21px] font-semibold uppercase text-[#333] tracking-tight">
+            {t('bible.title')}
+          </h1>
+          <div
+            role="tablist"
+            aria-label={t('bible.mode_label')}
+            className="inline-flex border border-[#1a4fa0] self-start"
+          >
+            {([
+              { id: 'text', label: t('bible.mode_text'), Icon: BookOpen },
+              { id: 'audio', label: t('bible.mode_audio'), Icon: Headphones },
+            ] as const).map(({ id, label, Icon }) => (
+              <button
+                key={id}
+                type="button"
+                role="tab"
+                aria-selected={mode === id}
+                onClick={() => setMode(id)}
+                className={
+                  'inline-flex items-center gap-2 px-4 py-2 text-[12px] font-bold uppercase tracking-wide transition-colors ' +
+                  (mode === id
+                    ? 'bg-[#1a4fa0] text-white'
+                    : 'bg-white text-[#1a4fa0] hover:bg-[#eef3fb]')
+                }
+              >
+                <Icon className="w-4 h-4" aria-hidden />
+                {label}
+              </button>
+            ))}
+          </div>
+        </div>
+        {mode === 'text' ? (
+          <BibleSearchBar onSearch={runSearch} />
+        ) : (
+          <p className="text-[13px] text-[#555] leading-relaxed">
+            {t('bible.audio_intro')}
+          </p>
+        )}
       </div>
 
       <div className="flex flex-col lg:flex-row gap-4">
@@ -314,6 +434,8 @@ export function BiblePage() {
                 ))}
               </nav>
               <div className="flex items-center gap-2 px-3 py-2 sm:py-1.5 border-t sm:border-t-0 sm:border-l border-[#e2e0dc]">
+                {mode === 'text' ? (
+                  <>
                 <label
                   htmlFor="bible-version-select"
                   className="text-[11px] uppercase tracking-wide text-[#6b6b6b] font-semibold"
@@ -331,7 +453,7 @@ export function BiblePage() {
                   <SelectContent className="rounded-none">
                     {groupedVersions.map((g) => (
                       <SelectGroup key={g.lang}>
-                        <SelectLabel>{t(`bible.lang.${g.lang}`)}</SelectLabel>
+                        <SelectLabel>{LANGUAGE_NAMES[g.lang] ?? g.lang}</SelectLabel>
                         {g.items.map((v) => (
                           <SelectItem key={v.id} value={v.id}>
                             {v.name}
@@ -341,12 +463,44 @@ export function BiblePage() {
                     ))}
                   </SelectContent>
                 </Select>
+                  </>
+                ) : (
+                  <>
+                <label
+                  htmlFor="bible-audio-select"
+                  className="text-[11px] uppercase tracking-wide text-[#6b6b6b] font-semibold"
+                >
+                  {t('bible.audio_version')}
+                </label>
+                <Select value={audioId} onValueChange={setAudioId}>
+                  <SelectTrigger
+                    id="bible-audio-select"
+                    size="sm"
+                    className="h-8 rounded-none border-[#ccc] text-[12px] min-w-[200px]"
+                  >
+                    <SelectValue placeholder={t('bible.audio_version')} />
+                  </SelectTrigger>
+                  <SelectContent className="rounded-none max-h-[320px]">
+                    {groupedAudios.map((g) => (
+                      <SelectGroup key={g.lang}>
+                        <SelectLabel>{LANGUAGE_NAMES[g.lang] ?? g.lang}</SelectLabel>
+                        {g.items.map((a) => (
+                          <SelectItem key={a.id} value={a.id}>
+                            {a.name}{a.narrator ? ` — ${a.narrator}` : ''}
+                          </SelectItem>
+                        ))}
+                      </SelectGroup>
+                    ))}
+                  </SelectContent>
+                </Select>
+                  </>
+                )}
               </div>
             </div>
 
             {/* Content area */}
             <div className="p-4 sm:p-5">
-              {searchQuery !== null ? (
+              {mode === 'text' && searchQuery !== null ? (
                 <SearchResultsView
                   query={searchQuery}
                   results={searchResults}
@@ -362,6 +516,12 @@ export function BiblePage() {
               )}
             </div>
           </div>
+          <LanguagesPanel
+            versions={versions}
+            audios={audios}
+            onPickText={(id) => { setMode('text'); setVersion(id) }}
+            onPickAudio={(id) => { setMode('audio'); setAudioId(id) }}
+          />
         </div>
 
         {/* Right promo column */}
@@ -433,6 +593,17 @@ export function BiblePage() {
                       )}
                     </div>
                   </div>
+                ) : mode === 'audio' ? (
+                  <AudioPlayerView
+                    key={`${audioId}:${currentBook.id}:${currentChapter}`}
+                    audio={currentAudio ?? groupedAudios[0].items[0]}
+                    book={currentBook}
+                    chapter={currentChapter}
+                    maximized={maximized}
+                    onBack={backToChapterPicker}
+                    onPrev={canPrevChapter ? () => loadChapter(currentBook, currentChapter - 1) : undefined}
+                    onNext={canNextChapter ? () => loadChapter(currentBook, currentChapter + 1) : undefined}
+                  />
                 ) : chapterLoading ? (
                   // Loading skeleton
                   <div className="flex-1 overflow-y-auto lt-scroll p-5 space-y-3">
@@ -492,7 +663,7 @@ export function BiblePage() {
                           <SelectContent className="rounded-none max-h-[280px]">
                             {groupedVersions.map((g) => (
                               <SelectGroup key={g.lang}>
-                                <SelectLabel>{t(`bible.lang.${g.lang}`)}</SelectLabel>
+                                <SelectLabel>{LANGUAGE_NAMES[g.lang] ?? g.lang}</SelectLabel>
                                 {g.items.map((vv) => (
                                   <SelectItem key={vv.id} value={vv.id}>
                                     {vv.name}
