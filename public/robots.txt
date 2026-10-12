@@ -12,3 +12,7 @@ Allow: /
 
 User-agent: *
 Allow: /
+Disallow: /api/
+
+Sitemap: https://www.litabible.com/sitemap.xml
+Host: https://www.litabible.com
