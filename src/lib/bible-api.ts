@@ -1,10 +1,14 @@
 /**
  * Bible API client.
  *
- * Primary source: api.bible (https://rest.api.bible/v1) — a rich, key-protected
- * catalogue covering English, French and Spanish Bible versions.
- * Fallbacks: bolls.life, then bible-api.com, then the local public-domain
- * text in src/data/bible-text-fallback.ts.
+ * Sources (tried in order, per version):
+ *   1. YouVersion Platform (https://api.youversion.com/v1) — French LSG/OST,
+ *      Malinké (Sankaran)… Requires YOUVERSION_APP_KEY (env).
+ *   2. api.bible (https://rest.api.bible/v1) — English, German, Spanish, Twi,
+ *      Ewe, Yoruba, Igbo, Hausa…
+ *   3. Free Use Bible API (https://bible.helloao.org) — no key; Wolof, French…
+ *   4. bolls.life, then bible-api.com, then the local public-domain text in
+ *      src/data/bible-text-fallback.ts.
  *
  * This module is imported ONLY by server-side route handlers (the client
  * Bible page uses `import type {…}` which is erased at build time, so the
@@ -21,6 +25,12 @@ import { bookNames } from '@/data/bible-books'
 const BIBLE_API_KEY = process.env.BIBLE_API_KEY || 'phTaCXXUQwJS07WqoxL9f'
 const API_BIBLE_BASE = 'https://rest.api.bible/v1'
 
+/** YouVersion Platform App Key — set YOUVERSION_APP_KEY in Vercel. */
+const YOUVERSION_APP_KEY = process.env.YOUVERSION_APP_KEY || ''
+const YOUVERSION_BASE = 'https://api.youversion.com/v1'
+
+const HELLOAO_BASE = 'https://bible.helloao.org/api'
+
 const BOLLS_BASE = 'https://bible-api.bolls.life'
 const BIBLE_API_BASE = 'https://bible-api.com'
 const DEFAULT_TIMEOUT_MS = 12_000
@@ -29,7 +39,29 @@ const DEFAULT_TIMEOUT_MS = 12_000
 // Types
 // ---------------------------------------------------------------------------
 
-export type BibleLanguage = 'en' | 'fr' | 'es'
+export type BibleLanguage =
+  | 'fr' | 'en' | 'es' | 'de'
+  | 'tw' | 'ee' | 'yo' | 'ig' | 'ha' | 'wo' | 'msc'
+
+/** Display order of languages in selectors (French first: primary audience). */
+export const BIBLE_LANGUAGE_ORDER: BibleLanguage[] = [
+  'fr', 'en', 'es', 'de', 'tw', 'ee', 'yo', 'ig', 'ha', 'wo', 'msc',
+]
+
+/** Native / display names for each language. */
+export const BIBLE_LANGUAGE_NAMES: Record<BibleLanguage, string> = {
+  fr: 'Français',
+  en: 'English',
+  es: 'Español',
+  de: 'Deutsch',
+  tw: 'Twi (Akan)',
+  ee: 'Eʋegbe (Ewe)',
+  yo: 'Yorùbá',
+  ig: 'Igbo',
+  ha: 'Hausa',
+  wo: 'Wolof',
+  msc: 'Malinké (Sankaran)',
+}
 
 export interface BibleVersion {
   /** Short code shown to the user, e.g. "BSB", "KJV", "JND", "RVR09". */
@@ -37,8 +69,14 @@ export interface BibleVersion {
   /** Display name, e.g. "Berean Standard Bible". */
   name: string
   language: BibleLanguage
-  /** api.bible bibleId (the canonical version id on api.bible). */
+  /** api.bible bibleId (empty when the version is not on api.bible). */
   apiBibleId: string
+  /** YouVersion Platform version id (integer). */
+  youversionId?: number
+  /** Free Use Bible API (bible.helloao.org) translation id. */
+  helloaoId?: string
+  /** True when only the New Testament is available. */
+  ntOnly?: boolean
   /** Optional bolls.life translation code (fallback). */
   bollsCode?: string
   /** Optional bible-api.com translation code (fallback). */
@@ -71,24 +109,48 @@ export interface SearchResult {
 // ---------------------------------------------------------------------------
 
 export const bibleVersions: BibleVersion[] = [
-  // --- English (api.bible) ---
-  { id: 'BSB', name: 'Berean Standard Bible', language: 'en', apiBibleId: 'bba9f40183526463-01', bollsCode: 'BSB' },
-  { id: 'KJV', name: 'King James Version', language: 'en', apiBibleId: 'de4e12af7f28f599-01', bollsCode: 'KJV', bibleApiCode: 'kjv' },
-  { id: 'WEB', name: 'World English Bible', language: 'en', apiBibleId: '9879dbb7cfe39e4d-01', bollsCode: 'WEB', bibleApiCode: 'web' },
+  // --- Français ---
+  { id: 'LSG', name: 'Louis Segond 1910', language: 'fr', apiBibleId: '', youversionId: 93, helloaoId: 'fra_lsg' },
+  { id: 'OST', name: 'Ostervald', language: 'fr', apiBibleId: '', youversionId: 131, helloaoId: 'fra_ost' },
+  { id: 'JND', name: 'Bible J.N. Darby', language: 'fr', apiBibleId: 'a93a92589195411f-01', youversionId: 64, helloaoId: 'fra_jnd', bollsCode: 'JND' },
+  // --- English ---
+  { id: 'BSB', name: 'Berean Standard Bible', language: 'en', apiBibleId: 'bba9f40183526463-01', helloaoId: 'BSB', bollsCode: 'BSB' },
+  { id: 'KJV', name: 'King James Version', language: 'en', apiBibleId: 'de4e12af7f28f599-01', helloaoId: 'eng_kjv', bollsCode: 'KJV', bibleApiCode: 'kjv' },
+  { id: 'WEB', name: 'World English Bible', language: 'en', apiBibleId: '9879dbb7cfe39e4d-01', helloaoId: 'ENGWEBP', bollsCode: 'WEB', bibleApiCode: 'web' },
   { id: 'ASV', name: 'American Standard Version', language: 'en', apiBibleId: '06125adad2d5898a-01', bollsCode: 'ASV' },
   { id: 'NASB', name: 'New American Standard Bible 1995', language: 'en', apiBibleId: 'b8ee27bcd1cae43a-01', bollsCode: 'NASB' },
   { id: 'NKJV', name: 'New King James Version', language: 'en', apiBibleId: '63097d2a0a2f7db3-01', bollsCode: 'NKJV' },
   { id: 'NIV', name: 'New International Version 2011', language: 'en', apiBibleId: '78a9f6124f344018-01', bollsCode: 'NIV' },
-  // --- French (api.bible) ---
-  { id: 'JND', name: 'Bible J.N. Darby (français)', language: 'fr', apiBibleId: 'a93a92589195411f-01', bollsCode: 'JND' },
-  // --- Spanish (api.bible) ---
-  { id: 'RVR09', name: 'Reina Valera 1909 (español)', language: 'es', apiBibleId: '592420522e16049f-01', bollsCode: 'RVR1960' },
+  // --- Español ---
+  { id: 'RVR09', name: 'Reina Valera 1909', language: 'es', apiBibleId: '592420522e16049f-01', helloaoId: 'spa_r09', bollsCode: 'RVR1960' },
+  { id: 'RVES', name: 'Reina Valera Gómez', language: 'es', apiBibleId: '', youversionId: 147, helloaoId: 'spa_rvg' },
+  { id: 'BES', name: 'La Biblia en Español Sencillo', language: 'es', apiBibleId: 'b32b9d1b64b4ef29-01', helloaoId: 'spa_bes' },
+  // --- Deutsch ---
+  { id: 'L1912', name: 'Luther Bibel 1912', language: 'de', apiBibleId: '926aa5efbc5e04e2-01', youversionId: 51, helloaoId: 'deu_l12' },
+  { id: 'ELB', name: 'Elberfelder Bibel', language: 'de', apiBibleId: '95410db44ef800c1-01', youversionId: 57, helloaoId: 'deu_elo' },
+  { id: 'SCH51', name: 'Schlachter Bibel 1951', language: 'de', apiBibleId: '', helloaoId: 'deu_sch' },
+  // --- Twi ---
+  { id: 'AKCB', name: 'Akuapem Twi Contemporary Bible', language: 'tw', apiBibleId: 'b6aee081108c0bc6-01', helloaoId: 'twi_aka' },
+  { id: 'ASCB', name: 'Asante Twi Contemporary Bible', language: 'tw', apiBibleId: '18f6cf27f7b43297-01', helloaoId: 'twi_asa' },
+  // --- Ewe ---
+  { id: 'ECS', name: 'Ewe Contemporary Scriptures', language: 'ee', apiBibleId: 'ac90bfebd4ee9c4d-01', helloaoId: 'ewe_bib' },
+  // --- Yoruba ---
+  { id: 'BMYO', name: 'Bíbélì Mímọ́ Yorùbá Òde Òní', language: 'yo', apiBibleId: 'b8d1feac6e94bd74-01', helloaoId: 'yor_bib' },
+  // --- Igbo ---
+  { id: 'ICB', name: 'Igbo Contemporary Bible', language: 'ig', apiBibleId: 'a36fc06b086699f1-02', helloaoId: 'ibo_bib' },
+  // --- Hausa ---
+  { id: 'HCB', name: 'Hausa Contemporary Bible', language: 'ha', apiBibleId: '0ab0c764d56a715d-01' },
+  // --- Wolof ---
+  { id: 'WOLMBS', name: 'Kàddug Yàlla (Bible Wolof)', language: 'wo', apiBibleId: '', helloaoId: 'wol_mbs' },
+  { id: 'WOLNT', name: 'Injiil (Nouveau Testament Wolof)', language: 'wo', apiBibleId: '', helloaoId: 'wol_inj', ntOnly: true },
+  // --- Malinké (Sankaran) ---
+  { id: 'GHBS', name: "Alla ka Kitabu (Malinké de Sankaran)", language: 'msc', apiBibleId: '', youversionId: 1555 },
 ]
 
 export function getBibleVersion(id: string): BibleVersion | undefined {
   const lower = id.toLowerCase()
   return bibleVersions.find(
-    (v) => v.id.toLowerCase() === lower || v.apiBibleId.toLowerCase() === lower,
+    (v) => v.id.toLowerCase() === lower || (!!v.apiBibleId && v.apiBibleId.toLowerCase() === lower),
   )
 }
 
@@ -381,6 +443,101 @@ async function searchApiBible(
 }
 
 // ---------------------------------------------------------------------------
+// YouVersion Platform
+// ---------------------------------------------------------------------------
+
+function decodeEntities(s: string): string {
+  return s
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;|&apos;/g, "'")
+    .replace(/&#(\d+);/g, (_, n) => String.fromCharCode(Number(n)))
+}
+
+/** Parse YouVersion passage HTML (`<span class="yv-v" v="N"></span>` markers). */
+function parseYouVersionHtml(html: string): Verse[] {
+  if (!html) return []
+  // Drop footnotes / cross-references entirely.
+  const cleaned = html
+    .replace(/<span[^>]*class="[^"]*(?:yv-n|note|f\b|x\b)[^"]*"[^>]*>[\s\S]*?<\/span>/g, ' ')
+    .replace(/<span class="yv-vlbl">[^<]*<\/span>/g, ' ')
+  const parts = cleaned.split(/<span[^>]*class="yv-v"[^>]*\bv="(\d+)"[^>]*><\/span>/)
+  const verses: Verse[] = []
+  for (let i = 1; i + 1 < parts.length; i += 2) {
+    const n = parseInt(parts[i], 10)
+    const text = decodeEntities(parts[i + 1].replace(/<[^>]+>/g, ' '))
+      .replace(/\s+/g, ' ')
+      .trim()
+    if (Number.isFinite(n) && n >= 1 && text) {
+      const prev = verses.find((v) => v.verse === n)
+      if (prev) prev.text = `${prev.text} ${text}`
+      else verses.push({ verse: n, text })
+    }
+  }
+  return verses
+}
+
+async function fetchYouVersionChapter(
+  version: BibleVersion,
+  bookId: number,
+  chapter: number,
+): Promise<Verse[]> {
+  if (!version.youversionId || !YOUVERSION_APP_KEY) return []
+  const code = bookIdToAbl(bookId)
+  if (!code) return []
+  const url = `${YOUVERSION_BASE}/bibles/${version.youversionId}/passages/${encodeURIComponent(`${code}.${chapter}`)}?format=html`
+  try {
+    const res = await fetchWithTimeout(url, { headers: { 'X-YVP-App-Key': YOUVERSION_APP_KEY } })
+    if (!res.ok) return []
+    const json = (await res.json()) as { content?: string }
+    return parseYouVersionHtml(json?.content ?? '')
+  } catch {
+    return []
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Free Use Bible API (bible.helloao.org) — no key required
+// ---------------------------------------------------------------------------
+
+type HelloAoPart = string | { text?: string; noteId?: number; lineBreak?: boolean; heading?: string }
+
+async function fetchHelloAoChapter(
+  version: BibleVersion,
+  bookId: number,
+  chapter: number,
+): Promise<Verse[]> {
+  if (!version.helloaoId) return []
+  const code = bookIdToAbl(bookId)
+  if (!code) return []
+  const url = `${HELLOAO_BASE}/${encodeURIComponent(version.helloaoId)}/${code}/${chapter}.json`
+  try {
+    const res = await fetchWithTimeout(url)
+    if (!res.ok) return []
+    const json = (await res.json()) as {
+      chapter?: { content?: Array<{ type?: string; number?: number; content?: HelloAoPart[] }> }
+    }
+    const items = json?.chapter?.content ?? []
+    const verses: Verse[] = []
+    for (const item of items) {
+      if (item?.type !== 'verse' || typeof item.number !== 'number') continue
+      const text = (item.content ?? [])
+        .map((p) => (typeof p === 'string' ? p : p?.text ?? ''))
+        .join(' ')
+        .replace(/\s+/g, ' ')
+        .trim()
+      if (text) verses.push({ verse: item.number, text })
+    }
+    return verses
+  } catch {
+    return []
+  }
+}
+
+// ---------------------------------------------------------------------------
 // Fallbacks: bolls.life + bible-api.com
 // ---------------------------------------------------------------------------
 
@@ -445,19 +602,31 @@ export async function getChapter(
   }
   if (!bookId) return base
 
-  // 1. Primary — api.bible.
+  // 1. YouVersion Platform.
+  const yvVerses = await fetchYouVersionChapter(version, bookId, safeChapter)
+  if (yvVerses.length > 0) {
+    return { ...base, verses: yvVerses, source: 'YouVersion' }
+  }
+
+  // 2. api.bible.
   const apiVerses = await fetchApiBibleChapter(version, bookId, safeChapter)
   if (apiVerses.length > 0) {
     return { ...base, verses: apiVerses, source: 'api.bible' }
   }
 
-  // 2. Fallback — bolls.life.
+  // 3. Free Use Bible API (helloao).
+  const aoVerses = await fetchHelloAoChapter(version, bookId, safeChapter)
+  if (aoVerses.length > 0) {
+    return { ...base, verses: aoVerses, source: 'bible.helloao.org' }
+  }
+
+  // 4. Fallback — bolls.life.
   if (version.bollsCode) {
     const bolls = await fetchBollsChapter(version.bollsCode, bookId, safeChapter)
     if (bolls.length > 0) return { ...base, verses: bolls, source: 'bolls' }
   }
 
-  // 3. Fallback — bible-api.com.
+  // 5. Fallback — bible-api.com.
   if (version.bibleApiCode) {
     const fallback = await fetchBibleApiChapter(`${canonicalName} ${safeChapter}`, version.bibleApiCode)
     if (fallback.length > 0) return { ...base, verses: fallback, source: 'bible-api' }
@@ -483,7 +652,8 @@ export async function searchBible(
   const apiResults = await searchApiBible(version, cleaned, count)
   if (apiResults.length > 0) return apiResults
 
-  // 2. bolls.life.
+  // 2. bolls.life (only for versions that exist there).
+  if (!version.bollsCode) return []
   const url = `${BOLLS_BASE}/v2/search/${encodeURIComponent(version.bollsCode || version.id)}/${encodeURIComponent(cleaned)}/${count}/`
   try {
     const res = await fetchWithTimeout(url)
