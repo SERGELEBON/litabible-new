@@ -1,28 +1,21 @@
 import { NextResponse } from "next/server";
-import { bibleVersions } from "@/lib/bible-api";
+import { bibleVersions, BIBLE_LANGUAGE_ORDER, BIBLE_LANGUAGE_NAMES } from "@/lib/bible-api";
 
 /**
  * GET /api/bible/versions
  *
- * Static list of supported Bible versions, grouped by language. Frontend uses
- * this to populate the version selector on the LA BIBLE tab.
+ * Public list of supported Bible text versions, grouped by language. Provider
+ * ids (api.bible / YouVersion / helloao) stay server-side.
  */
 export async function GET() {
+  const versions = bibleVersions.map(({ id, name, language, ntOnly }) => ({
+    id, name, language, ntOnly: !!ntOnly,
+  }));
+  const languages = Object.fromEntries(
+    BIBLE_LANGUAGE_ORDER.map((l) => [l, versions.filter((v) => v.language === l)])
+  );
   return NextResponse.json(
-    {
-      versions: bibleVersions,
-      languages: {
-        fr: bibleVersions.filter((v) => v.language === "fr"),
-        en: bibleVersions.filter((v) => v.language === "en"),
-        es: bibleVersions.filter((v) => v.language === "es"),
-      },
-    },
-    {
-      status: 200,
-      headers: {
-        // Pure static — cache for a long time.
-        "Cache-Control": "public, max-age=86400, s-maxage=604800",
-      },
-    }
+    { versions, languages, languageNames: BIBLE_LANGUAGE_NAMES, languageOrder: BIBLE_LANGUAGE_ORDER },
+    { status: 200, headers: { "Cache-Control": "public, max-age=3600, s-maxage=86400" } }
   );
 }
