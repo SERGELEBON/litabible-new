@@ -24,7 +24,6 @@ type Dict = Record<string, string>
 const en: Dict = {
   // --- nav ---
   'nav.messe': 'My network',
-  'nav.heures': 'The hours',
   'nav.bible': 'The Bible',
   'nav.apropos': 'About',
   'nav.rdv': 'Sunday meeting',
@@ -59,7 +58,7 @@ const en: Dict = {
   'header.subscribe_line2': 'for free by email',
   'header.subscribe_btn': 'Subscribe',
   'header.sub_dialog_title': 'Receive the daily readings',
-  'header.sub_dialog_desc': 'Enter your email to receive each morning the texts of the teaching and of the office.',
+  'header.sub_dialog_desc': 'Enter your email to receive each morning the texts of the day’s teaching.',
   'header.sub_email_label': 'Email',
   'header.sub_email_ph': 'you@example.com',
   'header.sub_cancel': 'Cancel',
@@ -135,24 +134,11 @@ const en: Dict = {
   'concl.acclamons': '– Let us acclaim the Word of God.',
   'concl.louange': '– Praise to you, Lord.',
 
-  // --- hours page ---
-  'hours.title': 'OFFICE OF READINGS',
-  'hours.lectures_bar': 'Office readings',
-  'hours.tab.lectures': 'Readings',
-  'hours.tab.laudes': 'Lauds',
-  'hours.tab.tierce': 'Terce',
-  'hours.tab.sexte': 'Sext',
-  'hours.tab.none': 'None',
-  'hours.tab.vepres': 'Vespers',
-  'hours.tab.complies': 'Compline',
-  'hours.french_note':
-    'The Office uses the French text (Louis Segond). Use the Bible page for English/Spanish Scripture.',
 
   // --- bible page ---
   'bible.title': 'The Bible',
   'bible.at': 'Old Testament',
   'bible.nt': 'New Testament',
-  'bible.psaumes': 'Psalms',
   'bible.version': 'Version',
   'bible.book_list': 'Book list',
   'bible.chapters_label': 'ch.',
@@ -240,7 +226,7 @@ const en: Dict = {
   'videos.podcasts': 'PODCASTS',
   'videos.listen': 'Listen',
   'videos.intro':
-    'Discover LitaBible’s activity in a few videos: continuous reading of the Bible, presentation of the daily readings, the Book of Hours, the seasons of the year, and much more.',
+    'Discover LitaBible’s activity in a few videos: continuous reading of the Bible, presentation of the daily readings, Bible summaries, the seasons of the year, and much more.',
   'podcasts.intro':
     'Listen to meditations, interviews and talks on the Bible, the daily readings and the seasons of the year, in partnership with LitaBible’s editors.',
   'videos.subnav_aria': 'Videos & Podcasts',
@@ -363,7 +349,6 @@ const en: Dict = {
 
 const fr: Dict = {
   'nav.messe': 'Mon réseau',
-  'nav.heures': 'Les heures',
   'nav.bible': 'La Bible',
   'nav.apropos': 'À PROPOS',
   'nav.rdv': 'RDV du dimanche',
@@ -398,7 +383,7 @@ const fr: Dict = {
   'header.subscribe_btn': "S'abonner",
   'header.sub_dialog_title': 'Recevoir les lectures du jour',
   'header.sub_dialog_desc':
-    'Inscrivez votre courriel pour recevoir chaque matin les textes de l’enseignement et de l’office.',
+    'Inscrivez votre courriel pour recevoir chaque matin les textes de l’enseignement du jour.',
   'header.sub_email_label': 'Courriel',
   'header.sub_email_ph': 'vous@exemple.fr',
   'header.sub_cancel': 'Annuler',
@@ -473,22 +458,10 @@ const fr: Dict = {
   'concl.acclamons': '– Acclamons la Parole de Dieu.',
   'concl.louange': '– Louange à toi, Seigneur.',
 
-  'hours.title': 'OFFICE DES LECTURES',
-  'hours.lectures_bar': "Lectures de l'office",
-  'hours.tab.lectures': 'Lectures',
-  'hours.tab.laudes': 'Laudes',
-  'hours.tab.tierce': 'Tierce',
-  'hours.tab.sexte': 'Sexte',
-  'hours.tab.none': 'None',
-  'hours.tab.vepres': 'Vêpres',
-  'hours.tab.complies': 'Complies',
-  'hours.french_note':
-    "L'Office utilise le texte français (Louis Segond). Utilisez la page Bible pour les textes en anglais/espagnol.",
 
   'bible.title': 'La Bible',
   'bible.at': 'Ancien Testament',
   'bible.nt': 'Nouveau Testament',
-  'bible.psaumes': 'Psaumes',
   'bible.version': 'Version',
   'bible.book_list': 'Liste des livres',
   'bible.chapters_label': 'ch.',
@@ -574,7 +547,7 @@ const fr: Dict = {
   'videos.podcasts': 'PODCASTS',
   'videos.listen': 'Écouter',
   'videos.intro':
-    "Découvrez en quelques vidéos l’activité de LitaBible : lecture suivie de la Bible, présentation des lectures du jour, du Livre des heures, des temps de l’année, et bien plus encore.",
+    "Découvrez en quelques vidéos l’activité de LitaBible : lecture suivie de la Bible, présentation des lectures du jour, résumés de livres bibliques, des temps de l’année, et bien plus encore.",
   'podcasts.intro':
     "Écoutez des méditations, des entretiens et des conférences sur la Bible, les lectures du jour et les temps de l’année, en partenariat avec les rédacteurs de LitaBible.",
   'videos.subnav_aria': 'Vidéos & Podcasts',
@@ -693,7 +666,6 @@ const fr: Dict = {
 
 const es: Dict = {
   'nav.messe': 'Mi red',
-  'nav.heures': 'Las horas',
   'nav.bible': 'La Biblia',
   'nav.apropos': 'ACERCA DE',
   'nav.rdv': 'Encuentro del domingo',
@@ -728,7 +700,7 @@ const es: Dict = {
   'header.subscribe_btn': 'Suscribirse',
   'header.sub_dialog_title': 'Recibir las lecturas del día',
   'header.sub_dialog_desc':
-    'Introduzca su correo para recibir cada mañana los textos de la enseñanza y del oficio.',
+    'Introduzca su correo para recibir cada mañana los textos de la enseñanza del día.',
   'header.sub_email_label': 'Correo',
   'header.sub_email_ph': 'usted@ejemplo.com',
   'header.sub_cancel': 'Cancelar',
@@ -803,22 +775,10 @@ const es: Dict = {
   'concl.acclamons': '– Aclamemos la Palabra de Dios.',
   'concl.louange': '– Alabanza a ti, Señor.',
 
-  'hours.title': 'OFICIO DE LECTURAS',
-  'hours.lectures_bar': 'Lecturas del oficio',
-  'hours.tab.lectures': 'Lecturas',
-  'hours.tab.laudes': 'Laudes',
-  'hours.tab.tierce': 'Tercia',
-  'hours.tab.sexte': 'Sexta',
-  'hours.tab.none': 'Nona',
-  'hours.tab.vepres': 'Vísperas',
-  'hours.tab.complies': 'Completas',
-  'hours.french_note':
-    'El Oficio usa el texto francés (Louis Segond). Use la página Biblia para textos en inglés/español.',
 
   'bible.title': 'La Biblia',
   'bible.at': 'Antiguo Testamento',
   'bible.nt': 'Nuevo Testamento',
-  'bible.psaumes': 'Salmos',
   'bible.version': 'Versión',
   'bible.book_list': 'Lista de libros',
   'bible.chapters_label': 'cap.',
@@ -904,7 +864,7 @@ const es: Dict = {
   'videos.podcasts': 'PODCASTS',
   'videos.listen': 'Escuchar',
   'videos.intro':
-    'Descubra en unos vídeos la actividad de LitaBible: lectura seguida de la Biblia, presentación de las lecturas del día, del Libro de las Horas, de los tiempos del año, y mucho más.',
+    'Descubra en unos vídeos la actividad de LitaBible: lectura seguida de la Biblia, presentación de las lecturas del día, resúmenes de libros bíblicos, de los tiempos del año, y mucho más.',
   'podcasts.intro':
     'Escuche meditaciones, entrevistas y conferencias sobre la Biblia, las lecturas del día y los tiempos del año, en colaboración con los redactores de LitaBible.',
   'videos.subnav_aria': 'Videos y Podcasts',
@@ -1052,7 +1012,7 @@ export function useT() {
 
 // ---------------------------------------------------------------------------
 // Reading label helper — maps a ReadingType to its localized label.
-// Used by reading-panel.tsx, reading-table.tsx, mass-page, hours-page.
+// Used by reading-panel.tsx, reading-table.tsx, mass-page.
 // ---------------------------------------------------------------------------
 
 import type { ReadingType } from '@/data/types'
