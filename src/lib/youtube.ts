@@ -106,10 +106,22 @@ async function fromChannelPage(): Promise<YoutubeVideo[]> {
   }
 }
 
+const LIVE_RE = /^diffusion en direct|^live stream|^en direct/i
+
+/** Titled videos first (newest first), then live-stream replays with a clean title. */
+function tidy(list: YoutubeVideo[]): YoutubeVideo[] {
+  const clean = list.map((v) => ({ ...v, title: v.title.replace(/\s{2,}/g, ' ').trim() }))
+  const titled = clean.filter((v) => !LIVE_RE.test(v.title))
+  const lives = clean
+    .filter((v) => LIVE_RE.test(v.title))
+    .map((v) => ({ ...v, title: 'RDV Biblique — rediffusion du direct', description: '' }))
+  return [...titled, ...lives]
+}
+
 export async function getChannelVideos(): Promise<{ videos: YoutubeVideo[]; source: string }> {
   const rss = await fromRss()
-  if (rss.length) return { videos: rss, source: 'rss' }
+  if (rss.length) return { videos: tidy(rss), source: 'rss' }
   const page = await fromChannelPage()
-  if (page.length) return { videos: page, source: 'channel' }
+  if (page.length) return { videos: tidy(page), source: 'channel' }
   return { videos: FALLBACK_VIDEOS, source: 'fallback' }
 }
