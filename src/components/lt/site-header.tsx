@@ -81,12 +81,12 @@ export function SiteHeader() {
 
   return (
     <header className="bg-[#1a4fa0] w-full">
-      <div className="flex items-center justify-between gap-4 px-4 sm:px-6 py-3 max-w-[1400px] mx-auto">
+      <div className="flex items-center justify-between gap-2 sm:gap-4 px-3 sm:px-6 py-3 max-w-[1400px] mx-auto">
         {/* Logo + tagline */}
         <div className="flex items-center gap-3 min-w-0">
           <a href="/" className="flex items-center gap-2.5 flex-shrink-0" aria-label="LitaBible — accueil">
-            <img src="/logo-white.png" alt="LitaBible — Je Lis la Parole de Dieu" className="h-12 sm:h-14 w-auto" />
-            <span className="font-display text-[26px] sm:text-[30px] font-bold text-white leading-none tracking-tight">
+            <img src="/logo-white.png" alt="LitaBible — Je Lis la Parole de Dieu" className="h-10 sm:h-14 w-auto" />
+            <span className="font-display text-[22px] sm:text-[30px] font-bold text-white leading-none tracking-tight">
               Lita<span className="text-[#f5c400]">Bible</span>
             </span>
           </a>
@@ -96,7 +96,7 @@ export function SiteHeader() {
         </div>
 
         {/* Subscribe block + language switcher */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
           <LanguageSwitcher />
           <div className="hidden md:block text-right">
             <p className="text-[15px] font-bold text-white leading-tight">

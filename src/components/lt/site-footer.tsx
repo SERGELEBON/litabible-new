@@ -12,7 +12,7 @@ export function SiteFooter() {
   const socials = [
     {
       label: 'YouTube',
-      href: 'https://studio.youtube.com/channel/UCcoPnmSULKkzMi6pCYY-l0A/livestreaming',
+      href: 'https://www.youtube.com/@litabible',
       color: '#FF0000', // YouTube brand red
       hoverBg: 'rgba(255,0,0,0.12)',
       // YouTube glyph
