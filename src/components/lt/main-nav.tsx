@@ -14,7 +14,6 @@ interface NavItem {
 
 const NAV_ITEMS: NavItem[] = [
   { id: 'messe', key: 'nav.messe' },
-  { id: 'heures', key: 'nav.heures' },
   { id: 'bible', key: 'nav.bible' },
   { id: 'apropos', key: 'nav.apropos' },
   { id: 'rdv-dimanche', key: 'nav.rdv' },
