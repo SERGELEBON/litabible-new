@@ -5,7 +5,6 @@ import { SiteHeader } from '@/components/lt/site-header'
 import { MainNav } from '@/components/lt/main-nav'
 import { SiteFooter } from '@/components/lt/site-footer'
 import { ReseauPage } from '@/components/lt/pages/reseau-page'
-import { HoursPage } from '@/components/lt/pages/hours-page'
 import { BiblePage } from '@/components/lt/pages/bible-page'
 import { AproposPage } from '@/components/lt/pages/apropos-page'
 import { RdvDimanchePage } from '@/components/lt/pages/rdv-dimanche-page'
@@ -21,8 +20,6 @@ function PageSwitch() {
   switch (page) {
     case 'messe':
       return <ReseauPage />
-    case 'heures':
-      return <HoursPage />
     case 'bible':
       return <BiblePage />
     case 'apropos':
