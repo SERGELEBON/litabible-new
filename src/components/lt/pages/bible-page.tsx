@@ -6,7 +6,6 @@ import { useT } from '@/lib/i18n'
 import {
   oldTestamentBooks,
   newTestamentBooks,
-  psalmsBooks,
   getBookName,
 } from '@/data/bible-books'
 import type { BibleBook } from '@/data/types'
@@ -67,16 +66,13 @@ function writePref(key: string, value: string) {
   }
 }
 
-const TABS: { id: 'at' | 'nt' | 'psaumes'; labelKey: string }[] = [
+const TABS: { id: 'at' | 'nt'; labelKey: string }[] = [
   { id: 'at', labelKey: 'bible.at' },
   { id: 'nt', labelKey: 'bible.nt' },
-  { id: 'psaumes', labelKey: 'bible.psaumes' },
 ]
 
-function booksForTab(tab: 'at' | 'nt' | 'psaumes'): BibleBook[] {
-  if (tab === 'at') return oldTestamentBooks
-  if (tab === 'nt') return newTestamentBooks
-  return psalmsBooks
+function booksForTab(tab: 'at' | 'nt'): BibleBook[] {
+  return tab === 'nt' ? newTestamentBooks : oldTestamentBooks
 }
 
 interface VersionListResponse {
@@ -304,7 +300,7 @@ export function BiblePage() {
       setDialogBook(book)
       setChapterData(null)
       setChapterError(null)
-      // Single-chapter books (e.g. Psalms tab) skip the picker and load directly.
+      // Single-chapter books skip the picker and load directly.
       if (book.chapters <= 1) {
         loadChapter(book, 1)
       } else {
