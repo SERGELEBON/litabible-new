@@ -12,7 +12,8 @@ import {
   podcasts as podcastsSection,
   type TextSection,
 } from '@/data/litabible-content'
-import { localizedVideos, localizedPodcasts } from '@/data/videos-podcasts'
+import { localizedPodcasts } from '@/data/videos-podcasts'
+import { YoutubeChannel } from '@/components/lt/youtube-channel'
 import {
   Accordion,
   AccordionItem,
@@ -61,7 +62,6 @@ export function AproposPage() {
     return { section: s, kind: 'text' }
   }, [aproposSub, locale])
 
-  const videoList = useMemo(() => localizedVideos(locale), [locale])
   const podcastList = useMemo(() => localizedPodcasts(locale), [locale])
 
   return (
@@ -133,38 +133,7 @@ export function AproposPage() {
                       {section.intro}
                     </p>
                   )}
-                  <ol className="space-y-6">
-                    {videoList.map((v) => (
-                      <li key={v.id} className="border-t border-[#e2e0dc] pt-5 first:border-t-0 first:pt-0">
-                        <div className="flex items-baseline gap-3 mb-2">
-                          <span className="text-[15px] font-bold text-[#1a4fa0] uppercase tracking-wide flex-shrink-0">
-                            {v.number}
-                          </span>
-                          <h3 className="text-[16px] font-semibold text-[#333333]">
-                            {v.title}
-                          </h3>
-                          {v.duration && (
-                            <span className="text-[14px] text-[#6b6b6b] ml-auto">
-                              {v.duration}
-                            </span>
-                          )}
-                        </div>
-                        <p className="text-[15px] leading-[1.7] text-[#333333] mb-3">
-                          {v.description}
-                        </p>
-                        <div className="aspect-video w-full bg-black border border-[#e2e0dc]">
-                          <iframe
-                            src={`https://www.youtube.com/embed/${v.youtubeId}`}
-                            title={v.title}
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                            allowFullScreen
-                            loading="lazy"
-                            className="w-full h-full"
-                          />
-                        </div>
-                      </li>
-                    ))}
-                  </ol>
+                  <YoutubeChannel max={6} />
                 </div>
               )}
 
