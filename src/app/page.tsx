@@ -70,9 +70,9 @@ export default function Home() {
   return (
     <div className="min-h-screen flex flex-col bg-transparent">
       <SiteHeader />
-      <div className="flex flex-1 w-full max-w-[1400px] mx-auto">
+      <div className="flex flex-col lg:flex-row flex-1 w-full max-w-[1400px] mx-auto">
         <MainNav />
-        <main className="flex-1 min-w-0 p-4 sm:p-6">
+        <main className="flex-1 min-w-0 w-full px-3 py-4 sm:p-6 overflow-x-hidden">
           {mounted ? (
             <PageSwitch />
           ) : (
