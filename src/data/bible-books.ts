@@ -4,9 +4,8 @@ import type { Locale } from '@/lib/store'
 // =============================================================================
 // Bible books — full canon in French (with EN/ES localized names).
 //
-// The 46 Old Testament books (including the deuterocanonical books: Tobie,
-// Judith, additions to Esther, 1-2 Maccabées, Sagesse, Ecclésiastique/Siracide,
-// Baruc) and 27 New Testament books. A separate `psalmsBooks` array contains
+// The 66-book canon: 39 Old Testament books and 27 New Testament books
+// (no deuterocanonical books). A separate `psalmsBooks` array contains
 // the 150 individual psalms for the dedicated Psalms tab.
 //
 // `bollsBookId` follows the standard Bolls/AEB mapping (1 = Genesis … 66 =
@@ -119,7 +118,7 @@ export function getBookName(book: BibleBook, locale: Locale): string {
 }
 
 // ---------------------------------------------------------------------------
-// Old Testament (46 books, full canon).
+// Old Testament (39 books — 66-book canon, no deuterocanonical books).
 // ---------------------------------------------------------------------------
 export const oldTestamentBooks: BibleBook[] = [
   { id: 'genesis', name: 'Genèse', abbreviation: 'Gn', chapters: 50, testament: 'AT', bollsBookId: 1 },
@@ -138,26 +137,19 @@ export const oldTestamentBooks: BibleBook[] = [
   { id: '2-chroniques', name: '2 Chroniques', abbreviation: '2 Ch', chapters: 36, testament: 'AT', bollsBookId: 14 },
   { id: 'esdras', name: 'Esdras', abbreviation: 'Esd', chapters: 10, testament: 'AT', bollsBookId: 15 },
   { id: 'nehemie', name: 'Néhémie', abbreviation: 'Ne', chapters: 13, testament: 'AT', bollsBookId: 16 },
-  { id: 'tobie', name: 'Tobie', abbreviation: 'Tb', chapters: 14, testament: 'AT' },
-  { id: 'judith', name: 'Judith', abbreviation: 'Jdt', chapters: 16, testament: 'AT' },
-  { id: 'esther', name: 'Esther', abbreviation: 'Est', chapters: 14, testament: 'AT', bollsBookId: 17 },
-  { id: '1-maccabees', name: '1 Maccabées', abbreviation: '1 M', chapters: 16, testament: 'AT' },
-  { id: '2-maccabees', name: '2 Maccabées', abbreviation: '2 M', chapters: 15, testament: 'AT' },
+  { id: 'esther', name: 'Esther', abbreviation: 'Est', chapters: 10, testament: 'AT', bollsBookId: 17 },
   { id: 'job', name: 'Job', abbreviation: 'Jb', chapters: 42, testament: 'AT', bollsBookId: 18 },
   { id: 'psaumes', name: 'Psaumes', abbreviation: 'Ps', chapters: 150, testament: 'AT', bollsBookId: 19 },
   { id: 'proverbes', name: 'Proverbes', abbreviation: 'Pr', chapters: 31, testament: 'AT', bollsBookId: 20 },
   { id: 'qoheleth', name: 'Qohéleth (Ecclésiaste)', abbreviation: 'Qo', chapters: 12, testament: 'AT', bollsBookId: 21 },
   { id: 'cantique', name: 'Cantique des cantiques', abbreviation: 'Ct', chapters: 8, testament: 'AT', bollsBookId: 22 },
-  { id: 'sagesse', name: 'Sagesse', abbreviation: 'Sg', chapters: 19, testament: 'AT' },
-  { id: 'ecclesiastique', name: 'Ecclésiastique (Siracide)', abbreviation: 'Si', chapters: 51, testament: 'AT' },
   { id: 'isaie', name: 'Isaïe', abbreviation: 'Is', chapters: 66, testament: 'AT', bollsBookId: 23 },
   { id: 'jeremie', name: 'Jérémie', abbreviation: 'Jr', chapters: 52, testament: 'AT', bollsBookId: 24 },
   { id: 'lamentations', name: 'Lamentations', abbreviation: 'La', chapters: 5, testament: 'AT', bollsBookId: 25 },
-  { id: 'baruc', name: 'Baruc', abbreviation: 'Ba', chapters: 6, testament: 'AT' },
   { id: 'ezekiel', name: 'Ézéchiel', abbreviation: 'Ez', chapters: 48, testament: 'AT', bollsBookId: 26 },
-  { id: 'daniel', name: 'Daniel', abbreviation: 'Dn', chapters: 14, testament: 'AT', bollsBookId: 27 },
+  { id: 'daniel', name: 'Daniel', abbreviation: 'Dn', chapters: 12, testament: 'AT', bollsBookId: 27 },
   { id: 'osee', name: 'Osée', abbreviation: 'Os', chapters: 14, testament: 'AT', bollsBookId: 28 },
-  { id: 'joel', name: 'Joël', abbreviation: 'Jl', chapters: 4, testament: 'AT', bollsBookId: 29 },
+  { id: 'joel', name: 'Joël', abbreviation: 'Jl', chapters: 3, testament: 'AT', bollsBookId: 29 },
   { id: 'amos', name: 'Amos', abbreviation: 'Am', chapters: 9, testament: 'AT', bollsBookId: 30 },
   { id: 'abdias', name: 'Abdias', abbreviation: 'Ab', chapters: 1, testament: 'AT', bollsBookId: 31 },
   { id: 'jonas', name: 'Jonas', abbreviation: 'Jon', chapters: 4, testament: 'AT', bollsBookId: 32 },
