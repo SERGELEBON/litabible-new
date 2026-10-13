@@ -249,3 +249,13 @@ h1, h2, .font-display {
   font-family: var(--font-display), Georgia, 'Times New Roman', serif;
   letter-spacing: -0.01em;
 }
+
+
+/* ---- Mobile polish ---- */
+.no-scrollbar { scrollbar-width: none; -ms-overflow-style: none; }
+.no-scrollbar::-webkit-scrollbar { display: none; }
+@media (max-width: 767px) {
+  body { font-size: 16px; background-attachment: scroll; }
+  /* lighter page padding: the cards themselves carry the spacing */
+  .lt-page-card { padding: 1rem !important; }
+}
