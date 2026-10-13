@@ -59,7 +59,7 @@ const en: Dict = {
   'header.subscribe_line2': 'for free by email',
   'header.subscribe_btn': 'Subscribe',
   'header.sub_dialog_title': 'Receive the daily readings',
-  'header.sub_dialog_desc': 'Enter your email to receive each morning the texts of the mass and of the office.',
+  'header.sub_dialog_desc': 'Enter your email to receive each morning the texts of the teaching and of the office.',
   'header.sub_email_label': 'Email',
   'header.sub_email_ph': 'you@example.com',
   'header.sub_cancel': 'Cancel',
@@ -91,7 +91,7 @@ const en: Dict = {
 
   // --- Lecture quotidienne (daily reading poster) page ---
   'lec.title': 'DAILY READING',
-  'lec.intro': "The poster of today's reading — the mass texts of the day, gathered on a single sheet.",
+  'lec.intro': "The poster of today's reading — the teaching texts of the day, gathered on a single sheet.",
   'lec.download': 'Download poster',
   'lec.print': 'Print',
   'lec.no_reading': 'No reading available for this date.',
@@ -99,8 +99,8 @@ const en: Dict = {
   'lec.date_label': 'Date',
   'lec.move_prev': '‹ Previous day',
   'lec.move_next': 'Next day ›',
-  'mass.title': 'READINGS OF THE MASS',
-  'mass.lectures_bar': 'Readings of the mass',
+  'mass.title': 'READINGS OF THE TEACHING',
+  'mass.lectures_bar': 'Readings of the teaching',
   'mass.prev': '‹ yesterday',
   'mass.next': 'tomorrow ›',
   'mass.next_sunday': 'Next Sunday',
@@ -114,7 +114,7 @@ const en: Dict = {
   'mass.confort_short': 'Reading comfort',
   'mass.source': 'Texts © LitaBible — All rights reserved.',
   'mass.french_note':
-    'Readings use the French liturgical text (Louis Segond). Use the Bible page for English/Spanish Scripture.',
+    'Readings use the French text (Louis Segond). Use the Bible page for English/Spanish Scripture.',
 
   // --- reading labels ---
   'reading.premiere': 'First reading',
@@ -146,7 +146,7 @@ const en: Dict = {
   'hours.tab.vepres': 'Vespers',
   'hours.tab.complies': 'Compline',
   'hours.french_note':
-    'The Office uses the French liturgical text (Louis Segond). Use the Bible page for English/Spanish Scripture.',
+    'The Office uses the French text (Louis Segond). Use the Bible page for English/Spanish Scripture.',
 
   // --- bible page ---
   'bible.title': 'The Bible',
@@ -350,7 +350,7 @@ const en: Dict = {
   'contact.subjects.subscription': 'Subscription to the readings',
   'contact.subjects.rights': 'Rights and permissions',
   'contact.subjects.bible': 'Simple Bible',
-  'contact.subjects.calendar': 'Liturgical calendar',
+  'contact.subjects.calendar': 'Calendar',
   'contact.subjects.bug': 'Technical bug / website',
   'contact.subjects.other': 'Other',
   'contact.invalid_response': 'Invalid server response.',
@@ -398,7 +398,7 @@ const fr: Dict = {
   'header.subscribe_btn': "S'abonner",
   'header.sub_dialog_title': 'Recevoir les lectures du jour',
   'header.sub_dialog_desc':
-    'Inscrivez votre courriel pour recevoir chaque matin les textes de la messe et de l’office.',
+    'Inscrivez votre courriel pour recevoir chaque matin les textes de l’enseignement et de l’office.',
   'header.sub_email_label': 'Courriel',
   'header.sub_email_ph': 'vous@exemple.fr',
   'header.sub_cancel': 'Annuler',
@@ -430,7 +430,7 @@ const fr: Dict = {
 
   // --- Lecture quotidienne page ---
   'lec.title': 'LECTURE QUOTIDIENNE',
-  'lec.intro': "L’affiche de la lecture du jour — les textes de la messe du jour, réunis sur une seule feuille.",
+  'lec.intro': "L’affiche de la lecture du jour — les textes de l’enseignement du jour, réunis sur une seule feuille.",
   'lec.download': "Télécharger l’affiche",
   'lec.print': 'Imprimer',
   'lec.no_reading': 'Aucune lecture pour cette date.',
@@ -439,8 +439,8 @@ const fr: Dict = {
   'lec.move_prev': '‹ Jour précédent',
   'lec.move_next': 'Jour suivant ›',
 
-  'mass.title': 'LECTURES DE LA MESSE',
-  'mass.lectures_bar': 'Lectures de la messe',
+  'mass.title': 'LECTURES DE L’ENSEIGNEMENT',
+  'mass.lectures_bar': 'Lectures de l’enseignement',
   'mass.prev': '‹ hier',
   'mass.next': 'demain ›',
   'mass.next_sunday': 'Dimanche prochain',
@@ -452,9 +452,9 @@ const fr: Dict = {
   'mass.download_long': 'les textes (.doc)',
   'mass.confort': 'A+ Lecture confort',
   'mass.confort_short': 'Lecture confort',
-  'mass.source': 'Textes liturgiques © LitaBible — Tous droits réservés.',
+  'mass.source': 'Textes © LitaBible — Tous droits réservés.',
   'mass.french_note':
-    'Les lectures utilisent le texte liturgique français (Louis Segond). Utilisez la page Bible pour les textes en anglais/espagnol.',
+    'Les lectures utilisent le texte français (Louis Segond). Utilisez la page Bible pour les textes en anglais/espagnol.',
 
   'reading.premiere': 'Première lecture',
   'reading.psaume': 'Psaume',
@@ -483,7 +483,7 @@ const fr: Dict = {
   'hours.tab.vepres': 'Vêpres',
   'hours.tab.complies': 'Complies',
   'hours.french_note':
-    "L'Office utilise le texte liturgique français (Louis Segond). Utilisez la page Bible pour les textes en anglais/espagnol.",
+    "L'Office utilise le texte français (Louis Segond). Utilisez la page Bible pour les textes en anglais/espagnol.",
 
   'bible.title': 'La Bible',
   'bible.at': 'Ancien Testament',
@@ -681,7 +681,7 @@ const fr: Dict = {
   'contact.subjects.subscription': 'Abonnement aux lectures',
   'contact.subjects.rights': 'Droits et autorisations',
   'contact.subjects.bible': 'Bible simple',
-  'contact.subjects.calendar': 'Calendrier liturgique',
+  'contact.subjects.calendar': 'Calendrier',
   'contact.subjects.bug': 'Bug technique / site web',
   'contact.subjects.other': 'Autre',
   'contact.invalid_response': 'Réponse invalide du serveur.',
@@ -728,7 +728,7 @@ const es: Dict = {
   'header.subscribe_btn': 'Suscribirse',
   'header.sub_dialog_title': 'Recibir las lecturas del día',
   'header.sub_dialog_desc':
-    'Introduzca su correo para recibir cada mañana los textos de la misa y del oficio.',
+    'Introduzca su correo para recibir cada mañana los textos de la enseñanza y del oficio.',
   'header.sub_email_label': 'Correo',
   'header.sub_email_ph': 'usted@ejemplo.com',
   'header.sub_cancel': 'Cancelar',
@@ -760,7 +760,7 @@ const es: Dict = {
 
   // --- Lectura diaria page ---
   'lec.title': 'LECTURA DIARIA',
-  'lec.intro': 'El póster de la lectura de hoy — los textos de la misa del día, reunidos en una sola hoja.',
+  'lec.intro': 'El póster de la lectura de hoy — los textos de la enseñanza del día, reunidos en una sola hoja.',
   'lec.download': 'Descargar el póster',
   'lec.print': 'Imprimir',
   'lec.no_reading': 'Sin lectura para esta fecha.',
@@ -769,8 +769,8 @@ const es: Dict = {
   'lec.move_prev': '‹ Día anterior',
   'lec.move_next': 'Día siguiente ›',
 
-  'mass.title': 'LECTURAS DE LA MISA',
-  'mass.lectures_bar': 'Lecturas de la misa',
+  'mass.title': 'LECTURAS DE LA ENSEÑANZA',
+  'mass.lectures_bar': 'Lecturas de la enseñanza',
   'mass.prev': '‹ ayer',
   'mass.next': 'mañana ›',
   'mass.next_sunday': 'Domingo próximo',
@@ -784,7 +784,7 @@ const es: Dict = {
   'mass.confort_short': 'Lectura cómoda',
   'mass.source': 'Textos © LitaBible — Todos los derechos reservados.',
   'mass.french_note':
-    'Las lecturas usan el texto litúrgico francés (Louis Segond). Use la página Biblia para textos en inglés/español.',
+    'Las lecturas usan el texto francés (Louis Segond). Use la página Biblia para textos en inglés/español.',
 
   'reading.premiere': 'Primera lectura',
   'reading.psaume': 'Salmo',
@@ -813,7 +813,7 @@ const es: Dict = {
   'hours.tab.vepres': 'Vísperas',
   'hours.tab.complies': 'Completas',
   'hours.french_note':
-    'El Oficio usa el texto litúrgico francés (Louis Segond). Use la página Biblia para textos en inglés/español.',
+    'El Oficio usa el texto francés (Louis Segond). Use la página Biblia para textos en inglés/español.',
 
   'bible.title': 'La Biblia',
   'bible.at': 'Antiguo Testamento',
