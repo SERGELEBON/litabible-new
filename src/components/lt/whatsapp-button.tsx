@@ -45,7 +45,8 @@ const STR: Record<Locale, { title: string; close: string; options: { n: number; 
 const CHAT_LINK =
   'https://chat.whatsapp.com/FqfCHONoSsP6JU9Bf1nUZ8?s=cl&p=a&mlu=4&ilr=4&iam=1'
 // Direct-chat phone number (options 2 & 4).
-const PHONE = '0778254286'
+// International format required by wa.me: country code 225 (Côte d'Ivoire), no '+'.
+const PHONE = '2250778254286'
 
 interface MenuOption {
   n: number
@@ -57,7 +58,7 @@ interface MenuOption {
  * Floating WhatsApp contact button. On click it opens a small menu with 4
  * options; each option routes to either the shared community chat invite
  * link (options 1 & 3) or a direct 1-to-1 chat with the phone number
- * 0778254286 (options 2 & 4).
+ * +225 07 78 25 42 86 (options 2 & 4).
  */
 export function WhatsAppButton() {
   const [open, setOpen] = useState(false)
