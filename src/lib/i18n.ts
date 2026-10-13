@@ -87,7 +87,7 @@ const en: Dict = {
   'rdv.card_desc': 'Come together around the Word of God. The meeting is held every Sunday. Click to join the video call.',
   'rdv.join_btn': 'Join on Google Meet',
   'rdv.meet_label': 'Google Meet link',
-  'rdv.time': 'Every Sunday',
+  'rdv.time': 'Every Sunday · 8:30 pm GMT',
 
   // --- Lecture quotidienne (daily reading poster) page ---
   'lec.title': 'DAILY READING',
@@ -426,7 +426,7 @@ const fr: Dict = {
   'rdv.card_desc': "Retrouvons-nous autour de la Parole de Dieu. Le rendez-vous a lieu chaque dimanche. Cliquez pour rejoindre l’appel vidéo.",
   'rdv.join_btn': 'Rejoindre sur Google Meet',
   'rdv.meet_label': 'Lien Google Meet',
-  'rdv.time': 'Chaque dimanche',
+  'rdv.time': 'Chaque dimanche · 20h30 GMT',
 
   // --- Lecture quotidienne page ---
   'lec.title': 'LECTURE QUOTIDIENNE',
@@ -756,7 +756,7 @@ const es: Dict = {
   'rdv.card_desc': 'Reunámonos en torno a la Palabra de Dios. El encuentro se realiza cada domingo. Haz clic para unirte a la videollamada.',
   'rdv.join_btn': 'Unirse en Google Meet',
   'rdv.meet_label': 'Enlace de Google Meet',
-  'rdv.time': 'Cada domingo',
+  'rdv.time': 'Cada domingo · 20:30 GMT',
 
   // --- Lectura diaria page ---
   'lec.title': 'LECTURA DIARIA',
