@@ -16,7 +16,8 @@ export interface YoutubeVideo {
 
 /** Known videos — used only if YouTube cannot be reached. */
 export const FALLBACK_VIDEOS: YoutubeVideo[] = [
-  { id: 'Y19i5bjmsYU', title: 'Résumé du Livre de Michée, Nahum, Habakuk et Sophonie' },
+  { id: 'Y19i5bjmsYU', title: 'Résumé du Livre de Michée, Nahum, Habakuk et Sophonie', published: '2026-10-12T12:00:00Z' },
+  { id: 'CRXdhcYgRX4', title: 'La grâce de Dieu — Frère Mobio Loba Marc', published: '2026-10-01T12:00:00Z' },
 ]
 
 function decode(s: string): string {
@@ -33,7 +34,12 @@ function decode(s: string): string {
 async function get(url: string): Promise<string | null> {
   try {
     const res = await fetch(url, {
-      headers: { 'Accept-Language': 'fr-FR,fr;q=0.9', 'User-Agent': 'Mozilla/5.0 (LitaBible)' },
+      headers: {
+        'Accept-Language': 'fr-FR,fr;q=0.9',
+        'User-Agent':
+          'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0 Safari/537.36',
+        Cookie: 'CONSENT=YES+1; SOCS=CAI',
+      },
       next: { revalidate: 1800 },
     })
     return res.ok ? await res.text() : null
@@ -60,19 +66,44 @@ async function fromRss(): Promise<YoutubeVideo[]> {
   return out
 }
 
+/** Walk YouTube's ytInitialData (new "lockupViewModel" and legacy "videoRenderer"). */
+function collect(node: unknown, out: YoutubeVideo[], seen: Set<string>) {
+  if (!node || typeof node !== 'object') return
+  const o = node as Record<string, any>
+  const lv = o.lockupViewModel
+  if (lv?.contentId && lv?.metadata?.lockupMetadataViewModel?.title?.content) {
+    if (!seen.has(lv.contentId)) {
+      seen.add(lv.contentId)
+      out.push({ id: lv.contentId, title: lv.metadata.lockupMetadataViewModel.title.content })
+    }
+  }
+  const vr = o.videoRenderer ?? o.gridVideoRenderer
+  if (vr?.videoId && vr?.title) {
+    const t = vr.title.runs?.[0]?.text ?? vr.title.simpleText
+    if (t && !seen.has(vr.videoId)) {
+      seen.add(vr.videoId)
+      out.push({ id: vr.videoId, title: t })
+    }
+  }
+  for (const k in o) collect(o[k], out, seen)
+}
+
 async function fromChannelPage(): Promise<YoutubeVideo[]> {
   const html = await get(`${YOUTUBE_CHANNEL_URL}/videos`)
   if (!html) return []
-  const out: YoutubeVideo[] = []
-  const seen = new Set<string>()
-  const re = /"videoId":"([\w-]{11})"[\s\S]{0,1500}?"title":\{"runs":\[\{"text":"((?:[^"\\]|\\.)*)"/g
-  let m: RegExpExecArray | null
-  while ((m = re.exec(html)) && out.length < 30) {
-    if (seen.has(m[1])) continue
-    seen.add(m[1])
-    out.push({ id: m[1], title: decode(m[2]) })
+  const json = html.match(/var ytInitialData = (\{[\s\S]*?\});<\/script>/)?.[1]
+  if (!json) return []
+  try {
+    const out: YoutubeVideo[] = []
+    collect(JSON.parse(json), out, new Set())
+    // Add known publication dates when available
+    return out.slice(0, 30).map((v) => ({
+      ...v,
+      published: v.published ?? FALLBACK_VIDEOS.find((f) => f.id === v.id)?.published,
+    }))
+  } catch {
+    return []
   }
-  return out
 }
 
 export async function getChannelVideos(): Promise<{ videos: YoutubeVideo[]; source: string }> {
