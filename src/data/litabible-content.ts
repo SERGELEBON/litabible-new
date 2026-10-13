@@ -31,31 +31,31 @@ export const missions: Record<Locale, TextSection> = {
   en: {
     title: 'The missions of LitaBible',
     paragraphs: [
-      'LitaBible’s primary mission is to offer, every day, the texts of the Bible, the daily readings and the prayer of the Hours. The application is attentive to the readability, the fidelity to the sources and the linguistic elegance of the texts offered, so that the Word may resound in the language of each reader.',
-      'Born of the desire to offer simple and free access to the Scriptures, LitaBible brings together in one place the Bible, the shared calendar and the prayer of the Hours. It also accompanies the daily discovery of Scripture by readers, by small groups and by all who wish better to understand the text being read.',
+      'LitaBible’s primary mission is to offer, every day, the texts of the Bible, the daily readings and Bible teaching. The application is attentive to the readability, the fidelity to the sources and the linguistic elegance of the texts offered, so that the Word may resound in the language of each reader.',
+      'Born of the desire to offer simple and free access to the Scriptures, LitaBible brings together in one place the Bible, the daily readings and the shared calendar. It also accompanies the daily discovery of Scripture by readers, by small groups and by all who wish better to understand the text being read.',
       'At the heart of this mission is the Bible itself, presented for personal reading and for sharing in the community. LitaBible does not merely offer one text among others: it offers a continuous reading, structured by the shared calendar, accessible to all who wish to read and pray together.',
       'The application is also engaged in meditation, formation and Bible reading. It publishes reading paths, presentation videos, meditation podcasts, and it takes part in the work of initiation to Scripture for readers and for all who seek God.',
-      'Finally, LitaBible places its work at the service of readers through its website and its applications, so that each person may, every day, access the daily readings, the prayer of the Hours and the Bible.',
+      'Finally, LitaBible places its work at the service of readers through its website and its applications, so that each person may, every day, access the daily readings, Bible teaching and the Bible.',
     ],
   },
   fr: {
     title: "Les missions de LitaBible",
     paragraphs: [
-      "LitaBible a pour mission première de mettre à la disposition de chacun, chaque jour, les textes de la Bible, les lectures du jour et la prière des Heures. L’application veille à la lisibilité, à la fidélité aux sources et à l’élégance linguistique des textes proposés, pour que la Parole puisse résonner dans la langue de chaque lecteur.",
-      "Issue de la volonté d’offrir un accès simple et gratuit aux Écritures, LitaBible rassemble en un même lieu la Bible, le calendrier partagé et la prière des Heures. Elle accompagne aussi la découverte quotidienne de l’Écriture par les lecteurs, par les petits groupes et par tous ceux qui désirent mieux comprendre le texte lu.",
+      "LitaBible a pour mission première de mettre à la disposition de chacun, chaque jour, les textes de la Bible, les lectures du jour et l’enseignement biblique. L’application veille à la lisibilité, à la fidélité aux sources et à l’élégance linguistique des textes proposés, pour que la Parole puisse résonner dans la langue de chaque lecteur.",
+      "Issue de la volonté d’offrir un accès simple et gratuit aux Écritures, LitaBible rassemble en un même lieu la Bible, les lectures du jour et le calendrier partagé. Elle accompagne aussi la découverte quotidienne de l’Écriture par les lecteurs, par les petits groupes et par tous ceux qui désirent mieux comprendre le texte lu.",
       "Au cœur de cette mission se trouve la Bible elle-même, présentée pour la lecture personnelle et pour le partage en communauté. LitaBible ne propose pas seulement un texte parmi d’autres : elle offre une lecture suivie, structurée par le calendrier partagé, accessible à tous ceux qui veulent lire et prier ensemble.",
       "L’application s’engage aussi dans la méditation, la formation et la lecture biblique. Elle publie des parcours de lecture, des vidéos de présentation, des podcasts de méditation, et elle participe au travail d’initiation à l’Écriture pour les lecteurs comme pour les chercheurs de Dieu.",
-      "Enfin, LitaBible met ses travaux au service des lecteurs par le biais de son site internet et de ses applications, pour que chacun puisse, chaque jour, accéder aux lectures du jour, à la prière des Heures et à la Bible.",
+      "Enfin, LitaBible met ses travaux au service des lecteurs par le biais de son site internet et de ses applications, pour que chacun puisse, chaque jour, accéder aux lectures du jour, à l’enseignement biblique et à la Bible.",
     ],
   },
   es: {
     title: 'Las misiones de LitaBible',
     paragraphs: [
-      'La misión primera de LitaBible es poner a disposición de cada persona, cada día, los textos de la Biblia, las lecturas del día y la oración de las Horas. La aplicación vela por la legibilidad, la fidelidad a las fuentes y la elegancia lingüística de los textos propuestos, para que la Palabra pueda resonar en la lengua de cada lector.',
-      'Nacida del deseo de ofrecer un acceso sencillo y gratuito a las Escrituras, LitaBible reúne en un mismo lugar la Biblia, el calendario compartido y la oración de las Horas. Acompaña también el descubrimiento cotidiano de la Escritura por los lectores, por los pequeños grupos y por todos los que desean comprender mejor el texto leído.',
+      'La misión primera de LitaBible es poner a disposición de cada persona, cada día, los textos de la Biblia, las lecturas del día y la enseñanza bíblica. La aplicación vela por la legibilidad, la fidelidad a las fuentes y la elegancia lingüística de los textos propuestos, para que la Palabra pueda resonar en la lengua de cada lector.',
+      'Nacida del deseo de ofrecer un acceso sencillo y gratuito a las Escrituras, LitaBible reúne en un mismo lugar la Biblia, las lecturas del día y el calendario compartido. Acompaña también el descubrimiento cotidiano de la Escritura por los lectores, por los pequeños grupos y por todos los que desean comprender mejor el texto leído.',
       'En el corazón de esta misión se encuentra la Biblia misma, presentada para la lectura personal y para el compartir en comunidad. LitaBible no se limita a ofrecer un texto entre otros: ofrece una lectura seguida, estructurada por el calendario compartido, accesible a todos los que quieren leer y orar juntos.',
       'La aplicación se compromete también con la meditación, la formación y la lectura bíblica. Publica recorridos de lectura, vídeos de presentación, podcasts de meditación, y participa en la labor de iniciación a la Escritura para los lectores y para todos los que buscan a Dios.',
-      'Finalmente, LitaBible pone su trabajo al servicio de los lectores a través de su sitio web y de sus aplicaciones, para que cada persona pueda, cada día, acceder a las lecturas del día, a la oración de las Horas y a la Biblia.',
+      'Finalmente, LitaBible pone su trabajo al servicio de los lectores a través de su sitio web y de sus aplicaciones, para que cada persona pueda, cada día, acceder a las lecturas del día, a la enseñanza bíblica y a la Biblia.',
     ],
   },
 }
@@ -70,7 +70,7 @@ export const organisation: Record<Locale, TextSection> = {
       'LitaBible brings together a small team of Bible readers, translators, developers and community facilitators, who watch over the quality of the texts published and the accuracy of the shared calendar. It works in connection with the major currents of Bible translation to offer a faithful and accessible reading.',
       'The editorial team, meeting regularly, sets the major orientations of the project: choice of translations, reading paths, meditation resources. It elects from among its members an editorial lead and a technical lead.',
       'The reading committee, the deliberative body, meets several times a year to examine the reading paths, the editorial projects and the technical questions. A small sub-committee ensures continuity between sessions.',
-      'The editorial secretariat, led by the editor-in-chief, implements the decisions and coordinates the working groups: continuous reading of the Bible, shared calendar, prayer of the Hours, reading paths. Working groups bring together Bible readers, translators and facilitators, to advance in fidelity to the Hebrew, Greek and Latin sources.',
+      'The editorial secretariat, led by the editor-in-chief, implements the decisions and coordinates the working groups: continuous reading of the Bible, shared calendar, Bible teaching, reading paths. Working groups bring together Bible readers, translators and facilitators, to advance in fidelity to the Hebrew, Greek and Latin sources.',
       'LitaBible works closely with the associations and publishers engaged in the translation and diffusion of biblical texts, to share know-how and experience.',
     ],
   },
@@ -80,7 +80,7 @@ export const organisation: Record<Locale, TextSection> = {
       "LitaBible réunit une petite équipe de lecteurs bibliques, traducteurs, développeurs et animateurs communautaires, qui veille à la qualité des textes diffusés et à la justesse du calendrier partagé. Elle travaille en lien avec les grands courants de la traduction biblique pour offrir une lecture fidèle et accessible.",
       "L’équipe éditoriale, réunie régulièrement, définit les grandes orientations du projet : choix des traductions, parcours de lecture, ressources de méditation. Elle élit parmi elle un responsable éditorial et un responsable technique.",
       "Le comité de lecture, organe délibérant, se réunit plusieurs fois par an pour examiner les parcours de lecture, les projets éditoriaux et les questions techniques. Un comité restreint assure la continuité entre les sessions.",
-      "Le secrétariat de rédaction, dirigé par le rédacteur en chef, met en œuvre les décisions et coordonne les groupes de travail : lecture suivie de la Bible, calendrier partagé, prière des Heures, parcours de lecture. Des groupes de travail rassemblent lecteurs bibliques, traducteurs et animateurs, pour avancer dans la fidélité à la source hébraïque, grecque et latine.",
+      "Le secrétariat de rédaction, dirigé par le rédacteur en chef, met en œuvre les décisions et coordonne les groupes de travail : lecture suivie de la Bible, calendrier partagé, enseignement biblique, parcours de lecture. Des groupes de travail rassemblent lecteurs bibliques, traducteurs et animateurs, pour avancer dans la fidélité à la source hébraïque, grecque et latine.",
       "LitaBible collabore étroitement avec les associations et les éditeurs qui travaillent à la traduction et à la diffusion des textes bibliques, pour partager savoir-faire et expériences.",
     ],
   },
@@ -90,7 +90,7 @@ export const organisation: Record<Locale, TextSection> = {
       'LitaBible reúne a un pequeño equipo de lectores bíblicos, traductores, desarrolladores y animadores comunitarios, que vela por la calidad de los textos difundidos y por la exactitud del calendario compartido. Trabaja en contacto con las grandes corrientes de la traducción bíblica para ofrecer una lectura fiel y accesible.',
       'El equipo editorial, reunido con regularidad, define las grandes orientaciones del proyecto: elección de las traducciones, recorridos de lectura, recursos de meditación. Elige entre sus miembros a un responsable editorial y a un responsable técnico.',
       'El comité de lectura, órgano deliberante, se reúne varias veces al año para examinar los recorridos de lectura, los proyectos editoriales y las cuestiones técnicas. Un comité restringido asegura la continuidad entre las sesiones.',
-      'La secretaría de redacción, dirigida por el redactor jefe, ejecuta las decisiones y coordina los grupos de trabajo: lectura seguida de la Biblia, calendario compartido, oración de las Horas, recorridos de lectura. Grupos de trabajo reúnen a lectores bíblicos, traductores y animadores, para avanzar en la fidelidad a la fuente hebrea, griega y latina.',
+      'La secretaría de redacción, dirigida por el redactor jefe, ejecuta las decisiones y coordina los grupos de trabajo: lectura seguida de la Biblia, calendario compartido, enseñanza bíblica, recorridos de lectura. Grupos de trabajo reúnen a lectores bíblicos, traductores y animadores, para avanzar en la fidelidad a la fuente hebrea, griega y latina.',
       'LitaBible colabora estrechamente con las asociaciones y editores que trabajan en la traducción y la difusión de los textos bíblicos, para compartir saber hacer y experiencias.',
     ],
   },
@@ -103,31 +103,28 @@ export const realisations: Record<Locale, TextSection> = {
   en: {
     title: 'Achievements',
     paragraphs: [
-      'Since its foundation, LitaBible has produced many resources that have become landmarks for the daily reading of Bible readers: the continuous reading of the Bible, the shared calendar day after day, the prayer of the Hours, the daily readings, as well as multiple paths linked to the seasons of the year.',
+      'Since its foundation, LitaBible has produced many resources that have become landmarks for the daily reading of Bible readers: the continuous reading of the Bible, the shared calendar day after day, the daily readings, as well as multiple paths linked to the seasons of the year.',
       'The continuous reading of the Bible, the fruit of a long work of study and sharing, is the one that can be listened to and meditated upon every day. It is presented in integrated paths and in continuous editions.',
       'The daily readings, drawn from the available Bible translations, are a daily reference for readers. LitaBible presents them day by day, following the rhythm of the shared calendar, with introductions and prayers for personal meditation.',
-      'The prayer of the Hours, in several volumes, is the shared prayer of the community. It is used by readers, by small groups and by many people who like to mark the hours of the day with the Word. LitaBible presents it each day for the Office of Readings, Lauds, Terce, Sext, None, Vespers and Compline.',
-      'Today, LitaBible also offers digital resources: the website litabible.org, mobile applications for the readings and the Hours, a podcast for daily meditation. These services reach hundreds of thousands of readers every day.',
+      'Today, LitaBible also offers digital resources: the website litabible.org, mobile applications for the readings and the audio Bible, a podcast for daily meditation. These services reach hundreds of thousands of readers every day.',
     ],
   },
   fr: {
     title: 'Réalisations',
     paragraphs: [
-      "Depuis sa fondation, LitaBible a produit de nombreuses ressources devenues des repères pour la lecture quotidienne des lecteurs : la lecture suivie de la Bible, le calendrier partagé jour après jour, la prière des Heures, les lectures du jour, ainsi que de multiples parcours liés aux temps de l’année.",
+      "Depuis sa fondation, LitaBible a produit de nombreuses ressources devenues des repères pour la lecture quotidienne des lecteurs : la lecture suivie de la Bible, le calendrier partagé jour après jour, les lectures du jour, ainsi que de multiples parcours liés aux temps de l’année.",
       "La lecture suivie de la Bible, fruit d’un long travail d’étude et de partage, est celle que l’on peut écouter et méditer chaque jour. Elle est présentée en parcours intégrés et en éditions suivies.",
       "Les lectures du jour, issues des traductions bibliques disponibles, sont une référence quotidienne pour les lecteurs. LitaBible les présente jour après jour, au rythme du calendrier partagé, avec des introductions et des prières pour la méditation personnelle.",
-      "La prière des Heures, en plusieurs volumes, est la prière partagée de la communauté. Elle est utilisée par les lecteurs, les petits groupes et de nombreuses personnes qui aiment marquer les heures du jour par la Parole. LitaBible la présente chaque jour pour l’Office des lectures, les Laudes, Tierce, Sexte, None, les Vêpres et les Complies.",
-      "Aujourd’hui, LitaBible propose aussi des ressources numériques : le site internet litabible.org, des applications mobiles pour les lectures et l’Office, un podcast pour la méditation quotidienne. Ces services rejoignent chaque jour des centaines de milliers de lecteurs.",
+      "Aujourd’hui, LitaBible propose aussi des ressources numériques : le site internet litabible.org, des applications mobiles pour les lectures et la Bible audio, un podcast pour la méditation quotidienne. Ces services rejoignent chaque jour des centaines de milliers de lecteurs.",
     ],
   },
   es: {
     title: 'Realizaciones',
     paragraphs: [
-      'Desde su fundación, LitaBible ha producido numerosos recursos que se han convertido en puntos de referencia para la lectura cotidiana de los lectores: la lectura seguida de la Biblia, el calendario compartido día tras día, la oración de las Horas, las lecturas del día, así como múltiples recorridos ligados a los tiempos del año.',
+      'Desde su fundación, LitaBible ha producido numerosos recursos que se han convertido en puntos de referencia para la lectura cotidiana de los lectores: la lectura seguida de la Biblia, el calendario compartido día tras día, las lecturas del día, así como múltiples recorridos ligados a los tiempos del año.',
       'La lectura seguida de la Biblia, fruto de un largo trabajo de estudio y compartir, es la que se puede escuchar y meditar cada día. Se presenta en recorridos integrados y en ediciones seguidas.',
       'Las lecturas del día, procedentes de las traducciones bíblicas disponibles, son una referencia cotidiana para los lectores. LitaBible las presenta día tras día, al ritmo del calendario compartido, con introducciones y oraciones para la meditación personal.',
-      'La oración de las Horas, en varios volúmenes, es la oración compartida de la comunidad. La usan los lectores, los pequeños grupos y muchas personas que gustan de marcar las horas del día con la Palabra. LitaBible la presenta cada día para el Oficio de Lecturas, Laudes, Tercia, Sexta, Nona, Vísperas y Completas.',
-      'Hoy, LitaBible ofrece también recursos digitales: el sitio web litabible.org, aplicaciones móviles para las lecturas y el Oficio, un podcast para la meditación cotidiana. Estos servicios alcanzan cada día a cientos de miles de lectores.',
+      'Hoy, LitaBible ofrece también recursos digitales: el sitio web litabible.org, aplicaciones móviles para las lecturas y la Biblia en audio, un podcast para la meditación cotidiana. Estos servicios alcanzan cada día a cientos de miles de lectores.',
     ],
   },
 }
@@ -139,17 +136,17 @@ export const videos: Record<Locale, TextSection> = {
   en: {
     title: 'Videos',
     intro:
-      'Discover LitaBible’s activity in a few videos: continuous reading of the Bible, presentation of the daily readings, the Book of Hours, the seasons of the year, and much more.',
+      'Discover LitaBible’s activity in a few videos: continuous reading of the Bible, presentation of the daily readings, Bible summaries, the seasons of the year, and much more.',
   },
   fr: {
     title: 'Vidéos',
     intro:
-      "Découvrez en quelques vidéos l’activité de LitaBible : lecture suivie de la Bible, présentation des lectures du jour, du Livre des heures, des temps de l’année, et bien plus encore.",
+      "Découvrez en quelques vidéos l’activité de LitaBible : lecture suivie de la Bible, présentation des lectures du jour, résumés de livres bibliques, des temps de l’année, et bien plus encore.",
   },
   es: {
     title: 'Videos',
     intro:
-      'Descubra en unos vídeos la actividad de LitaBible: lectura seguida de la Biblia, presentación de las lecturas del día, del Libro de las Horas, de los tiempos del año, y mucho más.',
+      'Descubra en unos vídeos la actividad de LitaBible: lectura seguida de la Biblia, presentación de las lecturas del día, resúmenes de libros bíblicos, de los tiempos del año, y mucho más.',
   },
 }
 
@@ -219,7 +216,7 @@ export const questions: Record<Locale, TextSection> = {
     items: [
       {
         q: 'Where do the texts published on LitaBible come from?',
-        a: 'The texts of the daily readings, of the prayer of the Hours and of the Bible offered by LitaBible come from recognised translations, presented for personal and shared reading. They are the fruit of long work by Bible readers, translators and community facilitators.',
+        a: 'The texts of the daily readings, of the teaching and of the Bible offered by LitaBible come from recognised translations, presented for personal and shared reading. They are the fruit of long work by Bible readers, translators and community facilitators.',
       },
       {
         q: 'May I use the texts of LitaBible for my website, blog or community?',
@@ -236,10 +233,6 @@ export const questions: Record<Locale, TextSection> = {
       {
         q: 'How can I subscribe to the daily readings?',
         a: 'The LitaBible site offers free access to the daily readings. You can also download the mobile applications for iOS and Android, or subscribe to the daily email newsletter when available.',
-      },
-      {
-        q: 'What is the Book of Hours (Liturgy of the Hours)?',
-        a: 'The Liturgy of the Hours is the shared prayer of the community, sanctifying the course of the day. It comprises the Office of Readings, Lauds, Terce, Sext, None, Vespers and Compline. Readers, small groups and many lay people pray it every day.',
       },
       {
         q: 'How do I know which liturgical colour to use on a given day?',
@@ -264,7 +257,7 @@ export const questions: Record<Locale, TextSection> = {
     items: [
       {
         q: "D’où viennent les textes diffusés sur LitaBible ?",
-        a: "Les textes des lectures du jour, de l’Office des heures et de la Bible proposés par LitaBible proviennent de traductions reconnues, présentées pour la lecture personnelle et partagée. Ils sont le fruit d’un long travail de lecteurs bibliques, traducteurs et animateurs communautaires.",
+        a: "Les textes des lectures du jour, de l’enseignement et de la Bible proposés par LitaBible proviennent de traductions reconnues, présentées pour la lecture personnelle et partagée. Ils sont le fruit d’un long travail de lecteurs bibliques, traducteurs et animateurs communautaires.",
       },
       {
         q: 'Puis-je utiliser les textes de LitaBible pour mon site, mon blog ou ma communauté ?',
@@ -281,10 +274,6 @@ export const questions: Record<Locale, TextSection> = {
       {
         q: "Comment puis-je m’abonner aux lectures quotidiennes ?",
         a: "Le site LitaBible propose un accès gratuit aux lectures du jour. Vous pouvez aussi télécharger les applications mobiles pour iOS et Android, ou vous abonner à la lettre quotidienne par courriel si elle est disponible.",
-      },
-      {
-        q: "Qu’est-ce que le Livre des heures (Liturgie des Heures) ?",
-        a: "La Liturgie des Heures est la prière partagée de la communauté, sanctifiant le cours du jour. Elle comprend l’Office des lectures, les Laudes, Tierce, Sexte, None, les Vêpres et les Complies. Lecteurs, petits groupes et de nombreux laïcs la prient chaque jour.",
       },
       {
         q: 'Comment savoir quelle couleur liturgique utiliser tel jour ?',
@@ -309,7 +298,7 @@ export const questions: Record<Locale, TextSection> = {
     items: [
       {
         q: '¿De dónde provienen los textos publicados en LitaBible?',
-        a: 'Los textos de las lecturas del día, de la oración de las Horas y de la Biblia que ofrece LitaBible provienen de traducciones reconocidas, presentadas para la lectura personal y compartida. Son fruto de un largo trabajo de lectores bíblicos, traductores y animadores comunitarios.',
+        a: 'Los textos de las lecturas del día, de la enseñanza y de la Biblia que ofrece LitaBible provienen de traducciones reconocidas, presentadas para la lectura personal y compartida. Son fruto de un largo trabajo de lectores bíblicos, traductores y animadores comunitarios.',
       },
       {
         q: '¿Puedo usar los textos de LitaBible para mi sitio, mi blog o mi comunidad?',
@@ -326,10 +315,6 @@ export const questions: Record<Locale, TextSection> = {
       {
         q: '¿Cómo puedo suscribirme a las lecturas diarias?',
         a: 'El sitio de LitaBible ofrece acceso gratuito a las lecturas del día. También puede descargar las aplicaciones móviles para iOS y Android, o suscribirse al boletín diario por correo cuando esté disponible.',
-      },
-      {
-        q: '¿Qué es el Libro de las Horas (Liturgia de las Horas)?',
-        a: 'La Liturgia de las Horas es la oración compartida de la comunidad, que santifica el transcurso del día. Comprende el Oficio de Lecturas, Laudes, Tercia, Sexta, Nona, Vísperas y Completas. Lectores, pequeños grupos y muchos laicos la rezan cada día.',
       },
       {
         q: '¿Cómo sé qué color litúrgico usar en un día dado?',

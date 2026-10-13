@@ -33,7 +33,7 @@ interface LocalizedPodcastItem {
 export const videos: LocalizedVideoItem[] = [
   {
     id: 'video-1',
-    number: '1/6',
+    number: '1/5',
     title: {
       en: 'Presentation of LitaBible',
       fr: 'Présentation de LitaBible',
@@ -49,7 +49,7 @@ export const videos: LocalizedVideoItem[] = [
   },
   {
     id: 'video-2',
-    number: '2/6',
+    number: '2/5',
     title: {
       en: 'The liturgical Bible',
       fr: 'La Bible liturgique',
@@ -65,7 +65,7 @@ export const videos: LocalizedVideoItem[] = [
   },
   {
     id: 'video-3',
-    number: '3/6',
+    number: '3/5',
     title: {
       en: 'The daily readings',
       fr: 'Les lectures du jour',
@@ -80,24 +80,8 @@ export const videos: LocalizedVideoItem[] = [
     duration: '6 min 30',
   },
   {
-    id: 'video-4',
-    number: '4/6',
-    title: {
-      en: 'The Book of Hours',
-      fr: 'Le livre des heures',
-      es: 'El Libro de las Horas',
-    },
-    description: {
-      en: 'The Liturgy of the Hours, the shared prayer of the community: presentation of the Office of Readings, of Lauds, of Vespers and of Compline. How to find one’s way around the four-week psalter?',
-      fr: "La Liturgie des Heures, prière partagée de la communauté : présentation de l’Office des lectures, des Laudes, des Vêpres et des Complies. Comment s’y retrouver dans le psautier sur quatre semaines ?",
-      es: 'La Liturgia de las Horas, oración compartida de la comunidad: presentación del Oficio de Lecturas, de Laudes, de Vísperas y de Completas. ¿Cómo orientarse en el salterio de cuatro semanas?',
-    },
-    youtubeId: '9bZkp7q19f0',
-    duration: '8 min 02',
-  },
-  {
     id: 'video-5',
-    number: '5/6',
+    number: '4/5',
     title: {
       en: 'The liturgical seasons',
       fr: 'Les temps liturgiques',
@@ -113,7 +97,7 @@ export const videos: LocalizedVideoItem[] = [
   },
   {
     id: 'video-6',
-    number: '6/6',
+    number: '5/5',
     title: {
       en: 'The liturgical year',
       fr: "L’année liturgique",
@@ -132,7 +116,7 @@ export const videos: LocalizedVideoItem[] = [
 export const podcasts: LocalizedPodcastItem[] = [
   {
     id: 'podcast-1',
-    number: '1/4',
+    number: '1/3',
     title: {
       en: 'The daily teaching',
       fr: 'L’enseignement de chaque jour',
@@ -147,24 +131,8 @@ export const podcasts: LocalizedPodcastItem[] = [
     audioUrl: 'https://exemple.org/podcast/messe-jour-1.mp3',
   },
   {
-    id: 'podcast-2',
-    number: '2/4',
-    title: {
-      en: 'On the threshold of the Office',
-      fr: "Sur le seuil de l’Office",
-      es: 'En el umbral del Oficio',
-    },
-    description: {
-      en: 'Presentation of a psalm, a canticle or a hymn of the Liturgy of the Hours, for those who wish better to know the daily prayer of the Church.',
-      fr: "Présentation d’un psaume, d’un cantique ou d’une hymne de l’Office des heures, pour ceux qui veulent mieux connaître la prière quotidienne de l’Église.",
-      es: 'Presentación de un salmo, un cántico o un himno de la Liturgia de las Horas, para quienes quieren conocer mejor la oración cotidiana de la Iglesia.',
-    },
-    duration: '15 min',
-    audioUrl: 'https://exemple.org/podcast/office-seuil-1.mp3',
-  },
-  {
     id: 'podcast-3',
-    number: '3/4',
+    number: '2/3',
     title: {
       en: 'Biblical paths',
       fr: 'Parcours bibliques',
@@ -180,7 +148,7 @@ export const podcasts: LocalizedPodcastItem[] = [
   },
   {
     id: 'podcast-4',
-    number: '4/4',
+    number: '3/3',
     title: {
       en: 'On the threshold of the feasts',
       fr: 'Au seuil des fêtes',
