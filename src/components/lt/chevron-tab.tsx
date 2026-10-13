@@ -67,9 +67,9 @@ export function ChevronTab({
         'relative flex items-center gap-2 uppercase font-semibold',
         'cursor-pointer select-none transition-colors duration-150',
         orientation === 'vertical'
-          ? 'w-full px-3.5 py-3 text-[15px] leading-tight'
+          ? 'flex-shrink-0 whitespace-nowrap px-3.5 py-2.5 text-[14px] md:w-full md:flex-shrink md:whitespace-normal md:py-3 md:text-[15px] leading-tight'
           : 'px-4 py-2.5 text-[15px] leading-tight whitespace-nowrap',
-        indent && (orientation === 'vertical' ? 'pl-6' : 'mt-1'),
+        indent && (orientation === 'vertical' ? 'md:pl-6' : 'mt-1'),
         active ? 'bg-lt-brand' : 'bg-lt-inactive',
         className,
       )}

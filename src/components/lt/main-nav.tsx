@@ -37,7 +37,7 @@ export function MainNav() {
         aria-label={t('nav.aria_label')}
         className="lg:hidden sticky top-0 z-30 w-full bg-white/95 backdrop-blur border-b border-[#e2e0dc] shadow-sm"
       >
-        <div className="flex gap-1.5 overflow-x-auto lt-scroll px-3 py-2 snap-x">
+        <div className="flex gap-1.5 overflow-x-auto no-scrollbar px-3 py-2 snap-x">
           {NAV_ITEMS.map((item) => {
             const active = page === item.id
             return (
