@@ -22,16 +22,16 @@ export function VideosPodcastsPage() {
   const podcastsSect = podcastsSection[locale]
 
   return (
-    <div className="w-full max-w-5xl mx-auto px-4 sm:px-6 py-4 sm:py-6">
+    <div className="w-full max-w-5xl mx-auto sm:px-6 py-1 sm:py-6">
       {/* Decorative dark grey bar */}
       <div className="bg-[#3a3a3a] h-1.5 w-full" aria-hidden="true" />
 
       {/* White content card */}
-      <section className="bg-white border border-[#e2e0dc] p-5 sm:p-8 flex flex-col md:flex-row gap-6">
+      <section className="bg-white border border-[#e2e0dc] p-4 sm:p-8 flex flex-col md:flex-row gap-5 md:gap-6">
         {/* Left — small chevron sub-nav (two tabs) */}
         <nav
           aria-label={t('videos.subnav_aria')}
-          className="md:w-[160px] md:flex-shrink-0 flex md:flex-col gap-1 overflow-x-auto md:overflow-visible"
+          className="md:w-[160px] md:flex-shrink-0 flex md:flex-col gap-1 overflow-x-auto no-scrollbar -mx-4 px-4 md:mx-0 md:px-0 md:overflow-visible"
         >
           <ChevronTab
             orientation="vertical"

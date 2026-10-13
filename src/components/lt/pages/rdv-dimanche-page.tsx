@@ -18,7 +18,7 @@ export function RdvDimanchePage() {
     <section aria-labelledby="rdv-title" className="w-full">
       <div className="max-w-3xl mx-auto flex flex-col gap-6">
         {/* Heading */}
-        <div className="text-center">
+        <div className="text-center bg-white/95 border border-[#e2e0dc] shadow-sm px-4 py-5 sm:px-8 sm:py-6">
           <h1 id="rdv-title" className="text-[24px] sm:text-[28px] font-bold uppercase text-[#1a4fa0] tracking-tight">
             {t('rdv.title')}
           </h1>
@@ -66,7 +66,7 @@ export function RdvDimanchePage() {
         </a>
 
         {/* Auxiliary day navigation (so the page isn't empty of interactivity) */}
-        <div className="flex items-center justify-center gap-2 pt-2">
+        <div className="flex items-center justify-center gap-2">
           <button
             type="button"
             onClick={goPrevDay}

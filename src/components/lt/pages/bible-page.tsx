@@ -433,14 +433,14 @@ export function BiblePage() {
       <div className="bg-white border border-[#e2e0dc] shadow-sm">
         {/* Toolbar: testament tabs + version / recording selector */}
         <div className="flex flex-col lg:flex-row lg:items-stretch lg:justify-between border-b border-[#e2e0dc]">
-          <nav aria-label={t('bible.title')} className="flex overflow-x-auto lt-scroll">
+          <nav aria-label={t('bible.title')} className="flex overflow-x-auto no-scrollbar">
             {TABS.map((tab) => (
               <ChevronTab
                 key={tab.id}
                 orientation="horizontal"
                 active={tab.id === bibleTab}
                 onClick={() => setBibleTab(tab.id)}
-                className="flex-1 !text-[15px] !px-6 !py-4"
+                className="flex-1 justify-center text-center !whitespace-normal !text-[13px] sm:!text-[15px] !px-2 sm:!px-6 !py-3 sm:!py-4"
               >
                 {t(tab.labelKey)}
               </ChevronTab>

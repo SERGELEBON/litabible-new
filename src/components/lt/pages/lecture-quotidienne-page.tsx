@@ -53,7 +53,7 @@ export function LectureQuotidiennePage() {
     <section aria-labelledby="lec-title" className="w-full">
       <div className="max-w-3xl mx-auto flex flex-col gap-4">
         {/* Page heading + actions */}
-        <div className="flex items-center justify-between gap-3 flex-wrap">
+        <div className="flex items-center justify-between gap-3 flex-wrap bg-white/95 border border-[#e2e0dc] shadow-sm px-4 py-4 sm:px-6">
           <div>
             <h1 id="lec-title" className="text-[24px] sm:text-[28px] font-bold uppercase text-[#1a4fa0] tracking-tight">
               {t('lec.title')}
@@ -80,22 +80,22 @@ export function LectureQuotidiennePage() {
         </div>
 
         {/* Day navigation */}
-        <div className="flex items-center justify-between gap-2">
+        <div className="flex items-center justify-between gap-2 bg-white/95 border border-[#e2e0dc] px-3 py-2.5">
           <button
             type="button"
             onClick={goPrevDay}
-            className="inline-flex items-center gap-1 text-[14px] uppercase font-semibold text-[#1a4fa0] hover:text-[#143d7a]"
+            className="inline-flex items-center gap-1 whitespace-nowrap text-[13px] sm:text-[14px] uppercase font-semibold text-[#1a4fa0] hover:text-[#143d7a]"
           >
             <ChevronLeft className="w-4 h-4" />
             {t('lec.move_prev')}
           </button>
-          <span className="text-[14px] uppercase tracking-wide text-[#6b6b6b] font-semibold">
-            {t('lec.date_label')}: <span className="text-[#1a4fa0]">{dateStr}</span>
+          <span className="text-center text-[13px] sm:text-[14px] uppercase tracking-wide text-[#6b6b6b] font-semibold">
+            <span className="hidden sm:inline">{t('lec.date_label')}: </span><span className="text-[#1a4fa0]">{dateStr}</span>
           </span>
           <button
             type="button"
             onClick={goNextDay}
-            className="inline-flex items-center gap-1 text-[14px] uppercase font-semibold text-[#1a4fa0] hover:text-[#143d7a]"
+            className="inline-flex items-center gap-1 whitespace-nowrap text-[13px] sm:text-[14px] uppercase font-semibold text-[#1a4fa0] hover:text-[#143d7a]"
           >
             {t('lec.move_next')}
             <ChevronRight className="w-4 h-4" />
