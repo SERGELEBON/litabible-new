@@ -20,7 +20,7 @@ const displayFont = Playfair_Display({
 const SITE_URL = "https://www.litabible.com";
 const SITE_TITLE = "LitaBible — La Bible en texte et en audio, lectures du jour";
 const SITE_DESC =
-  "Lisez et écoutez la Bible gratuitement en français, anglais, espagnol, allemand, twi, ewe, yoruba, igbo, haoussa, wolof et malinké. Bible audio, lectures de la messe du jour, office des heures et calendrier liturgique.";
+  "Lisez et écoutez la Bible gratuitement en français, anglais, espagnol, allemand, twi, ewe, yoruba, igbo, haoussa, wolof et malinké. Bible audio, lectures de l’enseignement du jour, office des heures et calendrier liturgique.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -39,7 +39,7 @@ export const metadata: Metadata = {
     "Bible Louis Segond",
     "Bible en français",
     "lecture du jour",
-    "lectures de la messe",
+    "lectures de l’enseignement",
     "évangile du jour",
     "office des heures",
     "calendrier liturgique",
@@ -151,9 +151,9 @@ const JSON_LD = {
       featureList: [
         "Bible texte multilingue",
         "Bible audio (anglais, twi, ewe, yoruba, igbo, haoussa)",
-        "Lectures de la messe du jour",
+        "Lectures de l’enseignement du jour",
         "Office des heures",
-        "Calendrier liturgique",
+        "Calendrier",
       ],
     },
   ],
